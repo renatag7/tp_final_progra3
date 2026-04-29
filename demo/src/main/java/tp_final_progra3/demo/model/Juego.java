@@ -28,18 +28,21 @@ public class Juego {
             joinColumns = @JoinColumn(name = "id_juego"),
             inverseJoinColumns = @JoinColumn(name = "id_genero")
     )
-    private Set<Genero> generos;
+    private Set<Genero> generos = new HashSet<>();
 
-    @OneToMany(mappedBy = "juego", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "juego")
     private List<EstadoJuegoUsuario> estados_juego = new ArrayList<>();
 
-    @OneToMany(mappedBy = "juego", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "juego")
     private List<Review> reviewsJuego = new ArrayList<>();
+
+    @OneToMany(mappedBy = "juego")
+    private List<UsuarioFavorito> favoritos_usuarios = new ArrayList<>();
 
     private String titulo;
     private String sinopsis;
     private Date fecha_lanzamiento;
     private String desarrolladora;
-    private String duracion_estimada;
+    private Float duracion_estimada;
     private float rating_general;
 }

@@ -40,23 +40,23 @@ public class Usuario {
     private String pais;
     private boolean perfil_publico;
 
-    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "usuario")
     private List<Review> reviews = new ArrayList<>();
 
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
     private List<ListaPersonalizada> listas = new ArrayList<>();
 
-    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "usuario")
     private List<EstadoJuegoUsuario> estados_usuario = new ArrayList<>();
 
-    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
-    private List<UsuarioFavoritos> juegos_favoritos = new ArrayList<>();
+    @OneToMany(mappedBy = "usuario")
+    private List<UsuarioFavorito> juegos_favoritos = new ArrayList<>();
 
     @ManyToMany
     @JoinTable(
             name = "seguimiento",
-            joinColumns = @JoinColumn(name = "id_seguido"),
-            inverseJoinColumns = @JoinColumn(name = "id_seguidor")
+            joinColumns = @JoinColumn(name = "id_seguidor"),
+            inverseJoinColumns = @JoinColumn(name = "id_seguido")
     )
     private Set<Usuario> seguidos = new HashSet<>();
 
