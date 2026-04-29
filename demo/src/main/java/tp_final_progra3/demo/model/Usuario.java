@@ -8,7 +8,9 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 @Entity
@@ -49,4 +51,15 @@ public class Usuario {
 
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
     private List<UsuarioFavoritos> juegos_favoritos = new ArrayList<>();
+
+    @ManyToMany
+    @JoinTable(
+            name = "seguimiento",
+            joinColumns = @JoinColumn(name = "id_seguido"),
+            inverseJoinColumns = @JoinColumn(name = "id_seguidor")
+    )
+    private Set<Usuario> seguidos = new HashSet<>();
+
+    @ManyToMany(mappedBy = "seguidos")
+    private Set<Usuario> seguidores = new HashSet<>();
 }

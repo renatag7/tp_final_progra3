@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
+//link a pagina para comprar
 @Entity
 public class Plataforma {
     @Id
@@ -13,4 +14,6 @@ public class Plataforma {
 
     @ManyToMany(mappedBy = "plataformas")
     private Set<Juego> juegos = new HashSet<>();
+
+    private String fabricante;
 }

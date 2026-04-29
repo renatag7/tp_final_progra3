@@ -14,6 +14,7 @@ public class EstadoJuegoUsuario {
     @JoinColumn(name = "id_usuario")
     private Usuario usuario;
 
+    @Enumerated(EnumType.STRING)
     private Estado estado;
     private LocalDateTime fecha_actualizacion;
 }

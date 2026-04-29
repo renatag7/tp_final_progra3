@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -30,4 +31,11 @@ public class Juego {
             inverseJoinColumns = @JoinColumn(name = "id_genero")
     )
     private Set<Genero> generos;
+
+    private String titulo;
+    private String sinopsis;
+    private Date fecha_lanzamiento;
+    private String desarrolladora;
+    private String duracion_estimada;
+    private float rating_general;
 }
