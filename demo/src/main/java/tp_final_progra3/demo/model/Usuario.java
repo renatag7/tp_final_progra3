@@ -47,7 +47,7 @@ public class Usuario {
     private List<ListaPersonalizada> listas = new ArrayList<>();
 
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
-    private List<EstadoJuegoUsuario> estados_juego = new ArrayList<>();
+    private List<EstadoJuegoUsuario> estados_usuario = new ArrayList<>();
 
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
     private List<UsuarioFavoritos> juegos_favoritos = new ArrayList<>();

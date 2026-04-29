@@ -4,9 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Getter
@@ -31,6 +29,12 @@ public class Juego {
             inverseJoinColumns = @JoinColumn(name = "id_genero")
     )
     private Set<Genero> generos;
+
+    @OneToMany(mappedBy = "juego", cascade = CascadeType.ALL)
+    private List<EstadoJuegoUsuario> estados_juego = new ArrayList<>();
+
+    @OneToMany(mappedBy = "juego", cascade = CascadeType.ALL)
+    private List<Review> reviewsJuego = new ArrayList<>();
 
     private String titulo;
     private String sinopsis;
