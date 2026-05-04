@@ -3,6 +3,7 @@ package tp_final_progra3.demo.model;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import tp_final_progra3.demo.model.enums.Estado;
 
 import java.time.LocalDateTime;
 

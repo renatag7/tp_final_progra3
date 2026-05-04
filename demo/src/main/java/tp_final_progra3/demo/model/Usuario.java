@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import tp_final_progra3.demo.model.enums.Rol;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -39,6 +40,10 @@ public class Usuario {
     private LocalDateTime fecha_registro;
     private String pais;
     private boolean perfil_publico;
+    private boolean activo;
+
+    @Enumerated(EnumType.STRING)
+    private Rol rol;
 
     @OneToMany(mappedBy = "usuario")
     private List<Review> reviews = new ArrayList<>();
