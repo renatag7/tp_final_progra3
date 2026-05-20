@@ -2,6 +2,7 @@ package tp_final_progra3.demo.model.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import tp_final_progra3.demo.model.enums.Rol;
 
 public record UsuarioRequestDTO(@NotBlank(
@@ -16,9 +17,9 @@ public record UsuarioRequestDTO(@NotBlank(
         message = "La contraseña es obligatoria"
 ) String password,
   String biografia,
-  String pais, @NotBlank(
+  String pais, @NotNull(
         message = "El estado del perfil es obligatorio"
-) Boolean perfil_publico, @NotBlank(
+) Boolean perfil_publico, @NotNull(
         message = "El rol es obligatorio"
 ) Rol rol
 
