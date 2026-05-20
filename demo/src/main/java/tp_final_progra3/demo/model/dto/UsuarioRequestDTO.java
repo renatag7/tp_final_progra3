@@ -1,15 +1,26 @@
 package tp_final_progra3.demo.model.dto;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import tp_final_progra3.demo.model.enums.Rol;
 
-public record UsuarioRequestDTO(
-        String username,
-        String nombre,
-        String email,
-        String password,
-        String biografia,
-        String pais,
-        Boolean perfil_publico,
-        Rol rol
+public record UsuarioRequestDTO(@NotBlank(
+        message = "El username es obligatorio"
+) String username, @NotBlank(
+        message = "El nombre es obligatorio"
+) String nombre, @Email(
+        message = "El email debe tener un formato válido"
+) @NotBlank(
+        message = "El email es obligatorio"
+) String email, @NotBlank(
+        message = "La contraseña es obligatoria"
+) String password,
+  String biografia,
+  String pais, @NotBlank(
+        message = "El estado del perfil es obligatorio"
+) Boolean perfil_publico, @NotBlank(
+        message = "El rol es obligatorio"
+) Rol rol
+
 ) {
 }
