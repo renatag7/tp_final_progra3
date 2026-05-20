@@ -15,10 +15,9 @@ import java.util.Set;
 
 
 @Entity
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter
 @Setter
+@Table(name = "usuarios")
 public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,12 +36,20 @@ public class Usuario {
     private String password;
 
     private String biografia;
+
+    @Column(nullable = false)
     private LocalDateTime fecha_registro;
+
     private String pais;
+
+    @Column(nullable = false)
     private boolean perfil_publico;
+
+    @Column(nullable = false)
     private boolean activo;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private Rol rol;
 
     @OneToMany(mappedBy = "usuario")

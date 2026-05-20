@@ -12,6 +12,7 @@ import java.util.Set;
 @Setter
 public class ListaPersonalizada {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_lista;
 
     @ManyToOne
@@ -26,8 +27,14 @@ public class ListaPersonalizada {
     )
     private Set<Juego> juegos;
 
+    @Column(nullable = false)
     private String nombre;
+
     private String descripcion;
+
+    @Column(nullable = false)
     private LocalDateTime fecha_creacion;
+
+    @Column(nullable = false)
     private boolean esPublica;
 }

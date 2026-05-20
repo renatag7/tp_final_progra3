@@ -17,8 +17,7 @@ public class UsuarioFavorito {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_favoritos;
 
-    @Min(1)
-    @Max(4)
+    @Column(nullable = false)
     private Integer posicion;
 
     @ManyToOne

@@ -24,6 +24,9 @@ public class EstadoJuegoUsuario {
     private Juego juego;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private Estado estado;
+
+    @Column(nullable = false)
     private LocalDateTime fecha_actualizacion;
 }

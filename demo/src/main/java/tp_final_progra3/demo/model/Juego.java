@@ -9,6 +9,7 @@ import java.util.*;
 @Entity
 @Getter
 @Setter
+@Table(name = "juegos")
 public class Juego {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,10 +40,22 @@ public class Juego {
     @OneToMany(mappedBy = "juego")
     private List<UsuarioFavorito> favoritos_usuarios = new ArrayList<>();
 
+
+    @Column(nullable = false)
     private String titulo;
+
+    @Column(nullable = false)
     private String sinopsis;
+
+    @Column(nullable = false)
     private Date fecha_lanzamiento;
+
+    @Column(nullable = false)
     private String desarrolladora;
+
+    @Column(nullable = false)
     private Float duracion_estimada;
+
+    @Column(nullable = false)
     private float rating_general;
 }
