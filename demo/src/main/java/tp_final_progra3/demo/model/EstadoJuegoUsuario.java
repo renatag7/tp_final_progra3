@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import tp_final_progra3.demo.model.enums.Estado;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -28,5 +29,5 @@ public class EstadoJuegoUsuario {
     private Estado estado;
 
     @Column(nullable = false)
-    private LocalDateTime fecha_actualizacion;
+    private LocalDate fecha_actualizacion;
 }
