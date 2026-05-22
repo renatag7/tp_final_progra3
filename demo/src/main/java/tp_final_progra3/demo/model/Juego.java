@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.*;
 
 @Entity
@@ -48,14 +49,11 @@ public class Juego {
     private String sinopsis;
 
     @Column(nullable = false)
-    private Date fecha_lanzamiento;
+    private LocalDate fecha_lanzamiento;
 
     @Column(nullable = false)
-    private String desarrolladora;
+    private String developer;
 
     @Column(nullable = false)
-    private Float duracion_estimada;
-
-    @Column(nullable = false)
-    private float rating_general;
+    private Double rating_general;
 }
