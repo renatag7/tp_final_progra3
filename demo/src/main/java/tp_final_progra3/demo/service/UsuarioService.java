@@ -3,6 +3,7 @@ package tp_final_progra3.demo.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import tp_final_progra3.demo.exceptions.UsuarioExistenteExc;
+import tp_final_progra3.demo.exceptions.UsuarioNoExisteExc;
 import tp_final_progra3.demo.mapper.UsuarioMapper;
 import tp_final_progra3.demo.model.entity.Usuario;
 import tp_final_progra3.demo.model.dto.request.UsuarioRequestDTO;
@@ -11,6 +12,7 @@ import tp_final_progra3.demo.model.enums.Rol;
 import tp_final_progra3.demo.repository.UsuarioRepository;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -36,5 +38,29 @@ public class UsuarioService {
         }
     }
 
+    public List<UsuarioResponseDTO> getAllUsers(){
+        List<Usuario> usuarios = usuarioRepo.findByRol(Rol.USER);
 
+        return usuarios.stream()
+                .map(usuarioMapper::toDTO)
+                .toList();
+    }
+
+    public Usuario getUserById(Long id){
+        return this.usuarioRepo.findById(id).orElseThrow(() -> new UsuarioNoExisteExc("Usuario no encontrado."));
+    }
+
+    public UsuarioResponseDTO getById(Long id){
+        Usuario usuario = this.getUserById(id);
+        return this.usuarioMapper.toDTO(usuario);
+    }
+
+    public Usuario getUserByUsername(String username){
+        return this.usuarioRepo.findByUsername(username).orElseThrow(() -> new UsuarioNoExisteExc("Usuario no encontrado."));
+    }
+
+    public UsuarioResponseDTO getByUsername(String username){
+        Usuario usuario = this.getUserByUsername(username);
+        return this.usuarioMapper.toDTO(usuario);
+    }
 }
