@@ -1,4 +1,4 @@
-package tp_final_progra3.demo.model;
+package tp_final_progra3.demo.model.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;

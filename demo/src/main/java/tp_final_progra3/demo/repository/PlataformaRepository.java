@@ -1,4 +1,4 @@
 package tp_final_progra3.demo.repository;
 
-public class PlataformaRepository {
+public interface PlataformaRepository {
 }

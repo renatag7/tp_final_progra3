@@ -1,13 +1,11 @@
-package tp_final_progra3.demo.model;
+package tp_final_progra3.demo.model.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import tp_final_progra3.demo.model.enums.Rol;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -38,7 +36,7 @@ public class Usuario {
     private String biografia;
 
     @Column(nullable = false)
-    private LocalDateTime fecha_registro;
+    private LocalDate fechaRegistro;
 
     private String pais;
 

@@ -1,19 +1,19 @@
-package tp_final_progra3.demo.model;
+package tp_final_progra3.demo.model.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import tp_final_progra3.demo.model.enums.Estado;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
 @Getter
 @Setter
-@Table(name = "reviews")
-public class Review {
+public class EstadoJuegoUsuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_review;
+    private Long id_estado;
 
     @ManyToOne
     @JoinColumn(name = "id_usuario")
@@ -23,13 +23,10 @@ public class Review {
     @JoinColumn(name = "id_juego")
     private Juego juego;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private String contenido;
-
-    private float puntuacion;
+    private Estado estado;
 
     @Column(nullable = false)
-    private LocalDateTime fechaPublicacion;
-
-    private boolean contieneSpoilers;
+    private LocalDate fecha_actualizacion;
 }
