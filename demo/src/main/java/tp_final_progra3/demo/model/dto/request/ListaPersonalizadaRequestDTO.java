@@ -10,8 +10,8 @@ public record ListaPersonalizadaRequestDTO(@NotNull(
 ) String nombre, @NotBlank(
         message = "La descripcion es obligatoria"
 ) String descripcion, @NotNull(
-        message = "La privacidad es obligatoria"
-) Boolean privacidad
+        message = "El nivel de privacidad es obligatorio"
+) Boolean esPublica
 
 ) {
 }
