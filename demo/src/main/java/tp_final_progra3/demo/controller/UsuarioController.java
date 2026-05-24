@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import tp_final_progra3.demo.model.dto.request.UpdateUsuarioRequest;
 import tp_final_progra3.demo.model.dto.request.UsuarioRequestDTO;
 import tp_final_progra3.demo.model.dto.response.UsuarioResponseDTO;
 import tp_final_progra3.demo.service.UsuarioService;
@@ -40,6 +41,13 @@ public class UsuarioController {
     @GetMapping("/username/{username}")
     public ResponseEntity<UsuarioResponseDTO> getByUsername(@PathVariable String username){
         UsuarioResponseDTO usuarioResponseDTO = this.usuarioService.getByUsername(username);
+
+        return ResponseEntity.status(HttpStatus.OK).body(usuarioResponseDTO);
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<UsuarioResponseDTO> update(@PathVariable Long id, @Valid @RequestBody UpdateUsuarioRequest usuarioRequest){
+        UsuarioResponseDTO usuarioResponseDTO = this.usuarioService.update(id, usuarioRequest);
 
         return ResponseEntity.status(HttpStatus.OK).body(usuarioResponseDTO);
     }

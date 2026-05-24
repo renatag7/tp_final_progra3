@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import tp_final_progra3.demo.exceptions.UsuarioExistenteExc;
 import tp_final_progra3.demo.exceptions.UsuarioNoExisteExc;
 import tp_final_progra3.demo.mapper.UsuarioMapper;
+import tp_final_progra3.demo.model.dto.request.UpdateUsuarioRequest;
 import tp_final_progra3.demo.model.entity.Usuario;
 import tp_final_progra3.demo.model.dto.request.UsuarioRequestDTO;
 import tp_final_progra3.demo.model.dto.response.UsuarioResponseDTO;
@@ -62,5 +63,28 @@ public class UsuarioService {
     public UsuarioResponseDTO getByUsername(String username){
         Usuario usuario = this.getUserByUsername(username);
         return this.usuarioMapper.toDTO(usuario);
+    }
+
+    public UsuarioResponseDTO update(Long id, UpdateUsuarioRequest usuarioRequest){
+        Usuario usuario = getUserById(id);
+
+        if(usuarioRequest.username() != null){
+            usuario.setUsername(usuarioRequest.username());
+        }
+        if(usuarioRequest.nombre() != null){
+            usuario.setNombre(usuarioRequest.nombre());
+        }
+        if(usuarioRequest.biografia() != null){
+            usuario.setBiografia(usuarioRequest.biografia());
+        }
+        if(usuarioRequest.pais() != null){
+            usuario.setPais(usuarioRequest.pais());
+        }
+        if(usuarioRequest.perfilPublico() != null){
+            usuario.setPerfilPublico(usuarioRequest.perfilPublico());
+        }
+
+        Usuario actualizado = usuarioRepo.save(usuario);
+        return usuarioMapper.toDTO(actualizado);
     }
 }

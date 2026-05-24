@@ -9,4 +9,5 @@ import tp_final_progra3.demo.model.dto.response.UsuarioResponseDTO;
 public interface UsuarioMapper {
     Usuario toEntity(UsuarioRequestDTO usuarioRequestDTO);
     UsuarioResponseDTO toDTO(Usuario usuario);
+
 }

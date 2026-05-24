@@ -41,7 +41,7 @@ public class Usuario {
     private String pais;
 
     @Column(nullable = false)
-    private boolean perfil_publico;
+    private boolean perfilPublico;
 
     @Column(nullable = false)
     private boolean activo;
