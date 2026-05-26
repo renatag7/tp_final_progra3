@@ -1,4 +1,4 @@
 package tp_final_progra3.demo.repository;
 
-public class GeneroRepository {
+public interface GeneroRepository {
 }
