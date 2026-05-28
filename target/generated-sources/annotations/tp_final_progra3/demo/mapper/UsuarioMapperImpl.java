@@ -9,7 +9,7 @@ import tp_final_progra3.demo.model.entity.Usuario;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-05-23T22:22:15-0300",
+    date = "2026-05-28T17:40:41-0300",
     comments = "version: 1.6.3, compiler: javac, environment: Java 24.0.2 (Oracle Corporation)"
 )
 @Component

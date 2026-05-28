@@ -3,6 +3,7 @@ package tp_final_progra3.demo.model.dto.api;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
+import java.util.Set;
 
 public record JuegoApiResponseDTO(
         Long id,
@@ -11,7 +12,7 @@ public record JuegoApiResponseDTO(
         String description,
         String released,
         Double rating,
-        List<GeneroApiDTO> genres,
-        List<PlataformaApiDTO> platforms,
-        List<DeveloperApiDTO> developers
+        Set<GeneroApiDTO> genres,
+        Set<PlataformaApiDTO> platforms,
+        Set<DeveloperApiDTO> developers
 ) {}
