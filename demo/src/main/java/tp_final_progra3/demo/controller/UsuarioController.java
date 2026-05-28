@@ -51,4 +51,28 @@ public class UsuarioController {
 
         return ResponseEntity.status(HttpStatus.OK).body(usuarioResponseDTO);
     }
+
+    @PostMapping("/{usuarioId}/seguir/{seguidoId}")
+    public ResponseEntity<UsuarioResponseDTO> follow(@PathVariable Long userId, @PathVariable Long seguidoId){
+
+        return ResponseEntity.ok(usuarioService.follow(userId, seguidoId));
+    }
+
+    @DeleteMapping("/{usuarioId}/seguir/{seguidoId}")
+    public ResponseEntity<UsuarioResponseDTO> unfollow(@PathVariable Long userId, @PathVariable Long seguidoId){
+
+        return ResponseEntity.ok(usuarioService.unfollow(userId, seguidoId));
+    }
+
+    @GetMapping("/{id}/seguidores")
+    public ResponseEntity<List<UsuarioResponseDTO>> getFollowers(@PathVariable Long id){
+
+        return ResponseEntity.ok(usuarioService.getAllFollowers(id));
+    }
+
+    @GetMapping("/{id}/seguidos")
+    public ResponseEntity<List<UsuarioResponseDTO>> getFollowed(@PathVariable Long id){
+
+        return ResponseEntity.ok(usuarioService.getAllFollowed(id));
+    }
 }
