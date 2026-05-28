@@ -1,11 +1,11 @@
-package tp_final_progra3.demo.model;
+package tp_final_progra3.demo.model.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import tp_final_progra3.demo.model.enums.Estado;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
 @Getter
@@ -24,6 +24,9 @@ public class EstadoJuegoUsuario {
     private Juego juego;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private Estado estado;
-    private LocalDateTime fecha_actualizacion;
+
+    @Column(nullable = false)
+    private LocalDate fecha_actualizacion;
 }

@@ -1,14 +1,16 @@
-package tp_final_progra3.demo.model;
+package tp_final_progra3.demo.model.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.*;
 
 @Entity
 @Getter
 @Setter
+@Table(name = "juegos")
 public class Juego {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,10 +41,19 @@ public class Juego {
     @OneToMany(mappedBy = "juego")
     private List<UsuarioFavorito> favoritos_usuarios = new ArrayList<>();
 
+
+    @Column(nullable = false)
     private String titulo;
+
+    @Column(nullable = false)
     private String sinopsis;
-    private Date fecha_lanzamiento;
-    private String desarrolladora;
-    private Float duracion_estimada;
-    private float rating_general;
+
+    @Column(nullable = false)
+    private LocalDate fecha_lanzamiento;
+
+    @Column(nullable = false)
+    private String developer;
+
+    @Column(nullable = false)
+    private Double rating_general;
 }

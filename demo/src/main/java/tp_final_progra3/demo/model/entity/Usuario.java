@@ -1,13 +1,11 @@
-package tp_final_progra3.demo.model;
+package tp_final_progra3.demo.model.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import tp_final_progra3.demo.model.enums.Rol;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -15,10 +13,9 @@ import java.util.Set;
 
 
 @Entity
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter
 @Setter
+@Table(name = "usuarios")
 public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,12 +34,20 @@ public class Usuario {
     private String password;
 
     private String biografia;
-    private LocalDateTime fecha_registro;
+
+    @Column(nullable = false)
+    private LocalDate fechaRegistro;
+
     private String pais;
-    private boolean perfil_publico;
+
+    @Column(nullable = false)
+    private boolean perfilPublico;
+
+    @Column(nullable = false)
     private boolean activo;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private Rol rol;
 
     @OneToMany(mappedBy = "usuario")

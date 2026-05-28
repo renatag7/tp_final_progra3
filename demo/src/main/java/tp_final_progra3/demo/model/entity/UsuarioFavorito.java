@@ -1,13 +1,8 @@
-package tp_final_progra3.demo.model;
+package tp_final_progra3.demo.model.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Getter
@@ -17,8 +12,7 @@ public class UsuarioFavorito {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_favoritos;
 
-    @Min(1)
-    @Max(4)
+    @Column(nullable = false)
     private Integer posicion;
 
     @ManyToOne

@@ -1,9 +1,6 @@
-package tp_final_progra3.demo.model;
+package tp_final_progra3.demo.model.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,5 +12,6 @@ public class Genero {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_genero;
 
+    @Column(nullable = false)
     private String nombre;
 }
