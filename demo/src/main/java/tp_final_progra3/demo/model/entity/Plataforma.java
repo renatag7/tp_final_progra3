@@ -19,5 +19,5 @@ public class Plataforma {
     @ManyToMany(mappedBy = "plataformas")
     private Set<Juego> juegos = new HashSet<>();
 
-    private String fabricante;
+    private String nombre;
 }
