@@ -46,7 +46,7 @@ public class Juego {
     private String titulo;
 
     @Column(nullable = false)
-    private String sinopsis;
+    private String descripcion;
 
     @Column(nullable = false)
     private LocalDate fecha_lanzamiento;

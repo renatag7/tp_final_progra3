@@ -25,11 +25,11 @@ public interface JuegoMapper {
     Juego toEntity(JuegoRequestDTO juegoRequestDTO);
 
     @Mapping(target = "titulo", source = "name")
-    @Mapping(target = "sinopsis", source = "description")
+    @Mapping(target = "descripcion", source = "description")
     @Mapping(target = "fecha_lanzamiento", expression = "java(juegoApiResponseDTO.released() == null ? null : java.time.LocalDate.parse(juegoApiResponseDTO.released()))")
     @Mapping(target = "rating_general", source = "rating")
     @Mapping(target = "generos", source = "genres")
-    //@Mapping(target = "plataformas", source = "platforms")
+    @Mapping(target = "plataformas", source = "platforms")
     @Mapping(target = "developer", expression = "java(juegoApiResponseDTO.developers() == null || juegoApiResponseDTO.developers().isEmpty() ? null : juegoApiResponseDTO.developers().iterator().next().name())")
     Juego fromApi(JuegoApiResponseDTO juegoApiResponseDTO);
 
@@ -48,8 +48,6 @@ public interface JuegoMapper {
     Genero toGenero(GeneroApiDTO generoApiDTO);
 
     default Set<Plataforma> mapPlataformas(Set<PlataformaWrapperDTO> plataformaWrapperDTOS){
-        System.out.println("PLATFORMS MAPPER INPUT: " + plataformaWrapperDTOS);
-
         if(plataformaWrapperDTOS == null){
             return new HashSet<>();
         }

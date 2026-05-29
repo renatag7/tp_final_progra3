@@ -16,7 +16,7 @@ import tp_final_progra3.demo.model.entity.Plataforma;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-05-28T21:41:33-0300",
+    date = "2026-05-29T00:37:39-0300",
     comments = "version: 1.6.3, compiler: javac, environment: Java 24.0.2 (Oracle Corporation)"
 )
 @Component
@@ -31,6 +31,7 @@ public class JuegoMapperImpl implements JuegoMapper {
         Set<String> plataformas = null;
         Long id = null;
         String titulo = null;
+        String descripcion = null;
         LocalDate fecha_lanzamiento = null;
         Double rating_general = null;
         Set<String> generos = null;
@@ -39,12 +40,11 @@ public class JuegoMapperImpl implements JuegoMapper {
         plataformas = mapPlataformasResponse( juego.getPlataformas() );
         id = juego.getId();
         titulo = juego.getTitulo();
+        descripcion = juego.getDescripcion();
         fecha_lanzamiento = juego.getFecha_lanzamiento();
         rating_general = juego.getRating_general();
         generos = mapGenerosResponse( juego.getGeneros() );
         developer = juego.getDeveloper();
-
-        String descripcion = null;
 
         JuegoResponseDTO juegoResponseDTO = new JuegoResponseDTO( id, titulo, descripcion, fecha_lanzamiento, rating_general, generos, plataformas, developer );
 
@@ -62,7 +62,7 @@ public class JuegoMapperImpl implements JuegoMapper {
         juego.setPlataformas( mapPlataformasRequest( juegoRequestDTO.plataformas() ) );
         juego.setGeneros( mapGenerosRequest( juegoRequestDTO.generos() ) );
         juego.setTitulo( juegoRequestDTO.titulo() );
-        juego.setSinopsis( juegoRequestDTO.sinopsis() );
+        juego.setDescripcion( juegoRequestDTO.descripcion() );
         juego.setFecha_lanzamiento( juegoRequestDTO.fecha_lanzamiento() );
         juego.setDeveloper( juegoRequestDTO.developer() );
 
@@ -78,9 +78,10 @@ public class JuegoMapperImpl implements JuegoMapper {
         Juego juego = new Juego();
 
         juego.setTitulo( juegoApiResponseDTO.name() );
-        juego.setSinopsis( juegoApiResponseDTO.description() );
+        juego.setDescripcion( juegoApiResponseDTO.description() );
         juego.setRating_general( juegoApiResponseDTO.rating() );
         juego.setGeneros( generoApiDTOSetToGeneroSet( juegoApiResponseDTO.genres() ) );
+        juego.setPlataformas( mapPlataformas( juegoApiResponseDTO.platforms() ) );
         juego.setId( juegoApiResponseDTO.id() );
 
         juego.setFecha_lanzamiento( juegoApiResponseDTO.released() == null ? null : java.time.LocalDate.parse(juegoApiResponseDTO.released()) );
