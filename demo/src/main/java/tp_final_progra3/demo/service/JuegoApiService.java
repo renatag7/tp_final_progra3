@@ -21,6 +21,8 @@ public class JuegoApiService {
     private final JuegoMapper juegoMapper;
     private final JuegoRepository juegoRepository;
 
+
+
     @Value("${rawg.api.key}")
     private String apiKey;
 
@@ -29,6 +31,21 @@ public class JuegoApiService {
         String url = "https://api.rawg.io/api/games?search=" + nombre + "&key=" + apiKey;
 
         ApiResponseDTO apiResponseDTO = restTemplate.getForObject(url, ApiResponseDTO.class);
+
+        System.out.println("ENTRÓ AL SERVICE");
+
+        apiResponseDTO.results().forEach(dto -> {
+
+            Juego juego = juegoMapper.fromApi(dto);
+
+            System.out.println("JUEGO: " + juego.getTitulo());
+
+            juego.getPlataformas()
+                    .forEach(p -> System.out.println("PLATAFORMA: " + p.getNombre()));
+
+            System.out.println("DEVELOPER: " + juego.getDeveloper());
+        });
+
         return apiResponseDTO.results().stream()
                 .map(juegoMapper::fromApi)
                 .map(juegoMapper::toDTO)

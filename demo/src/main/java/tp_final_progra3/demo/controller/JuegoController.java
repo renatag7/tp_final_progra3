@@ -14,7 +14,7 @@ import tp_final_progra3.demo.service.JuegoApiService;
 import java.util.List;
 
 @RestController
-@RequestMapping({"/api/juegos"})
+@RequestMapping({"/juegos"})
 @RequiredArgsConstructor
 public class JuegoController {
     private final JuegoApiService juegoApiService;

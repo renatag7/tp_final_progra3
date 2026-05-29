@@ -13,6 +13,6 @@ public record JuegoApiResponseDTO(
         String released,
         Double rating,
         Set<GeneroApiDTO> genres,
-        Set<PlataformaApiDTO> platforms,
+        Set<PlataformaWrapperDTO> platforms,
         Set<DeveloperApiDTO> developers
 ) {}

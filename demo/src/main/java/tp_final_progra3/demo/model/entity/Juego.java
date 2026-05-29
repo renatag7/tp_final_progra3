@@ -14,7 +14,7 @@ import java.util.*;
 public class Juego {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_juego;
+    private Long id;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
