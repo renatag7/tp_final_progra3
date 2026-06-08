@@ -2,6 +2,7 @@ package tp_final_progra3.demo.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import tp_final_progra3.demo.exceptions.SeguimientoExc;
 import tp_final_progra3.demo.exceptions.UsuarioExistenteExc;
 import tp_final_progra3.demo.exceptions.UsuarioNoExisteExc;
 import tp_final_progra3.demo.mapper.UsuarioMapper;
@@ -14,6 +15,7 @@ import tp_final_progra3.demo.repository.UsuarioRepository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -86,5 +88,53 @@ public class UsuarioService {
 
         Usuario actualizado = usuarioRepo.save(usuario);
         return usuarioMapper.toDTO(actualizado);
+    }
+
+    public UsuarioResponseDTO follow(Long userId, Long seguidoId){
+        Usuario usuario = getUserById(userId);
+        Usuario seguido = getUserById(seguidoId);
+
+        if(usuario.equals(seguido)){
+            throw new SeguimientoExc("No puede seguirse a uno mismo.");
+        }
+
+        if(usuario.getSeguidos().contains(seguido)){
+            throw new SeguimientoExc("Ya sigue a este usuario");
+        }
+
+        usuario.getSeguidos().add(seguido);
+        usuarioRepo.save(usuario);
+
+        return usuarioMapper.toDTO(usuario);
+    }
+
+    public UsuarioResponseDTO unfollow(Long userId, Long seguidoId){
+        Usuario usuario = getUserById(userId);
+        Usuario seguido = getUserById(seguidoId);
+
+        if(!usuario.getSeguidos().contains(seguido)){
+            throw new SeguimientoExc("No sigue a este usuario");
+        }
+
+        usuario.getSeguidos().remove(seguido);
+        usuarioRepo.save(usuario);
+
+        return usuarioMapper.toDTO(usuario);
+    }
+
+    public List<UsuarioResponseDTO> getAllFollowers(Long userId){
+        Usuario usuario = getUserById(userId);
+
+        return usuario.getSeguidores().stream()
+                .map(usuarioMapper::toDTO)
+                .toList();
+    }
+
+    public List<UsuarioResponseDTO> getAllFollowed(Long userId){
+        Usuario usuario = getUserById(userId);
+
+        return usuario.getSeguidos().stream()
+                .map(usuarioMapper::toDTO)
+                .toList();
     }
 }
