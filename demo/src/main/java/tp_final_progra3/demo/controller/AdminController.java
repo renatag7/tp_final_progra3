@@ -27,4 +27,12 @@ public class AdminController {
         return ResponseEntity.ok(adminService.loginAdmin(loginRequestDto));
     }
 
+    @DeleteMapping("/reviews/{id}")
+    public ResponseEntity<Void > eliminarReview (@PathVariable Long id ){
+        adminService.eliminarReview(id);
+        return ResponseEntity.noContent().build();  // operacion exitosa, no devuelve nada
+    }
+
+
+
 }
