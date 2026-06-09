@@ -33,4 +33,12 @@ public class JuegoController {
         return ResponseEntity.status(HttpStatus.OK).body(juegoResponseDTO);
     }
 
+
+    @GetMapping("/api/filtrar/genero")// GET /juegos/api/genero?genero=action
+    public ResponseEntity<List<JuegoResponseDTO>> filtrarPorGenero (@RequestParam  String genero){
+        return ResponseEntity.ok(juegoApiService.filtrarJuegosGenero(genero));
+    }
+
+
+
 }

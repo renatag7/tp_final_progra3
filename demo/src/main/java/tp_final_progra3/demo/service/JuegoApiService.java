@@ -56,4 +56,17 @@ public class JuegoApiService {
 
         return juegoMapper.toDTO(juego);
     }
+
+    public List<JuegoResponseDTO> filtrarJuegosGenero(String genero){
+        String urlFiltrar =
+                "https://api.rawg.io/api/games?key=" + apiKey;
+
+        if(genero != null && !genero.isBlank()){
+            urlFiltrar += "&genres=" + genero;
+        }
+
+        ApiResponseDTO apiResponseDTO = restTemplate.getForObject(urlFiltrar, ApiResponseDTO.class);
+
+        return apiResponseDTO.results().stream().map(juegoMapper::fromApi).map(juegoMapper::toDTO).toList();
+    }
 }
