@@ -8,6 +8,8 @@ import tp_final_progra3.demo.model.dto.request.ListaPersonalizadaRequestDTO;
 import tp_final_progra3.demo.model.dto.response.ListaPersonalizadaResponseDTO;
 import tp_final_progra3.demo.service.ListaPersonalizadaService;
 
+import java.util.List;
+
 @RequestMapping("/listas")
 @RestController
 @RequiredArgsConstructor
@@ -28,6 +30,11 @@ public class ListaPersonalizadaController {
     public ResponseEntity<ListaPersonalizadaResponseDTO> eliminarJuego(@PathVariable Long idLista, @PathVariable Long idJuego){
 
         return ResponseEntity.ok(listaPersonalizadaService.eliminarJuegoDeLista(idLista, idJuego));
+    }
+
+    @GetMapping("/publica/usuario/{idUsuario}")
+    public ResponseEntity<List<ListaPersonalizadaResponseDTO>> verListaPublicadeOtroUsuario ( @PathVariable Long idUsuario){
+        return ResponseEntity.ok(listaPersonalizadaService.verLIstaDeOtroUsuario(idUsuario));
     }
 
 

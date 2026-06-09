@@ -12,6 +12,7 @@ import tp_final_progra3.demo.repository.JuegoRepository;
 import tp_final_progra3.demo.repository.ListaPersonalizadaRepository;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -51,6 +52,12 @@ public class ListaPersonalizadaService {
         listaPersonalizada.getJuegos().remove(juego);
         ListaPersonalizada listaPersonalizadaGuardada = listaPersonalizadaRepository.save(listaPersonalizada);
         return listaPersonalizadaMapper.ToDto(listaPersonalizadaGuardada);
+    }
+
+
+    public List<ListaPersonalizadaResponseDTO> verLIstaDeOtroUsuario (Long idUsuario){
+        List < ListaPersonalizada> listas= listaPersonalizadaRepository.findByUsuario_IdUsuarioAndEsPublicaTrue(idUsuario);
+        return listas.stream().map(listaPersonalizadaMapper::ToDto).toList();
     }
 
 
