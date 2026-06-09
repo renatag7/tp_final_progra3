@@ -3,10 +3,7 @@ package tp_final_progra3.demo.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import tp_final_progra3.demo.model.dto.request.ListaPersonalizadaRequestDTO;
 import tp_final_progra3.demo.model.dto.response.ListaPersonalizadaResponseDTO;
 import tp_final_progra3.demo.service.ListaPersonalizadaService;
@@ -21,4 +18,17 @@ public class ListaPersonalizadaController {
     public ResponseEntity<ListaPersonalizadaResponseDTO>  crearLista (@RequestBody ListaPersonalizadaRequestDTO listaPersonalizadaRequestDTO){
         return ResponseEntity.status(HttpStatus.CREATED).body(listaPersonalizadaService.crearLista(listaPersonalizadaRequestDTO));
     }
+
+    @PostMapping("/{idLista}/juegos/{idJuego}")
+    public ResponseEntity<ListaPersonalizadaResponseDTO> agregarJuego(@PathVariable Long idLista, @PathVariable Long idJuego){
+
+        return ResponseEntity.ok(listaPersonalizadaService.agregarJuegoaLista(idLista, idJuego));
+    }
+    @DeleteMapping("/{idLista}/juegos/{idJuego}") //DELETE /listas/1/juegos/5
+    public ResponseEntity<ListaPersonalizadaResponseDTO> eliminarJuego(@PathVariable Long idLista, @PathVariable Long idJuego){
+
+        return ResponseEntity.ok(listaPersonalizadaService.eliminarJuegoDeLista(idLista, idJuego));
+    }
+
+
 }
