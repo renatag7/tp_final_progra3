@@ -2,9 +2,9 @@ package tp_final_progra3.demo.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import tp_final_progra3.demo.exceptions.SeguimientoExc;
-import tp_final_progra3.demo.exceptions.UsuarioExistenteExc;
-import tp_final_progra3.demo.exceptions.UsuarioNoExisteExc;
+import tp_final_progra3.demo.exceptions.general.OperacionNoPermitidaExc;
+import tp_final_progra3.demo.exceptions.general.RecursoDuplicadoExc;
+import tp_final_progra3.demo.exceptions.general.RecursoNoEncontradoExc;
 import tp_final_progra3.demo.mapper.UsuarioMapper;
 import tp_final_progra3.demo.model.dto.request.UpdateUsuarioRequest;
 import tp_final_progra3.demo.model.entity.Usuario;
@@ -15,7 +15,6 @@ import tp_final_progra3.demo.repository.UsuarioRepository;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -23,12 +22,12 @@ public class UsuarioService {
     private final UsuarioRepository usuarioRepo;
     private final UsuarioMapper usuarioMapper;
 
-    public UsuarioResponseDTO create(UsuarioRequestDTO usuarioRequestDTO) throws UsuarioExistenteExc{
+    public UsuarioResponseDTO create(UsuarioRequestDTO usuarioRequestDTO) throws RecursoDuplicadoExc{
         if(this.usuarioRepo.existsByEmail(usuarioRequestDTO.email())){
-            throw new UsuarioExistenteExc("El email ingresado ya se encuentra registrado.");
+            throw new RecursoDuplicadoExc("El email ingresado ya se encuentra registrado.");
         }
         else if(this.usuarioRepo.existsByUsername(usuarioRequestDTO.username())){
-            throw new UsuarioExistenteExc("El nombre de usuario ingresado ya se encuentra registrado.");
+            throw new RecursoDuplicadoExc("El nombre de usuario ingresado ya se encuentra registrado.");
         }
         else{
             Usuario usuario = this.usuarioMapper.toEntity(usuarioRequestDTO);
@@ -42,15 +41,15 @@ public class UsuarioService {
     }
 
     public List<UsuarioResponseDTO> getAllUsers(){
-        List<Usuario> usuarios = usuarioRepo.findByRol(Rol.USER);
+        List<Usuario> usuarioEntities = usuarioRepo.findByRol(Rol.USER);
 
-        return usuarios.stream()
+        return usuarioEntities.stream()
                 .map(usuarioMapper::toDTO)
                 .toList();
     }
 
     public Usuario getUserById(Long id){
-        return this.usuarioRepo.findById(id).orElseThrow(() -> new UsuarioNoExisteExc("Usuario no encontrado."));
+        return this.usuarioRepo.findById(id).orElseThrow(() -> new RecursoNoEncontradoExc("Usuario no encontrado."));
     }
 
     public UsuarioResponseDTO getById(Long id){
@@ -59,7 +58,7 @@ public class UsuarioService {
     }
 
     public Usuario getUserByUsername(String username){
-        return this.usuarioRepo.findByUsername(username).orElseThrow(() -> new UsuarioNoExisteExc("Usuario no encontrado."));
+        return this.usuarioRepo.findByUsername(username).orElseThrow(() -> new RecursoNoEncontradoExc("Usuario no encontrado."));
     }
 
     public UsuarioResponseDTO getByUsername(String username){
@@ -95,11 +94,11 @@ public class UsuarioService {
         Usuario seguido = getUserById(seguidoId);
 
         if(usuario.equals(seguido)){
-            throw new SeguimientoExc("No puede seguirse a uno mismo.");
+            throw new OperacionNoPermitidaExc("No puede seguirse a uno mismo.");
         }
 
         if(usuario.getSeguidos().contains(seguido)){
-            throw new SeguimientoExc("Ya sigue a este usuario");
+            throw new OperacionNoPermitidaExc("Ya sigue a este usuario");
         }
 
         if(usuario.getUsuariosBloqueados().contains(seguido)){
@@ -121,7 +120,7 @@ public class UsuarioService {
         Usuario seguido = getUserById(seguidoId);
 
         if(!usuario.getSeguidos().contains(seguido)){
-            throw new SeguimientoExc("No sigue a este usuario");
+            throw new OperacionNoPermitidaExc("No sigue a este usuario");
         }
 
         usuario.getSeguidos().remove(seguido);
