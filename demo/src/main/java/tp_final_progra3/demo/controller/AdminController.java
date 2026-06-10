@@ -10,6 +10,8 @@ import tp_final_progra3.demo.model.dto.response.LoginResponseDto;
 import tp_final_progra3.demo.model.dto.response.UsuarioResponseDTO;
 import tp_final_progra3.demo.service.AdminService;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/admin")
 @RequiredArgsConstructor
@@ -47,6 +49,11 @@ public class AdminController {
     @PatchMapping("/juegos/{id}/rehabilitar")
     public ResponseEntity<JuegoResponseDTO> rehabilitarJuego(@PathVariable Long id){
         return ResponseEntity.ok(adminService.rehabilitarJuego(id));
+    }
+
+    @GetMapping("/usuarios") // GET /api/admin/usuarios
+    public ResponseEntity<List<UsuarioResponseDTO>>  VerUsuarios ( ){
+        return ResponseEntity.ok (adminService.verTodosLosUsuarios());
     }
 
 

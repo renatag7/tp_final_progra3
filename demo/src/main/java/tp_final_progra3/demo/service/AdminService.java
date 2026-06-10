@@ -18,6 +18,8 @@ import tp_final_progra3.demo.repository.JuegoRepository;
 import tp_final_progra3.demo.repository.ReviewRepository;
 import tp_final_progra3.demo.repository.UsuarioRepository;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class AdminService {
@@ -95,6 +97,11 @@ public class AdminService {
 
         return juegoMapper.toDTO(juego);
 
+
+    }
+
+    public List<UsuarioResponseDTO> verTodosLosUsuarios (){
+        return usuarioRepository.findAll().stream().map(usuarioMapper::toDTO).toList();
 
     }
 
