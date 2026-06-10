@@ -72,4 +72,14 @@ public class Usuario {
 
     @ManyToMany(mappedBy = "seguidos")
     private Set<Usuario> seguidores = new HashSet<>();
+
+    @ManyToMany
+    @JoinTable(
+            name = "usuarios_bloqueados",
+            joinColumns = @JoinColumn(name = "id_usuario"),
+            inverseJoinColumns = @JoinColumn(name = "id_bloqueado")
+    )
+    private Set<Usuario> usuariosBloqueados = new HashSet<>();
+
+
 }

@@ -102,6 +102,14 @@ public class UsuarioService {
             throw new SeguimientoExc("Ya sigue a este usuario");
         }
 
+        if(usuario.getUsuariosBloqueados().contains(seguido)){
+            throw new RuntimeException("No puedes seguir a un usuario que bloqueaste.");
+        }
+
+        if(seguido.getUsuariosBloqueados().contains(usuario)){
+            throw new RuntimeException("este usuario te ha bloqueado.");
+        }
+
         usuario.getSeguidos().add(seguido);
         usuarioRepo.save(usuario);
 
@@ -137,4 +145,45 @@ public class UsuarioService {
                 .map(usuarioMapper::toDTO)
                 .toList();
     }
+
+    public UsuarioResponseDTO bloquearUsuario(Long idUsuario, Long idBloqueado){
+
+        Usuario usuario = getUserById(idUsuario);
+        Usuario bloqueado = getUserById(idBloqueado);
+
+        if(usuario.getUsuariosBloqueados().contains(bloqueado)){
+            throw new RuntimeException("El usuario ya está bloqueado");
+        }
+
+        usuario.getUsuariosBloqueados().add(bloqueado);
+
+        usuarioRepo.save(usuario);
+
+        return usuarioMapper.toDTO(usuario);
+    }
+
+    public UsuarioResponseDTO desbloquearUsuario(Long idUsuario, Long idBloqueado){
+
+        Usuario usuario = getUserById(idUsuario);
+        Usuario bloqueado = getUserById(idBloqueado);
+
+        if(!usuario.getUsuariosBloqueados().contains(bloqueado)){
+            throw new RuntimeException("El usuario no está bloqueado");
+        }
+
+        usuario.getUsuariosBloqueados().remove(bloqueado);
+
+        usuarioRepo.save(usuario);
+
+        return usuarioMapper.toDTO(usuario);
+    }
+
+    public List<UsuarioResponseDTO> verUsuariosBloqueados(Long userId){
+
+        Usuario usuario = getUserById(userId);
+
+        return usuario.getUsuariosBloqueados().stream().map(usuarioMapper::toDTO).toList();
+    }
+
+
 }
