@@ -2,7 +2,6 @@ package tp_final_progra3.demo.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import tp_final_progra3.demo.model.dto.response.UsuarioResponseDTO;
 import tp_final_progra3.demo.model.entity.Usuario;
 import tp_final_progra3.demo.model.enums.Rol;
 
@@ -18,4 +17,5 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
     Optional<Usuario> findById(Long id);
     Optional<Usuario> findByUsername(String username);
+
 }

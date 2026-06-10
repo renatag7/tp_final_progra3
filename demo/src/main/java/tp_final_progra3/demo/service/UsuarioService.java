@@ -41,9 +41,9 @@ public class UsuarioService {
     }
 
     public List<UsuarioResponseDTO> getAllUsers(){
-        List<Usuario> usuarios = usuarioRepo.findByRol(Rol.USER);
+        List<Usuario> usuarioEntities = usuarioRepo.findByRol(Rol.USER);
 
-        return usuarios.stream()
+        return usuarioEntities.stream()
                 .map(usuarioMapper::toDTO)
                 .toList();
     }

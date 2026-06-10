@@ -1,8 +1,8 @@
 package tp_final_progra3.demo.model.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import tp_final_progra3.demo.exceptions.security.RolEntity;
 import tp_final_progra3.demo.model.enums.Rol;
 
 import java.time.LocalDate;
@@ -15,7 +15,10 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
-@Table(name = "tp_final_progra3/demo/exceptions/usuarios")
+@Table(name = "usuarios")
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,10 +49,6 @@ public class Usuario {
     @Column(nullable = false)
     private boolean activo;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private Rol rol;
-
     @OneToMany(mappedBy = "usuario")
     private List<Review> reviews = new ArrayList<>();
 
@@ -72,4 +71,20 @@ public class Usuario {
 
     @ManyToMany(mappedBy = "seguidos")
     private Set<Usuario> seguidores = new HashSet<>();
+
+    @Column(name = "is_enabled")
+    private boolean isEnabled;
+
+    @Column(name = "account_No_Expired")
+    private boolean accountNoExpired;
+
+    @Column(name = "account_No_Locked")
+    private boolean accountNoLocked;
+
+    @Column(name = "credential_No_Expired")
+    private boolean credentialNoExpired;
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "usuario_roles", joinColumns = @JoinColumn(name = "usuario_id"), inverseJoinColumns = @JoinColumn(name = "rol_id"))
+    private Set<RolEntity> roles = new HashSet<>();
 }
