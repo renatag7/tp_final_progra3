@@ -22,6 +22,11 @@ public class AdminController {
         return ResponseEntity.ok(adminService.bloquearUsuario(id));
     }
 
+    @PatchMapping("/usuarios/{id}/desbloquear")
+    public ResponseEntity<UsuarioResponseDTO> habilitarUsuario(@PathVariable Long id){
+        return ResponseEntity.ok(adminService.rehabilitarUsuario(id));
+    }
+
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDto> Login (@RequestBody LoginRequestDto loginRequestDto){

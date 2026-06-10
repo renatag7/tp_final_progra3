@@ -21,13 +21,13 @@ import tp_final_progra3.demo.repository.UsuarioRepository;
 @Service
 @RequiredArgsConstructor
 public class AdminService {
-        private final UsuarioRepository usuarioRepository;
-        private final ReviewRepository reviewRepository;
-        private final JuegoRepository juegoRepository;
-        private final UsuarioMapper usuarioMapper;
-        private final JuegoMapper juegoMapper;
+    private final UsuarioRepository usuarioRepository;
+    private final ReviewRepository reviewRepository;
+    private final JuegoRepository juegoRepository;
+    private final UsuarioMapper usuarioMapper;
+    private final JuegoMapper juegoMapper;
 
-    public UsuarioResponseDTO bloquearUsuario(Long id){
+    public UsuarioResponseDTO bloquearUsuario(Long id) {
 
         Usuario usuario = usuarioRepository.findById(id)
                 .orElseThrow(() -> new UsuarioNoExisteExc("Usuario no encontrado"));
@@ -39,31 +39,42 @@ public class AdminService {
         return usuarioMapper.toDTO(usuario);
     }
 
-    public LoginResponseDto loginAdmin(LoginRequestDto loginRequestDto){
+    public UsuarioResponseDTO rehabilitarUsuario(Long id){
+
+        Usuario usuario = usuarioRepository.findById(id).orElseThrow(() -> new UsuarioNoExisteExc("Usuario no encontrado"));
+
+        usuario.setActivo(true);
+
+        usuarioRepository.save(usuario);
+
+        return usuarioMapper.toDTO(usuario);
+    }
+
+    public LoginResponseDto loginAdmin(LoginRequestDto loginRequestDto) {
 
         Usuario usuario = usuarioRepository.findByEmail(loginRequestDto.email())
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
-        if(usuario.getRol() != Rol.ADMIN){
+        if (usuario.getRol() != Rol.ADMIN) {
             throw new RuntimeException("No es administrador");
         }
 
-        if(!usuario.getPassword().equals(loginRequestDto.contraseña())){
+        if (!usuario.getPassword().equals(loginRequestDto.contraseña())) {
             throw new RuntimeException("Contraseña incorrecta");
         }
 
-       return new LoginResponseDto(usuario.getId_usuario(), usuario.getUsername(), usuario.getRol()); // mapeo manual porque son 3 campos
+        return new LoginResponseDto(usuario.getId_usuario(), usuario.getUsername(), usuario.getRol()); // mapeo manual porque son 3 campos
     }
 
-    public void eliminarReview(Long id){
+    public void eliminarReview(Long id) {
 
         Review review = reviewRepository.findById(id).orElseThrow(() ->
-                        new RuntimeException("Review no encontrada"));
+                new RuntimeException("Review no encontrada"));
 
         reviewRepository.delete(review);
     }
 
-    public JuegoResponseDTO deshabilitarJuego(Long id){
+    public JuegoResponseDTO deshabilitarJuego(Long id) {
 
         Juego juego = juegoRepository.findById(id).orElseThrow(() -> new JuegoNoExisteExc("Juego no encontrado"));
 
@@ -74,7 +85,7 @@ public class AdminService {
         return juegoMapper.toDTO(juego);
     }
 
-    public JuegoResponseDTO rehabilitarJuego(Long id){
+    public JuegoResponseDTO rehabilitarJuego(Long id) {
 
         Juego juego = juegoRepository.findById(id).orElseThrow(() -> new JuegoNoExisteExc("Juego no encontrado"));
 
@@ -85,10 +96,12 @@ public class AdminService {
         return juegoMapper.toDTO(juego);
 
 
+    }
+
+
+
+
 }
-
-
-
 
 
 
