@@ -56,6 +56,11 @@ public class AdminController {
         return ResponseEntity.ok (adminService.verTodosLosUsuarios());
     }
 
+    @GetMapping("/usuarios/filtrar/username")
+    public ResponseEntity<List<UsuarioResponseDTO>> filtrarUsername ( @RequestParam String username ){
+        return ResponseEntity.ok(adminService.filtrarPorNombreUsuario(username));
+    }
+
 
 
 }

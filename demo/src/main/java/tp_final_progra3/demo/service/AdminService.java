@@ -105,6 +105,10 @@ public class AdminService {
 
     }
 
+    public List<UsuarioResponseDTO> filtrarPorNombreUsuario(String username){
+        return usuarioRepository.findByUsernameContainingIgnoreCase(username).stream().map(usuarioMapper::toDTO).toList();
+    }
+
 
 
 
