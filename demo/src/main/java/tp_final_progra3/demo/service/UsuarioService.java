@@ -32,7 +32,7 @@ public class UsuarioService {
         else{
             Usuario usuario = this.usuarioMapper.toEntity(usuarioRequestDTO);
             usuario.setFechaRegistro(LocalDate.now());
-            usuario.setRol(Rol.USER);
+           // usuario.setRol(Rol.USER);
             usuario.setActivo(true);
 
             Usuario usuarioGuardado = this.usuarioRepo.save(usuario);
