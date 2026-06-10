@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tp_final_progra3.demo.model.dto.request.LoginRequestDto;
+import tp_final_progra3.demo.model.dto.response.JuegoResponseDTO;
 import tp_final_progra3.demo.model.dto.response.LoginResponseDto;
 import tp_final_progra3.demo.model.dto.response.UsuarioResponseDTO;
 import tp_final_progra3.demo.service.AdminService;
@@ -31,6 +32,16 @@ public class AdminController {
     public ResponseEntity<Void > eliminarReview (@PathVariable Long id ){
         adminService.eliminarReview(id);
         return ResponseEntity.noContent().build();  // operacion exitosa, no devuelve nada
+    }
+
+    @PatchMapping("/juegos/{id}/deshabilitar")
+    public ResponseEntity<JuegoResponseDTO> deshabilitarJuego(@PathVariable Long id){
+        return ResponseEntity.ok(adminService.deshabilitarJuego(id));
+    }
+
+    @PatchMapping("/juegos/{id}/rehabilitar")
+    public ResponseEntity<JuegoResponseDTO> rehabilitarJuego(@PathVariable Long id){
+        return ResponseEntity.ok(adminService.rehabilitarJuego(id));
     }
 
 

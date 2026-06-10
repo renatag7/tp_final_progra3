@@ -19,3 +19,4 @@ public class JuegoService {
     private final JuegoRepository juegoRepository;
 
 }
+

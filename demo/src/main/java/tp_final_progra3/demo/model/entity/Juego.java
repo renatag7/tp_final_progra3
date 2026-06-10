@@ -56,4 +56,7 @@ public class Juego {
 
     @Column(nullable = false)
     private Double rating_general;
+
+    @Column(nullable = false)
+    private Boolean activo = true;
 }
