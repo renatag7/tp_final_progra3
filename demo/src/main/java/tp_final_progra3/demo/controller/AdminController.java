@@ -33,7 +33,7 @@ public class AdminController {
         return ResponseEntity.ok(adminService.loginAdmin(loginRequestDto));
     }
 
-    @DeleteMapping("/reviews/{id}")
+    @DeleteMapping("/reviews/{id}") // DELETE /api/admin/reviews/5
     public ResponseEntity<Void > eliminarReview (@PathVariable Long id ){
         adminService.eliminarReview(id);
         return ResponseEntity.noContent().build();  // operacion exitosa, no devuelve nada
