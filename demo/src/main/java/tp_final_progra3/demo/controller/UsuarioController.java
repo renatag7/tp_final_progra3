@@ -75,4 +75,25 @@ public class UsuarioController {
 
         return ResponseEntity.ok(usuarioService.getAllFollowed(id));
     }
+
+    @PostMapping("/{userId}/bloquear/{bloqueadoId}") //POST /usuarios/1/bloquear/2
+    public ResponseEntity<UsuarioResponseDTO> bloquearUsuario(@PathVariable Long userId, @PathVariable Long bloqueadoId){
+
+        return ResponseEntity.ok(usuarioService.bloquearUsuario(userId, bloqueadoId));
+    }
+
+    @PostMapping("/{userId}/desbloquear/{bloqueadoId}") //POST /usuarios/1/bloquear/2
+    public ResponseEntity<UsuarioResponseDTO> desbloquearUsuario(@PathVariable Long userId, @PathVariable Long desbloqueadoId){
+
+        return ResponseEntity.ok(usuarioService.desbloquearUsuario(userId, desbloqueadoId));
+    }
+    @GetMapping("/{userId}/bloqueados") // GET /usuarios/1/bloqueados
+    public ResponseEntity<List<UsuarioResponseDTO>> verBloqueados(@PathVariable Long userId){
+
+        return ResponseEntity.ok(usuarioService.verUsuariosBloqueados(userId));
+    }
+
+
+
+
 }
