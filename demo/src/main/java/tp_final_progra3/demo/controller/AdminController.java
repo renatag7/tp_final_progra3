@@ -75,6 +75,13 @@ public class AdminController {
         return ResponseEntity.ok(adminService.verTodosLosJuegos());
     }
 
+    @GetMapping("/juegos/filtrar") // GET /api/admin/juegos/filtrar?nombre=elden
+    public ResponseEntity<List<JuegoResponseDTO>> filtrarJuegos(@RequestParam String nombre){
+        return ResponseEntity.ok(adminService.filtrarJuegosPorNombre(nombre));
+    }
+
+
+
 
 
 }

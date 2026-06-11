@@ -36,6 +36,15 @@ public class JuegoApiService {
                 .toList();
     }
 
+    public List<JuegoResponseDTO> filtrarJuegosPorNombre(String nombre){
+
+        String url = "https://api.rawg.io/api/games?search=" + nombre + "&key=" + apiKey;
+
+        ApiResponseDTO apiResponseDTO = restTemplate.getForObject(url, ApiResponseDTO.class);
+
+        return apiResponseDTO.results().stream().map(juegoMapper::fromApi).map(juegoMapper::toDTO).toList();
+    }
+
     public JuegoResponseDTO getJuegoFromApi(String nombre){
         String url = "https://api.rawg.io/api/games?search=" + nombre + "&key=" + apiKey;
         ApiResponseDTO apiResponseDTO = restTemplate.getForObject(url, ApiResponseDTO.class);

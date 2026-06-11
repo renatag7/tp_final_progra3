@@ -7,6 +7,7 @@ import tp_final_progra3.demo.exceptions.UsuarioNoExisteExc;
 import tp_final_progra3.demo.mapper.JuegoMapper;
 import tp_final_progra3.demo.mapper.ReviewMapper;
 import tp_final_progra3.demo.mapper.UsuarioMapper;
+import tp_final_progra3.demo.model.dto.api.ApiResponseDTO;
 import tp_final_progra3.demo.model.dto.request.LoginRequestDto;
 import tp_final_progra3.demo.model.dto.response.JuegoResponseDTO;
 import tp_final_progra3.demo.model.dto.response.LoginResponseDto;
@@ -124,6 +125,13 @@ public class AdminService {
     public List <JuegoResponseDTO> verTodosLosJuegos  ( ){
         return juegoApiService.obtenerJuegos();
     }
+
+    public List<JuegoResponseDTO> filtrarJuegosPorNombre(String nombre){
+
+        return juegoApiService.filtrarJuegosPorNombre(nombre);
+    }
+
+
 
 
 
