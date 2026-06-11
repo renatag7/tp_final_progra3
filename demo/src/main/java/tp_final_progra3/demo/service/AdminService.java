@@ -31,6 +31,7 @@ public class AdminService {
     private final UsuarioMapper usuarioMapper;
     private final JuegoMapper juegoMapper;
     private final ReviewMapper reviewMapper;
+    private final JuegoApiService juegoApiService;
 
     public UsuarioResponseDTO bloquearUsuario(Long id) {
 
@@ -54,7 +55,7 @@ public class AdminService {
 
         return usuarioMapper.toDTO(usuario);
     }
-
+/*
     public LoginResponseDto loginAdmin(LoginRequestDto loginRequestDto) {
 
         Usuario usuario = usuarioRepository.findByEmail(loginRequestDto.email())
@@ -70,6 +71,8 @@ public class AdminService {
 
         return new LoginResponseDto(usuario.getId_usuario(), usuario.getUsername(), usuario.getRol()); // mapeo manual porque son 3 campos
     }
+
+ */
 
     public void eliminarReview(Long id) {
 
@@ -103,6 +106,8 @@ public class AdminService {
 
     }
 
+
+
     public List<UsuarioResponseDTO> verTodosLosUsuarios (){
         return usuarioRepository.findAll().stream().map(usuarioMapper::toDTO).toList();
 
@@ -114,6 +119,10 @@ public class AdminService {
 
     public List <ReviewResponseDTO> verTodasLasReview ( ){
         return reviewRepository.findAll().stream().map(reviewMapper::toDto).toList();
+    }
+
+    public List <JuegoResponseDTO> verTodosLosJuegos  ( ){
+        return juegoApiService.obtenerJuegos();
     }
 
 

@@ -31,11 +31,13 @@ public class AdminController {
         return ResponseEntity.ok(adminService.rehabilitarUsuario(id));
     }
 
-
+/*
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDto> Login (@RequestBody LoginRequestDto loginRequestDto){
         return ResponseEntity.ok(adminService.loginAdmin(loginRequestDto));
     }
+
+ */
 
     @DeleteMapping("/reviews/{id}") // DELETE /api/admin/reviews/5
     public ResponseEntity<Void > eliminarReview (@PathVariable Long id ){
@@ -66,6 +68,11 @@ public class AdminController {
     @GetMapping("/reviews")
     public ResponseEntity<List<ReviewResponseDTO>> verTodasLasReviews(){
         return ResponseEntity.ok(adminService.verTodasLasReview());
+    }
+
+    @GetMapping("/juegos")
+    public ResponseEntity<List<JuegoResponseDTO>> verTodosLosJuegos (){
+        return ResponseEntity.ok(adminService.verTodosLosJuegos());
     }
 
 

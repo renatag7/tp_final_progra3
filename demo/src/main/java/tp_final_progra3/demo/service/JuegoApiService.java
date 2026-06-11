@@ -69,4 +69,15 @@ public class JuegoApiService {
 
         return apiResponseDTO.results().stream().map(juegoMapper::fromApi).map(juegoMapper::toDTO).toList();
     }
+
+    public List<JuegoResponseDTO> obtenerJuegos(){
+
+        String url = "https://api.rawg.io/api/games?key=" + apiKey;
+
+        ApiResponseDTO apiResponseDTO = restTemplate.getForObject(url, ApiResponseDTO.class);
+
+        return apiResponseDTO.results().stream().map(juegoMapper::fromApi).map(juegoMapper::toDTO).toList();
+    }
+
+
 }
