@@ -17,5 +17,6 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
     Optional<Usuario> findById(Long id);
     Optional<Usuario> findByUsername(String username);
+    List<Usuario> findByUsernameContainingIgnoreCase(String username);
 
 }
