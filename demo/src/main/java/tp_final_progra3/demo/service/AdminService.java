@@ -5,10 +5,12 @@ import org.springframework.stereotype.Service;
 import tp_final_progra3.demo.exceptions.JuegoNoExisteExc;
 import tp_final_progra3.demo.exceptions.UsuarioNoExisteExc;
 import tp_final_progra3.demo.mapper.JuegoMapper;
+import tp_final_progra3.demo.mapper.ReviewMapper;
 import tp_final_progra3.demo.mapper.UsuarioMapper;
 import tp_final_progra3.demo.model.dto.request.LoginRequestDto;
 import tp_final_progra3.demo.model.dto.response.JuegoResponseDTO;
 import tp_final_progra3.demo.model.dto.response.LoginResponseDto;
+import tp_final_progra3.demo.model.dto.response.ReviewResponseDTO;
 import tp_final_progra3.demo.model.dto.response.UsuarioResponseDTO;
 import tp_final_progra3.demo.model.entity.Juego;
 import tp_final_progra3.demo.model.entity.Review;
@@ -28,6 +30,7 @@ public class AdminService {
     private final JuegoRepository juegoRepository;
     private final UsuarioMapper usuarioMapper;
     private final JuegoMapper juegoMapper;
+    private final ReviewMapper reviewMapper;
 
     public UsuarioResponseDTO bloquearUsuario(Long id) {
 
@@ -107,6 +110,10 @@ public class AdminService {
 
     public List<UsuarioResponseDTO> filtrarPorNombreUsuario(String username){
         return usuarioRepository.findByUsernameContainingIgnoreCase(username).stream().map(usuarioMapper::toDTO).toList();
+    }
+
+    public List <ReviewResponseDTO> verTodasLasReview ( ){
+        return reviewRepository.findAll().stream().map(reviewMapper::toDto).toList();
     }
 
 

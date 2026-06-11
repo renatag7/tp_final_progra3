@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.*;
 import tp_final_progra3.demo.model.dto.request.LoginRequestDto;
 import tp_final_progra3.demo.model.dto.response.JuegoResponseDTO;
 import tp_final_progra3.demo.model.dto.response.LoginResponseDto;
+import tp_final_progra3.demo.model.dto.response.ReviewResponseDTO;
 import tp_final_progra3.demo.model.dto.response.UsuarioResponseDTO;
+import tp_final_progra3.demo.model.entity.Review;
 import tp_final_progra3.demo.service.AdminService;
 
 import java.util.List;
@@ -59,6 +61,11 @@ public class AdminController {
     @GetMapping("/usuarios/filtrar/username")
     public ResponseEntity<List<UsuarioResponseDTO>> filtrarUsername ( @RequestParam String username ){
         return ResponseEntity.ok(adminService.filtrarPorNombreUsuario(username));
+    }
+
+    @GetMapping("/reviews")
+    public ResponseEntity<List<ReviewResponseDTO>> verTodasLasReviews(){
+        return ResponseEntity.ok(adminService.verTodasLasReview());
     }
 
 
