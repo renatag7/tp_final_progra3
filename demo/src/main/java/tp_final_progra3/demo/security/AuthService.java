@@ -1,6 +1,8 @@
 package tp_final_progra3.demo.security;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -26,6 +28,7 @@ public class AuthService {
     private final UserDetailServiceImpl userDetailsService;
     private final JwtService jwtService;
     private final UsuarioMapper usuarioMapper;
+    private final AuthenticationManager authenticationManager;
 
     @Transactional
     public AuthResponseDTO register(RegisterRequestDTO request) {
@@ -55,6 +58,19 @@ public class AuthService {
         Usuario usuarioGuardado = userRepository.save(usuario);
         UserDetails userDetails = userDetailsService.loadUserByUsername(usuarioGuardado.getUsername());
 
+        String jwt = jwtService.generateToken(userDetails);
+
+        return new AuthResponseDTO("Bearer", jwt);
+    }
+
+    public AuthResponseDTO login(AuthRequestDTO request){
+
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+                request.username(),
+                request.password())
+        );
+
+        UserDetails userDetails = userDetailsService.loadUserByUsername(request.username());
         String jwt = jwtService.generateToken(userDetails);
 
         return new AuthResponseDTO("Bearer", jwt);

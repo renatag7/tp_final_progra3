@@ -18,27 +18,15 @@ import tp_final_progra3.demo.model.dto.request.RegisterRequestDTO;
 @RequiredArgsConstructor
 public class AuthController {
 
-    private final AuthenticationManager authenticationManager;
-    private final UserDetailsService userDetailsService;
-    private final JwtService jwtService;
     private final AuthService authService;
 
     @PostMapping("/register")
     public AuthResponseDTO register(@RequestBody @Valid RegisterRequestDTO request) {
-
         return authService.register(request);
     }
 
     @PostMapping("/login")
     public AuthResponseDTO login(@RequestBody @Valid AuthRequestDTO request) {
-
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(request.username(), request.password())
-        );
-
-        UserDetails userDetails = userDetailsService.loadUserByUsername(request.username());
-        String jwt = jwtService.generateToken(userDetails);
-
-        return new AuthResponseDTO("Bearer", jwt);
+        return authService.login(request);
     }
 }
