@@ -22,11 +22,6 @@ public class AdminController {
     }
 
 
-    @PostMapping("/login")
-    public ResponseEntity<LoginResponseDto> Login (@RequestBody LoginRequestDto loginRequestDto){
-        return ResponseEntity.ok(adminService.loginAdmin(loginRequestDto));
-    }
-
     @DeleteMapping("/reviews/{id}")
     public ResponseEntity<Void > eliminarReview (@PathVariable Long id ){
         adminService.eliminarReview(id);

@@ -46,8 +46,8 @@ public class Usuario {
     @Column(nullable = false)
     private boolean perfilPublico;
 
-    @Column(nullable = false)
-    private boolean activo;
+    @Column(name = "is_enabled", nullable = false)
+    private boolean isEnabled;
 
     @OneToMany(mappedBy = "usuario")
     private List<Review> reviews = new ArrayList<>();
@@ -80,8 +80,6 @@ public class Usuario {
     )
     private Set<Usuario> usuariosBloqueados = new HashSet<>();
 
-    @Column(name = "is_enabled")
-    private boolean isEnabled;
 
     @Column(name = "account_No_Expired")
     private boolean accountNoExpired;

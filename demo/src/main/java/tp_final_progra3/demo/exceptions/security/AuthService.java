@@ -1,13 +1,10 @@
 package tp_final_progra3.demo.exceptions.security;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
 import tp_final_progra3.demo.exceptions.general.RecursoDuplicadoExc;
 import tp_final_progra3.demo.exceptions.general.RecursoNoEncontradoExc;
 import tp_final_progra3.demo.mapper.UsuarioMapper;
@@ -32,7 +29,7 @@ public class AuthService {
 
     @Transactional
     public AuthResponseDTO register(RegisterRequestDTO request) {
-        if(userRepository.existsByEmail(request.email())){
+        if(userRepository.findByEmail(request.email())){
             throw new RecursoDuplicadoExc("El email ingresado ya se encuentra registrado.");
         }
 

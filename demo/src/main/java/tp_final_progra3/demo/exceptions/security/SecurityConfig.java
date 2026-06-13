@@ -38,6 +38,7 @@ public class SecurityConfig {
                     http.requestMatchers(HttpMethod.POST, "/auth/register").permitAll();
 
                     http.requestMatchers("/admin/**").hasRole("ADMIN");
+                    http.requestMatchers("/api/admin/**").hasRole("ADMIN");
 
                     http.anyRequest().authenticated();
 
