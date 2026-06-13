@@ -1,4 +1,4 @@
-package tp_final_progra3.demo.exceptions.security;
+package tp_final_progra3.demo.security;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

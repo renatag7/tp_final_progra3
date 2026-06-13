@@ -11,7 +11,7 @@ import tp_final_progra3.demo.model.enums.Estado;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-06-13T00:21:28-0300",
+    date = "2026-06-13T00:55:38-0300",
     comments = "version: 1.6.3, compiler: javac, environment: Java 24.0.2 (Oracle Corporation)"
 )
 @Component

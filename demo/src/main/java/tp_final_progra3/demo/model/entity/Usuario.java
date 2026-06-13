@@ -2,7 +2,7 @@ package tp_final_progra3.demo.model.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import tp_final_progra3.demo.exceptions.security.RolEntity;
+import tp_final_progra3.demo.security.RolEntity;
 
 
 import java.time.LocalDate;

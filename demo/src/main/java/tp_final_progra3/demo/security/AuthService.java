@@ -1,4 +1,4 @@
-package tp_final_progra3.demo.exceptions.security;
+package tp_final_progra3.demo.security;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -29,7 +29,7 @@ public class AuthService {
 
     @Transactional
     public AuthResponseDTO register(RegisterRequestDTO request) {
-        if(userRepository.findByEmail(request.email())){
+        if(userRepository.findByEmail(request.email()).isPresent()){
             throw new RecursoDuplicadoExc("El email ingresado ya se encuentra registrado.");
         }
 
@@ -39,7 +39,7 @@ public class AuthService {
 
         Usuario usuario = usuarioMapper.toEntity(request);
         usuario.setFechaRegistro(LocalDate.now());
-        usuario.setActivo(true);
+        usuario.setEnabled(true);
         usuario.setPassword(passwordEncoder.encode(request.password()));
 
         usuario.setEnabled(true);
