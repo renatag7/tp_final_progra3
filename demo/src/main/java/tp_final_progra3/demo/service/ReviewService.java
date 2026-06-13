@@ -2,15 +2,20 @@ package tp_final_progra3.demo.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import tp_final_progra3.demo.exceptions.general.OperacionNoPermitidaExc;
 import tp_final_progra3.demo.exceptions.general.RecursoNoEncontradoExc;
 import tp_final_progra3.demo.mapper.ReviewMapper;
+import tp_final_progra3.demo.mapper.UsuarioMapper;
 import tp_final_progra3.demo.model.dto.request.ReviewRequestDTO;
 import tp_final_progra3.demo.model.dto.request.UpdateReviewRequestDTO;
 import tp_final_progra3.demo.model.dto.response.ReviewResponseDTO;
+import tp_final_progra3.demo.model.dto.response.UsuarioResponseDTO;
 import tp_final_progra3.demo.model.entity.Juego;
+import tp_final_progra3.demo.model.entity.LikeReview;
 import tp_final_progra3.demo.model.entity.Review;
 import tp_final_progra3.demo.model.entity.Usuario;
+import tp_final_progra3.demo.repository.LikeReviewRepository;
 import tp_final_progra3.demo.repository.ReviewRepository;
 
 import java.time.LocalDate;
@@ -23,6 +28,8 @@ public class ReviewService {
     private final UsuarioService usuarioService;
     private final ReviewRepository reviewRepository;
     private final ReviewMapper reviewMapper;
+    private final LikeReviewRepository likeReviewRepository;
+    private final UsuarioMapper usuarioMapper;
 
     public ReviewResponseDTO createReview(String username, Long juegoId, ReviewRequestDTO reviewRequestDTO){
         Usuario usuario = usuarioService.getUserByUsername(username);
@@ -87,6 +94,51 @@ public class ReviewService {
 
         return reviewRepository.findByUsuarioId(usuarioId).stream()
                 .map(reviewMapper::toDto)
+                .toList();
+    }
+
+    @Transactional
+    public void darLike(Long reviewId, String username){
+        Usuario usuario = usuarioService.getUserByUsername(username);
+        Review review = reviewRepository.findById(reviewId).orElseThrow(()-> new RecursoNoEncontradoExc("Review no encontrada"));
+
+        if(review.getUsuario().getId_usuario().equals(usuario.getId_usuario())){
+            throw new OperacionNoPermitidaExc("No puedes darle like a tu propia review");
+        }
+
+        if(likeReviewRepository.findByUsuarioAndReview(usuario,review).isPresent()){
+            throw new OperacionNoPermitidaExc("Ya diste like a esta review");
+        }
+        LikeReview like = new LikeReview();
+
+        like.setUsuario(usuario);
+        like.setReview(review);
+        likeReviewRepository.save(like);
+
+        review.setCantidadLikes(review.getCantidadLikes() + 1);
+        reviewRepository.save(review);
+    }
+
+    @Transactional
+    public void quitarLike(Long reviewId, String username){
+        Usuario usuario = usuarioService.getUserByUsername(username);
+        Review review = reviewRepository.findById(reviewId).orElseThrow(()-> new RecursoNoEncontradoExc("Review no encontrada"));
+
+        LikeReview like = likeReviewRepository.findByUsuarioAndReview(usuario, review).orElseThrow(()-> new OperacionNoPermitidaExc("No has dado like a esta review"));
+
+        likeReviewRepository.delete(like);
+
+        review.setCantidadLikes(review.getCantidadLikes() - 1);
+        reviewRepository.save(review);
+    }
+
+
+    public List<UsuarioResponseDTO> getUsuariosLikes(Long reviewId){
+        Review review = reviewRepository.findById(reviewId).orElseThrow(()-> new RecursoNoEncontradoExc("Review no encontrada"));
+
+        return likeReviewRepository.findByReview(review).stream()
+                .map(LikeReview::getUsuario)
+                .map(usuarioMapper::toDTO)
                 .toList();
     }
 }

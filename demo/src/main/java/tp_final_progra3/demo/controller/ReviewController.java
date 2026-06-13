@@ -9,6 +9,7 @@ import tp_final_progra3.demo.exceptions.general.OperacionNoPermitidaExc;
 import tp_final_progra3.demo.model.dto.request.ReviewRequestDTO;
 import tp_final_progra3.demo.model.dto.request.UpdateReviewRequestDTO;
 import tp_final_progra3.demo.model.dto.response.ReviewResponseDTO;
+import tp_final_progra3.demo.model.dto.response.UsuarioResponseDTO;
 import tp_final_progra3.demo.model.entity.Usuario;
 import tp_final_progra3.demo.service.ReviewService;
 import tp_final_progra3.demo.service.UsuarioService;
@@ -20,7 +21,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ReviewController {
     private final ReviewService reviewService;
-    private final UsuarioService usuarioService;
 
     @PostMapping("/{juegoId}/reviews")
     public ResponseEntity<ReviewResponseDTO> createReview(@PathVariable Long juegoId, @Valid @RequestBody ReviewRequestDTO reviewRequestDTO, Authentication authentication){
@@ -45,5 +45,22 @@ public class ReviewController {
         return ResponseEntity.noContent().build();
     }
 
+    @PostMapping("/reviews/{reviewId}/like")
+    public ResponseEntity<Void> darLike(@PathVariable Long reviewId, Authentication authentication){
+        reviewService.darLike(reviewId, authentication.getName());
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/reviews/{reviewId}/like")
+    public ResponseEntity<Void> quitarLike(@PathVariable Long reviewId, Authentication authentication){
+        reviewService.quitarLike(reviewId, authentication.getName());
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/reviews/{reviewId}/likes")
+    public ResponseEntity<List<UsuarioResponseDTO>> getUsuariosQueDieronLike(@PathVariable Long reviewId){
+
+        return ResponseEntity.ok(reviewService.getUsuariosLikes(reviewId));
+    }
 
 }

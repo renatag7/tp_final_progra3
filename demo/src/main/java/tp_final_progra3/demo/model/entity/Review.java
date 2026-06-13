@@ -27,10 +27,13 @@ public class Review {
     @Column(nullable = false)
     private String contenido;
 
-    private float puntuacion;
+    private Float puntuacion;
 
     @Column(nullable = false)
     private LocalDate fechaPublicacion;
 
     private boolean contieneSpoilers;
+
+    @Column(nullable = false)
+    private Integer cantidadLikes = 0;
 }

@@ -10,6 +10,7 @@ public record ReviewResponseDTO(
         String contenido,
         Float puntuacion,
         LocalDate fechaPublicacion,
-        Boolean contieneSpoilers
+        Boolean contieneSpoilers,
+        Integer cantidadLikes
 ) {
 }
