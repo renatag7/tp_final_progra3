@@ -13,6 +13,8 @@ import tp_final_progra3.demo.model.entity.Usuario;
 import tp_final_progra3.demo.service.ReviewService;
 import tp_final_progra3.demo.service.UsuarioService;
 
+import java.util.List;
+
 @RestController
 @RequestMapping({"/juegos"})
 @RequiredArgsConstructor
@@ -31,15 +33,17 @@ public class ReviewController {
         return ResponseEntity.ok(reviewResponseDTO);
     }
 
-    @PatchMapping("/{reviewId}")
+    @PatchMapping("/reviews/{reviewId}")
     public ResponseEntity<ReviewResponseDTO> updateReview(@PathVariable Long reviewId, @RequestBody UpdateReviewRequestDTO requestDTO, Authentication authentication){
 
         return ResponseEntity.ok(reviewService.updateReview(reviewId, authentication.getName(), requestDTO));
     }
 
-    @DeleteMapping("{reviewId}")
+    @DeleteMapping("/reviews/{reviewId}")
     public ResponseEntity<Void> deleteReview(@PathVariable Long reviewId, Authentication authentication){
         reviewService.deleteReview(reviewId, authentication.getName());
         return ResponseEntity.noContent().build();
     }
+
+
 }

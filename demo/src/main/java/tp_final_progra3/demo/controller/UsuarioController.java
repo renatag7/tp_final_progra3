@@ -7,7 +7,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tp_final_progra3.demo.model.dto.request.RegisterRequestDTO;
 import tp_final_progra3.demo.model.dto.request.UpdateUsuarioRequest;
+import tp_final_progra3.demo.model.dto.response.ReviewResponseDTO;
 import tp_final_progra3.demo.model.dto.response.UsuarioResponseDTO;
+import tp_final_progra3.demo.service.ReviewService;
 import tp_final_progra3.demo.service.UsuarioService;
 
 import java.util.List;
@@ -17,6 +19,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UsuarioController {
     private final UsuarioService usuarioService;
+    private final ReviewService reviewService;
 
 
     @GetMapping
@@ -88,7 +91,10 @@ public class UsuarioController {
         return ResponseEntity.ok(usuarioService.verUsuariosBloqueados(userId));
     }
 
-
+    @GetMapping("/{id}/reviews")
+    public ResponseEntity<List<ReviewResponseDTO>> getReviewsByUser(@PathVariable Long id){
+        return ResponseEntity.ok(reviewService.getReviewsByUsuario(id));
+    }
 
 
 }

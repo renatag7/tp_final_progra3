@@ -14,6 +14,7 @@ import tp_final_progra3.demo.model.entity.Usuario;
 import tp_final_progra3.demo.repository.ReviewRepository;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -70,5 +71,22 @@ public class ReviewService {
         }
 
         reviewRepository.delete(review);
+    }
+
+    public List<ReviewResponseDTO> getReviewsByJuego(Long juegoId){
+
+        return reviewRepository.findByJuegoId(juegoId).stream()
+                .map(reviewMapper::toDto)
+                .toList();
+    }
+
+    public List<ReviewResponseDTO> getReviewsByUsuario(Long usuarioId){
+        if(usuarioService.getUserById(usuarioId) == null){
+            throw new RecursoNoEncontradoExc("El usuario no existe");
+        }
+
+        return reviewRepository.findByUsuarioId(usuarioId).stream()
+                .map(reviewMapper::toDto)
+                .toList();
     }
 }
