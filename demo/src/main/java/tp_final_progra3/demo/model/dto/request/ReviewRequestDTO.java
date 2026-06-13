@@ -13,7 +13,7 @@ public record ReviewRequestDTO(@NotNull(
         message = "El contenido es obligatorio"
 ) String contenido, @NotNull(
         message = "La puntuación es obligatoria"
-) @Min(0) @Max(5)
+) @Min(1) @Max(5)
   Float puntuacion, @NotNull(
           message = "Campo 'contiene spoilers' es obligatorio"
 ) Boolean contieneSpoilers

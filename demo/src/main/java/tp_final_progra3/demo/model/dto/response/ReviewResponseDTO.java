@@ -1,5 +1,6 @@
 package tp_final_progra3.demo.model.dto.response;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public record ReviewResponseDTO(
@@ -8,7 +9,7 @@ public record ReviewResponseDTO(
         String tituloJuego,
         String contenido,
         Float puntuacion,
-        LocalDateTime fechaPublicacion,
+        LocalDate fechaPublicacion,
         Boolean contieneSpoilers
 ) {
 }

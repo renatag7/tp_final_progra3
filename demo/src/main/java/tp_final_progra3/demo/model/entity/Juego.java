@@ -13,7 +13,6 @@ import java.util.*;
 @Table(name = "juegos")
 public class Juego {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToMany(fetch = FetchType.LAZY)
