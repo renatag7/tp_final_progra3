@@ -7,19 +7,20 @@ import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 
 public record JuegoRequestDTO(@NotBlank(
         message = "El titulo es obligatorio"
 ) String titulo, @NotBlank(
-        message = "La sinopsis es obligatoria"
-) String sinopsis, @NotNull(
+        message = "La descripcion es obligatoria"
+) String descripcion, @NotNull(
         message = "La fecha de lanzamiento es obligatoria"
 ) LocalDate fecha_lanzamiento, @NotBlank(
         message = "El developer es obligatorio"
 ) String developer, @NotEmpty(
         message = "Debe haber al menos un género"
-) List<String> generos,
-  List<String> plataformas
+) Set<String> generos,
+  Set<String> plataformas
 ) {
 }

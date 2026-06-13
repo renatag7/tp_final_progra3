@@ -2,6 +2,7 @@ package tp_final_progra3.demo.model.dto.response;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 public record JuegoResponseDTO(
         Long id,
@@ -9,8 +10,8 @@ public record JuegoResponseDTO(
         String descripcion,
         LocalDate fecha_lanzamiento,
         Double rating_general,
-        List<String> generos,
-        List<String> plataformas,
+        Set<String> generos,
+        Set<String> plataformas,
         String developer
 ) {
 }
