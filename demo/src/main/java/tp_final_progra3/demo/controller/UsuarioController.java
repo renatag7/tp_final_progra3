@@ -5,8 +5,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import tp_final_progra3.demo.model.dto.request.RegisterRequestDTO;
 import tp_final_progra3.demo.model.dto.request.UpdateUsuarioRequest;
-import tp_final_progra3.demo.model.dto.request.UsuarioRequestDTO;
 import tp_final_progra3.demo.model.dto.response.UsuarioResponseDTO;
 import tp_final_progra3.demo.service.UsuarioService;
 
@@ -18,11 +18,6 @@ import java.util.List;
 public class UsuarioController {
     private final UsuarioService usuarioService;
 
-    @PostMapping
-    public ResponseEntity<UsuarioResponseDTO> create(@Valid @RequestBody UsuarioRequestDTO usuarioRequestDTO){
-        UsuarioResponseDTO usuario = usuarioService.create(usuarioRequestDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).body(usuario);
-    }
 
     @GetMapping
     public ResponseEntity<List<UsuarioResponseDTO>> getAllUsers(){
@@ -53,15 +48,15 @@ public class UsuarioController {
     }
 
     @PostMapping("/{usuarioId}/seguir/{seguidoId}")
-    public ResponseEntity<UsuarioResponseDTO> follow(@PathVariable Long userId, @PathVariable Long seguidoId){
+    public ResponseEntity<UsuarioResponseDTO> follow(@PathVariable Long usuarioId, @PathVariable Long seguidoId){
 
-        return ResponseEntity.ok(usuarioService.follow(userId, seguidoId));
+        return ResponseEntity.ok(usuarioService.follow(usuarioId, seguidoId));
     }
 
     @DeleteMapping("/{usuarioId}/seguir/{seguidoId}")
-    public ResponseEntity<UsuarioResponseDTO> unfollow(@PathVariable Long userId, @PathVariable Long seguidoId){
+    public ResponseEntity<UsuarioResponseDTO> unfollow(@PathVariable Long usuarioId, @PathVariable Long seguidoId){
 
-        return ResponseEntity.ok(usuarioService.unfollow(userId, seguidoId));
+        return ResponseEntity.ok(usuarioService.unfollow(usuarioId, seguidoId));
     }
 
     @GetMapping("/{id}/seguidores")
@@ -83,9 +78,9 @@ public class UsuarioController {
     }
 
     @PostMapping("/{userId}/desbloquear/{bloqueadoId}") //POST /usuarios/1/bloquear/2
-    public ResponseEntity<UsuarioResponseDTO> desbloquearUsuario(@PathVariable Long userId, @PathVariable Long desbloqueadoId){
+    public ResponseEntity<UsuarioResponseDTO> desbloquearUsuario(@PathVariable Long userId, @PathVariable Long bloqueadoId){
 
-        return ResponseEntity.ok(usuarioService.desbloquearUsuario(userId, desbloqueadoId));
+        return ResponseEntity.ok(usuarioService.desbloquearUsuario(userId, bloqueadoId));
     }
     @GetMapping("/{userId}/bloqueados") // GET /usuarios/1/bloqueados
     public ResponseEntity<List<UsuarioResponseDTO>> verBloqueados(@PathVariable Long userId){

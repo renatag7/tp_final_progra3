@@ -3,37 +3,37 @@ package tp_final_progra3.demo.mapper;
 import java.time.LocalDate;
 import javax.annotation.processing.Generated;
 import org.springframework.stereotype.Component;
-import tp_final_progra3.demo.model.dto.request.UsuarioRequestDTO;
+import tp_final_progra3.demo.model.dto.request.RegisterRequestDTO;
 import tp_final_progra3.demo.model.dto.response.UsuarioResponseDTO;
 import tp_final_progra3.demo.model.entity.Usuario;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-05-23T22:22:15-0300",
+    date = "2026-06-12T22:25:49-0300",
     comments = "version: 1.6.3, compiler: javac, environment: Java 24.0.2 (Oracle Corporation)"
 )
 @Component
 public class UsuarioMapperImpl implements UsuarioMapper {
 
     @Override
-    public Usuario toEntity(UsuarioRequestDTO usuarioRequestDTO) {
-        if ( usuarioRequestDTO == null ) {
+    public Usuario toEntity(RegisterRequestDTO registerRequestDTO) {
+        if ( registerRequestDTO == null ) {
             return null;
         }
 
-        Usuario usuario = new Usuario();
+        Usuario.UsuarioBuilder usuario = Usuario.builder();
 
-        usuario.setUsername( usuarioRequestDTO.username() );
-        usuario.setNombre( usuarioRequestDTO.nombre() );
-        usuario.setEmail( usuarioRequestDTO.email() );
-        usuario.setPassword( usuarioRequestDTO.password() );
-        usuario.setBiografia( usuarioRequestDTO.biografia() );
-        usuario.setPais( usuarioRequestDTO.pais() );
-        if ( usuarioRequestDTO.perfilPublico() != null ) {
-            usuario.setPerfilPublico( usuarioRequestDTO.perfilPublico() );
+        usuario.username( registerRequestDTO.username() );
+        usuario.nombre( registerRequestDTO.nombre() );
+        usuario.email( registerRequestDTO.email() );
+        usuario.password( registerRequestDTO.password() );
+        usuario.biografia( registerRequestDTO.biografia() );
+        usuario.pais( registerRequestDTO.pais() );
+        if ( registerRequestDTO.perfilPublico() != null ) {
+            usuario.perfilPublico( registerRequestDTO.perfilPublico() );
         }
 
-        return usuario;
+        return usuario.build();
     }
 
     @Override

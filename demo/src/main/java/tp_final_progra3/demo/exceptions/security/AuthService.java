@@ -8,10 +8,15 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
+import tp_final_progra3.demo.exceptions.general.RecursoDuplicadoExc;
+import tp_final_progra3.demo.exceptions.general.RecursoNoEncontradoExc;
+import tp_final_progra3.demo.mapper.UsuarioMapper;
+import tp_final_progra3.demo.model.dto.request.RegisterRequestDTO;
 import tp_final_progra3.demo.model.entity.Usuario;
 import tp_final_progra3.demo.model.enums.Rol;
 import tp_final_progra3.demo.repository.UsuarioRepository;
 
+import java.time.LocalDate;
 import java.util.Set;
 
 @Service
@@ -23,29 +28,36 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final UserDetailServiceImpl userDetailsService;
     private final JwtService jwtService;
+    private final UsuarioMapper usuarioMapper;
 
     @Transactional
     public AuthResponseDTO register(RegisterRequestDTO request) {
-        if (userRepository.findByUsername(request.username()).isPresent()) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "Ya existe un usuario con ese username");
+        if(userRepository.existsByEmail(request.email())){
+            throw new RecursoDuplicadoExc("El email ingresado ya se encuentra registrado.");
         }
 
-        RolEntity userRole = roleRepository.findByRoleEnum(Rol.USER)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "No existe el rol USER inicial"));
+        if (userRepository.findByUsername(request.username()).isPresent()) {
+            throw new RecursoDuplicadoExc("El nombre de usuario ingresado ya se encuentra registrado.");
+        }
 
-        Usuario newUser = Usuario.builder()
-                .username(request.username())
-                .password(passwordEncoder.encode(request.password()))
-                .isEnabled(true)
-                .accountNoExpired(true)
-                .accountNoLocked(true)
-                .credentialNoExpired(true)
-                .roles(Set.of(userRole))
-                .build();
+        Usuario usuario = usuarioMapper.toEntity(request);
+        usuario.setFechaRegistro(LocalDate.now());
+        usuario.setActivo(true);
+        usuario.setPassword(passwordEncoder.encode(request.password()));
 
-        userRepository.save(newUser);
+        usuario.setEnabled(true);
+        usuario.setAccountNoExpired(true);
+        usuario.setAccountNoLocked(true);
+        usuario.setCredentialNoExpired(true);
 
-        UserDetails userDetails = userDetailsService.loadUserByUsername(newUser.getUsername());
+        RolEntity userRole = roleRepository.findByRol(Rol.USER)
+                .orElseThrow(() -> new RecursoNoEncontradoExc("No existe el rol USER."));
+
+        usuario.setRoles(Set.of(userRole));
+
+        Usuario usuarioGuardado = userRepository.save(usuario);
+        UserDetails userDetails = userDetailsService.loadUserByUsername(usuarioGuardado.getUsername());
+
         String jwt = jwtService.generateToken(userDetails);
 
         return new AuthResponseDTO("Bearer", jwt);

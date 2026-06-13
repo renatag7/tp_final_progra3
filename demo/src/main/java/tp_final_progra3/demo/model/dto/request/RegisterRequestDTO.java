@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-public record UsuarioRequestDTO(@NotBlank(
+public record RegisterRequestDTO(@NotBlank( //solo para registro
         message = "El username es obligatorio"
 ) String username, @NotBlank(
         message = "El nombre es obligatorio"
@@ -16,9 +16,7 @@ public record UsuarioRequestDTO(@NotBlank(
 ) String email, @NotBlank(
         message = "La contraseña es obligatoria"
 ) @Size(min = 8, max = 20)
-  String password,
-  String biografia,
-  String pais, @NotNull(
+  String password, String biografia, String pais, @NotNull(
         message = "El estado del perfil es obligatorio"
 ) Boolean perfilPublico
 ) {

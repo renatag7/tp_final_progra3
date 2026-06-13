@@ -7,5 +7,5 @@ import tp_final_progra3.demo.model.enums.Rol;
 import java.util.Optional;
 @Repository
 public interface RolRepository extends CrudRepository<RolEntity, Long> {
-    Optional<RolEntity> findByRoleEnum(Rol roleEnum);
+    Optional<RolEntity> findByRol(Rol rol);
 }

@@ -1,14 +1,15 @@
 package tp_final_progra3.demo.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import tp_final_progra3.demo.exceptions.general.OperacionNoPermitidaExc;
 import tp_final_progra3.demo.exceptions.general.RecursoDuplicadoExc;
 import tp_final_progra3.demo.exceptions.general.RecursoNoEncontradoExc;
 import tp_final_progra3.demo.mapper.UsuarioMapper;
+import tp_final_progra3.demo.model.dto.request.RegisterRequestDTO;
 import tp_final_progra3.demo.model.dto.request.UpdateUsuarioRequest;
 import tp_final_progra3.demo.model.entity.Usuario;
-import tp_final_progra3.demo.model.dto.request.UsuarioRequestDTO;
 import tp_final_progra3.demo.model.dto.response.UsuarioResponseDTO;
 import tp_final_progra3.demo.model.enums.Rol;
 import tp_final_progra3.demo.repository.UsuarioRepository;
@@ -22,28 +23,11 @@ public class UsuarioService {
     private final UsuarioRepository usuarioRepo;
     private final UsuarioMapper usuarioMapper;
 
-    public UsuarioResponseDTO create(UsuarioRequestDTO usuarioRequestDTO) throws RecursoDuplicadoExc{
-        if(this.usuarioRepo.existsByEmail(usuarioRequestDTO.email())){
-            throw new RecursoDuplicadoExc("El email ingresado ya se encuentra registrado.");
-        }
-        else if(this.usuarioRepo.existsByUsername(usuarioRequestDTO.username())){
-            throw new RecursoDuplicadoExc("El nombre de usuario ingresado ya se encuentra registrado.");
-        }
-        else{
-            Usuario usuario = this.usuarioMapper.toEntity(usuarioRequestDTO);
-            usuario.setFechaRegistro(LocalDate.now());
-           // usuario.setRol(Rol.USER);
-            usuario.setActivo(true);
-
-            Usuario usuarioGuardado = this.usuarioRepo.save(usuario);
-            return this.usuarioMapper.toDTO(usuarioGuardado);
-        }
-    }
 
     public List<UsuarioResponseDTO> getAllUsers(){
-        List<Usuario> usuarioEntities = usuarioRepo.findByRol(Rol.USER);
+        List<Usuario> usuarios = usuarioRepo.findByRol(Rol.USER);
 
-        return usuarioEntities.stream()
+        return usuarios.stream()
                 .map(usuarioMapper::toDTO)
                 .toList();
     }
