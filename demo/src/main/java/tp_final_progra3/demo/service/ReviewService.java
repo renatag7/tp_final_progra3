@@ -5,16 +5,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tp_final_progra3.demo.exceptions.general.OperacionNoPermitidaExc;
 import tp_final_progra3.demo.exceptions.general.RecursoNoEncontradoExc;
+import tp_final_progra3.demo.mapper.ComentarioReviewMapper;
 import tp_final_progra3.demo.mapper.ReviewMapper;
 import tp_final_progra3.demo.mapper.UsuarioMapper;
+import tp_final_progra3.demo.model.dto.request.ComentarioReviewRequestDTO;
 import tp_final_progra3.demo.model.dto.request.ReviewRequestDTO;
 import tp_final_progra3.demo.model.dto.request.UpdateReviewRequestDTO;
+import tp_final_progra3.demo.model.dto.response.ComentarioReviewResponseDTO;
 import tp_final_progra3.demo.model.dto.response.ReviewResponseDTO;
 import tp_final_progra3.demo.model.dto.response.UsuarioResponseDTO;
-import tp_final_progra3.demo.model.entity.Juego;
-import tp_final_progra3.demo.model.entity.LikeReview;
-import tp_final_progra3.demo.model.entity.Review;
-import tp_final_progra3.demo.model.entity.Usuario;
+import tp_final_progra3.demo.model.entity.*;
+import tp_final_progra3.demo.repository.ComentarioReviewRepository;
 import tp_final_progra3.demo.repository.LikeReviewRepository;
 import tp_final_progra3.demo.repository.ReviewRepository;
 
@@ -30,6 +31,8 @@ public class ReviewService {
     private final ReviewMapper reviewMapper;
     private final LikeReviewRepository likeReviewRepository;
     private final UsuarioMapper usuarioMapper;
+    private final ComentarioReviewRepository comentarioReviewRepository;
+    private final ComentarioReviewMapper comentarioReviewMapper;
 
     public ReviewResponseDTO createReview(String username, Long juegoId, ReviewRequestDTO reviewRequestDTO){
         Usuario usuario = usuarioService.getUserByUsername(username);
@@ -140,5 +143,40 @@ public class ReviewService {
                 .map(LikeReview::getUsuario)
                 .map(usuarioMapper::toDTO)
                 .toList();
+    }
+
+    @Transactional
+    public ComentarioReviewResponseDTO comentarReview(Long reviewId, String username, ComentarioReviewRequestDTO requestDTO){
+        Usuario usuario = usuarioService.getUserByUsername(username);
+        Review review = reviewRepository.findById(reviewId).orElseThrow(()-> new RecursoNoEncontradoExc("Review no encontrada"));
+
+        ComentarioReview comentarioReview = new ComentarioReview();
+        comentarioReview.setContenido(requestDTO.contenido());
+        comentarioReview.setFechaPublicado(LocalDate.now());
+        comentarioReview.setUsuario(usuario);
+        comentarioReview.setReview(review);
+
+        ComentarioReview guardado = comentarioReviewRepository.save(comentarioReview);
+        return comentarioReviewMapper.toDTO(guardado);
+    }
+
+    public List<ComentarioReviewResponseDTO> getComentariosByReviews(Long reviewId){
+        Review review = reviewRepository.findById(reviewId).orElseThrow(()-> new RecursoNoEncontradoExc("Review no encontrada"));
+
+        return comentarioReviewRepository.findByReview(review).stream()
+                .map(comentarioReviewMapper::toDTO)
+                .toList();
+    }
+
+    @Transactional
+    public void deleteComentario(Long comentarioId, String username){
+        Usuario usuario = usuarioService.getUserByUsername(username);
+        ComentarioReview comentarioReview = comentarioReviewRepository.findById(comentarioId).orElseThrow(()-> new RecursoNoEncontradoExc("Comentario no encontrado"));
+
+        if(!comentarioReview.getUsuario().getId_usuario().equals(usuario.getId_usuario())){
+            throw new OperacionNoPermitidaExc("No es posible eliminar comentarios de otros usuarios");
+        }
+
+        comentarioReviewRepository.delete(comentarioReview);
     }
 }
