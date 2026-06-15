@@ -6,6 +6,8 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -36,4 +38,7 @@ public class Review {
 
     @Column(nullable = false)
     private Integer cantidadLikes = 0;
+
+    @OneToMany(mappedBy = "review", cascade = CascadeType.ALL)
+    private List<ComentarioReview> comentarios = new ArrayList<>();
 }
