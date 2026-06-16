@@ -10,7 +10,7 @@ import lombok.Setter;
 public class UsuarioFavorito {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_favoritos;
+    private Long id;
 
     @Column(nullable = false)
     private Integer posicion;
