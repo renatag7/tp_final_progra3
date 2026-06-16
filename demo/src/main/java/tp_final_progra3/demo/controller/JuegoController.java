@@ -3,14 +3,18 @@ package tp_final_progra3.demo.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import tp_final_progra3.demo.exceptions.JuegoNoExisteExc;
 import tp_final_progra3.demo.model.dto.api.JuegoApiResponseDTO;
+import tp_final_progra3.demo.model.dto.request.EstadoJuegoRequestDTO;
+import tp_final_progra3.demo.model.dto.response.EstadoJuegoResponseDTO;
 import tp_final_progra3.demo.model.dto.response.JuegoResponseDTO;
 import tp_final_progra3.demo.model.dto.response.ReviewResponseDTO;
 import tp_final_progra3.demo.model.dto.response.UsuarioResponseDTO;
 import tp_final_progra3.demo.model.entity.Juego;
+import tp_final_progra3.demo.service.EstadoJuegoUsuarioService;
 import tp_final_progra3.demo.service.JuegoApiService;
 import tp_final_progra3.demo.service.ReviewService;
 
@@ -22,6 +26,7 @@ import java.util.List;
 public class JuegoController {
     private final JuegoApiService juegoApiService;
     private final ReviewService reviewService;
+    private final EstadoJuegoUsuarioService estadoJuegoUsuarioService;
 
     @GetMapping("/api/search") //ej /juegos/api/search?nombre=elden ring
     public ResponseEntity<List<JuegoResponseDTO>> searchApi(@RequestParam String nombre){
@@ -48,5 +53,9 @@ public class JuegoController {
         return ResponseEntity.ok(reviewService.getReviewsByJuego(id));
     }
 
+    @PostMapping("/{juegoId}/estado")
+    public ResponseEntity<EstadoJuegoResponseDTO> actualizarEstado(@PathVariable Long juegoId, @RequestBody EstadoJuegoRequestDTO estadoJuegoRequestDTO, Authentication authentication){
+        return ResponseEntity.ok(estadoJuegoUsuarioService.actualizarEstado(juegoId, estadoJuegoRequestDTO, authentication.getName()));
+    }
 
 }

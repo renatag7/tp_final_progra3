@@ -8,10 +8,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import tp_final_progra3.demo.model.dto.request.RegisterRequestDTO;
 import tp_final_progra3.demo.model.dto.request.UpdateUsuarioRequest;
-import tp_final_progra3.demo.model.dto.response.FavoritoResponseDTO;
-import tp_final_progra3.demo.model.dto.response.JuegoResponseDTO;
-import tp_final_progra3.demo.model.dto.response.ReviewResponseDTO;
-import tp_final_progra3.demo.model.dto.response.UsuarioResponseDTO;
+import tp_final_progra3.demo.model.dto.response.*;
+import tp_final_progra3.demo.model.enums.Estado;
+import tp_final_progra3.demo.service.EstadoJuegoUsuarioService;
 import tp_final_progra3.demo.service.ReviewService;
 import tp_final_progra3.demo.service.UsuarioFavoritoService;
 import tp_final_progra3.demo.service.UsuarioService;
@@ -25,6 +24,7 @@ public class UsuarioController {
     private final UsuarioService usuarioService;
     private final ReviewService reviewService;
     private final UsuarioFavoritoService usuarioFavoritoService;
+    private final EstadoJuegoUsuarioService estadoJuegoUsuarioService;
 
 
     @GetMapping
@@ -122,6 +122,12 @@ public class UsuarioController {
     public ResponseEntity<Void> deleteFavorito(@PathVariable Long juegoId, Authentication authentication){
         usuarioFavoritoService.eliminarFavorito(authentication.getName(), juegoId);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/me/historial")
+    public ResponseEntity<List<EstadoJuegoResponseDTO>> getMiHistorial(@RequestParam(required = false) Estado estado, Authentication authentication){
+
+        return ResponseEntity.ok(estadoJuegoUsuarioService.getHistorialUsuario(authentication.getName(), estado));
     }
 
 }

@@ -7,51 +7,67 @@ import tp_final_progra3.demo.exceptions.general.RecursoNoEncontradoExc;
 import tp_final_progra3.demo.mapper.EstadoJuegoMapper;
 import tp_final_progra3.demo.model.dto.request.EstadoJuegoRequestDTO;
 import tp_final_progra3.demo.model.dto.response.EstadoJuegoResponseDTO;
-import tp_final_progra3.demo.model.dto.response.HistorialJuegoResponseDTO;
 import tp_final_progra3.demo.model.entity.EstadoJuegoUsuario;
 import tp_final_progra3.demo.model.entity.Juego;
 import tp_final_progra3.demo.model.entity.Usuario;
+import tp_final_progra3.demo.model.enums.Estado;
 import tp_final_progra3.demo.repository.EstadoJuegoUsuarioRepository;
 import tp_final_progra3.demo.repository.JuegoRepository;
 import tp_final_progra3.demo.repository.UsuarioRepository;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class EstadoJuegoUsuarioService {
 
     private final EstadoJuegoUsuarioRepository estadoJuegoUsuarioRepository;
-    private final UsuarioRepository usuarioRepository;
     private final JuegoRepository juegoRepository;
     private final EstadoJuegoMapper estadoJuegoMapper;
     private final UsuarioService usuarioService;
 
-    public EstadoJuegoResponseDTO crearEstado (Long id, EstadoJuegoRequestDTO estadoJuegoRequestDTO){
-        Usuario usuario = usuarioRepository.findById(id ).orElseThrow(()-> new RecursoNoEncontradoExc("usuario no encontrado"));
-        Juego juego = juegoRepository.findById(id). orElseThrow(()-> new JuegoNoExisteExc("juego no encontrado"));
+    public EstadoJuegoResponseDTO actualizarEstado (Long juegoId, EstadoJuegoRequestDTO estadoJuegoRequestDTO, String username){
+        Usuario usuario = usuarioService.getUserByUsername(username);
+        Juego juego = juegoRepository.findById(juegoId). orElseThrow(()-> new JuegoNoExisteExc("Juego no encontrado"));
 
-        EstadoJuegoUsuario estadoJuegoUsuario = estadoJuegoMapper.ToEntity(estadoJuegoRequestDTO);
+        Optional<EstadoJuegoUsuario> existente = estadoJuegoUsuarioRepository.findByUserAndJuego(usuario, juego);
+        EstadoJuegoUsuario estadoJuegoUsuario;
 
-        estadoJuegoUsuario.setUsuario(usuario);
-        estadoJuegoUsuario.setJuego(juego);
-        estadoJuegoUsuario.setFecha_actualizacion(LocalDate.now());
+        if(existente.isPresent()){
+            estadoJuegoUsuario = existente.get();
+            estadoJuegoUsuario.setEstado(estadoJuegoRequestDTO.estado());
+            estadoJuegoUsuario.setFecha_actualizacion(LocalDate.now());
+        }else{
+            estadoJuegoUsuario = estadoJuegoMapper.ToEntity(estadoJuegoRequestDTO);
+            estadoJuegoUsuario.setUsuario(usuario);
+            estadoJuegoUsuario.setJuego(juego);
+            estadoJuegoUsuario.setFecha_actualizacion(LocalDate.now());
+        }
 
-        EstadoJuegoUsuario estadoJuegoUsuarioGuardado = estadoJuegoUsuarioRepository.save(estadoJuegoUsuario);
+        EstadoJuegoUsuario guardado = estadoJuegoUsuarioRepository.save(estadoJuegoUsuario);
 
-        return estadoJuegoMapper.ToDto(estadoJuegoUsuarioGuardado);
+        return estadoJuegoMapper.ToDto(guardado);
 
     }
 
-    public List<HistorialJuegoResponseDTO> getHistorialUsuario(String username){
+    public List<EstadoJuegoResponseDTO> getHistorialUsuario(String username, Estado estado){
         Usuario usuario = usuarioService.getUserByUsername(username);
 
-        return estadoJuegoUsuarioRepository.findByUserOrderByFecha(usuario).stream()
-                .map(estado -> new HistorialJuegoResponseDTO(
-                        estado.getJuego().getTitulo(),
-                        estado.getEstado(),
-                        estado.getFecha_actualizacion()
+        List<EstadoJuegoUsuario> historial = new ArrayList<>();
+        if(estado == null){
+            historial = estadoJuegoUsuarioRepository.findByUserOrderByFecha(usuario);
+        }else{
+            historial = estadoJuegoUsuarioRepository.findByUserAndEstadoOrderByFecha(usuario, estado);
+        }
+
+        return historial.stream()
+                .map(e -> new EstadoJuegoResponseDTO(
+                        e.getJuego().getTitulo(),
+                        e.getEstado(),
+                        e.getFecha_actualizacion()
                 ))
                 .toList();
     }

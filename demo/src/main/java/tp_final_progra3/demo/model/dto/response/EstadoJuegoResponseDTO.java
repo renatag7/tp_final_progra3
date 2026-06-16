@@ -5,8 +5,7 @@ import tp_final_progra3.demo.model.enums.Estado;
 import java.time.LocalDate;
 
 public record EstadoJuegoResponseDTO(
-        Long id,
-        Long juego,
+        String tituloJuego,
         Estado estado,
         LocalDate fecha_actualizacion
 ) {
