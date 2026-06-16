@@ -13,7 +13,7 @@ import java.time.LocalDate;
 public class EstadoJuegoUsuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_estado;
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "id_usuario")

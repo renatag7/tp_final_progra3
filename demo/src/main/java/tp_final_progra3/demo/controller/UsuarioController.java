@@ -79,7 +79,7 @@ public class UsuarioController {
         return ResponseEntity.ok(usuarioService.getAllFollowed(id));
     }
 
-    @PostMapping("/bloquear/{bloqueadoId}") //POST /usuarios/1/bloquear/2
+    @PostMapping("/bloquear/{bloqueadoId}")
     public ResponseEntity<UsuarioResponseDTO> bloquearUsuario(@PathVariable Long bloqueadoId, Authentication authentication){
         String username = authentication.getName();
         return ResponseEntity.ok(usuarioService.bloquearUsuario(username, bloqueadoId));
