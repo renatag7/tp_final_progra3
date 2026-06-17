@@ -56,7 +56,7 @@ public class ListaPersonalizadaService {
 
 
     public List<ListaPersonalizadaResponseDTO> verLIstaDeOtroUsuario (Long idUsuario){
-        List < ListaPersonalizada> listas= listaPersonalizadaRepository.findByUsuarioAndEsPublica(idUsuario);
+        List < ListaPersonalizada> listas= listaPersonalizadaRepository.findByUsuario_IdUsuarioAndEsPublicaTrue(idUsuario);
         return listas.stream().map(listaPersonalizadaMapper::ToDto).toList();
     }
 

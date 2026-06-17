@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @Repository
 public interface EstadoJuegoUsuarioRepository extends JpaRepository<EstadoJuegoUsuario, Long > {
-    List<EstadoJuegoUsuario> findByUserOrderByFecha(Usuario usuario);
-    List<EstadoJuegoUsuario> findByUserAndEstadoOrderByFecha(Usuario usuario, Estado estado);
-    Optional<EstadoJuegoUsuario> findByUserAndJuego(Usuario usuario, Juego juego);
+    List<EstadoJuegoUsuario> findByUsuarioOrderByFechaActualizacion(Usuario usuario);
+    List<EstadoJuegoUsuario> findByUsuarioAndEstadoOrderByFechaActualizacion(Usuario usuario, Estado estado);
+    Optional<EstadoJuegoUsuario> findByUsuarioAndJuego(Usuario usuario, Juego juego);
 }

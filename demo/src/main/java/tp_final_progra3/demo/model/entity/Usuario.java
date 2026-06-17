@@ -22,7 +22,7 @@ import java.util.Set;
 public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_usuario;
+    private Long idUsuario;
 
     @Column(nullable = false, unique = true)
     private String username;

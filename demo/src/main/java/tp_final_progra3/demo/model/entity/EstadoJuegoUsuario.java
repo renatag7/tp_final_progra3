@@ -28,5 +28,5 @@ public class EstadoJuegoUsuario {
     private Estado estado;
 
     @Column(nullable = false)
-    private LocalDate fecha_actualizacion;
+    private LocalDate fechaActualizacion;
 }

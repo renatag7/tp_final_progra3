@@ -31,18 +31,18 @@ public class EstadoJuegoUsuarioService {
         Usuario usuario = usuarioService.getUserByUsername(username);
         Juego juego = juegoRepository.findById(juegoId). orElseThrow(()-> new RecursoNoEncontradoExc("Juego no encontrado"));
 
-        Optional<EstadoJuegoUsuario> existente = estadoJuegoUsuarioRepository.findByUserAndJuego(usuario, juego);
+        Optional<EstadoJuegoUsuario> existente = estadoJuegoUsuarioRepository.findByUsuarioAndJuego(usuario, juego);
         EstadoJuegoUsuario estadoJuegoUsuario;
 
         if(existente.isPresent()){
             estadoJuegoUsuario = existente.get();
             estadoJuegoUsuario.setEstado(estadoJuegoRequestDTO.estado());
-            estadoJuegoUsuario.setFecha_actualizacion(LocalDate.now());
+            estadoJuegoUsuario.setFechaActualizacion(LocalDate.now());
         }else{
             estadoJuegoUsuario = estadoJuegoMapper.ToEntity(estadoJuegoRequestDTO);
             estadoJuegoUsuario.setUsuario(usuario);
             estadoJuegoUsuario.setJuego(juego);
-            estadoJuegoUsuario.setFecha_actualizacion(LocalDate.now());
+            estadoJuegoUsuario.setFechaActualizacion(LocalDate.now());
         }
 
         EstadoJuegoUsuario guardado = estadoJuegoUsuarioRepository.save(estadoJuegoUsuario);
@@ -56,16 +56,16 @@ public class EstadoJuegoUsuarioService {
 
         List<EstadoJuegoUsuario> historial = new ArrayList<>();
         if(estado == null){
-            historial = estadoJuegoUsuarioRepository.findByUserOrderByFecha(usuario);
+            historial = estadoJuegoUsuarioRepository.findByUsuarioOrderByFechaActualizacion(usuario);
         }else{
-            historial = estadoJuegoUsuarioRepository.findByUserAndEstadoOrderByFecha(usuario, estado);
+            historial = estadoJuegoUsuarioRepository.findByUsuarioAndEstadoOrderByFechaActualizacion(usuario, estado);
         }
 
         return historial.stream()
                 .map(e -> new EstadoJuegoResponseDTO(
                         e.getJuego().getTitulo(),
                         e.getEstado(),
-                        e.getFecha_actualizacion()
+                        e.getFechaActualizacion()
                 ))
                 .toList();
     }

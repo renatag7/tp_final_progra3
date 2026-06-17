@@ -6,7 +6,7 @@ import tp_final_progra3.demo.model.dto.request.ReviewRequestDTO;
 import tp_final_progra3.demo.model.dto.response.ReviewResponseDTO;
 import tp_final_progra3.demo.model.entity.Review;
 
-@Mapper(componentModel = "spring ")
+@Mapper(componentModel = "spring")
 public interface ReviewMapper {
     @Mapping(target = "username", source = "usuario.username")
     @Mapping(target = "tituloJuego", source = "juego.titulo")

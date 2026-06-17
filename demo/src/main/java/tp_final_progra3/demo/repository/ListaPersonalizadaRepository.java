@@ -8,7 +8,6 @@ import java.util.List;
 
 @Repository
 public interface ListaPersonalizadaRepository extends JpaRepository<ListaPersonalizada, Long> {
-    List<ListaPersonalizada> findByUsuarioAndEsPublica(Long idUsuario);
-
+    List<ListaPersonalizada> findByUsuario_IdUsuarioAndEsPublicaTrue(Long idUsuario);
 
 }

@@ -11,7 +11,7 @@ import tp_final_progra3.demo.model.enums.Estado;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-06-17T17:14:10-0300",
+    date = "2026-06-17T18:59:43-0300",
     comments = "version: 1.6.3, compiler: javac, environment: Java 24.0.2 (Oracle Corporation)"
 )
 @Component
@@ -36,11 +36,11 @@ public class EstadoJuegoMapperImpl implements EstadoJuegoMapper {
 
         String tituloJuego = null;
         Estado estado = null;
-        LocalDate fecha_actualizacion = null;
 
         tituloJuego = estadoJuegoUsuarioJuegoTitulo( estadoJuegoUsuario );
         estado = estadoJuegoUsuario.getEstado();
-        fecha_actualizacion = estadoJuegoUsuario.getFecha_actualizacion();
+
+        LocalDate fecha_actualizacion = null;
 
         EstadoJuegoResponseDTO estadoJuegoResponseDTO = new EstadoJuegoResponseDTO( tituloJuego, estado, fecha_actualizacion );
 

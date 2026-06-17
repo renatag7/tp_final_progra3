@@ -49,7 +49,7 @@ public class UsuarioFavoritoService {
     public List<FavoritoResponseDTO> getFavoritos(String username){
         Usuario usuario = usuarioService.getUserByUsername(username);
 
-        return usuarioFavoritoRepository.findByUserAndOrder(usuario).stream()
+        return usuarioFavoritoRepository.findByUsuarioOrderByPosicionDesc(usuario).stream()
                 .map(favorito -> new FavoritoResponseDTO(
                         favorito.getPosicion(),
                         favorito.getJuego().getTitulo()))

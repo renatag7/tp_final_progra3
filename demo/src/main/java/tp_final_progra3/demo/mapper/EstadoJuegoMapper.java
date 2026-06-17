@@ -12,7 +12,7 @@ public interface EstadoJuegoMapper {
 @Mapping(target = "estado", ignore = true)
 @Mapping(target = "usuario", ignore = true)
 @Mapping(target = "juego", ignore = true)
-@Mapping(target = "fecha_actualizacion", ignore = true)
+@Mapping(target = "fechaActualizacion", ignore = true)
     EstadoJuegoUsuario ToEntity(EstadoJuegoRequestDTO estadoJuegoRequestDTO);
 @Mapping(target = "tituloJuego", source = "juego.titulo")
     EstadoJuegoResponseDTO ToDto (EstadoJuegoUsuario estadoJuegoUsuario);

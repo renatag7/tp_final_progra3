@@ -2,6 +2,7 @@ package tp_final_progra3.demo.mapper;
 
 import java.time.LocalDate;
 import javax.annotation.processing.Generated;
+import org.springframework.stereotype.Component;
 import tp_final_progra3.demo.model.dto.request.ReviewRequestDTO;
 import tp_final_progra3.demo.model.dto.response.ReviewResponseDTO;
 import tp_final_progra3.demo.model.entity.Juego;
@@ -10,9 +11,10 @@ import tp_final_progra3.demo.model.entity.Usuario;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-06-17T17:14:10-0300",
+    date = "2026-06-17T18:59:43-0300",
     comments = "version: 1.6.3, compiler: javac, environment: Java 24.0.2 (Oracle Corporation)"
 )
+@Component
 public class ReviewMapperImpl implements ReviewMapper {
 
     @Override

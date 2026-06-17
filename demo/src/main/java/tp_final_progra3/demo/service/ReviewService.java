@@ -95,7 +95,7 @@ public class ReviewService {
             throw new RecursoNoEncontradoExc("El usuario no existe");
         }
 
-        return reviewRepository.findById_Usuario(usuarioId).stream()
+        return reviewRepository.findByUsuario_IdUsuario(usuarioId).stream()
                 .map(reviewMapper::toDto)
                 .toList();
     }
@@ -105,7 +105,7 @@ public class ReviewService {
         Usuario usuario = usuarioService.getUserByUsername(username);
         Review review = reviewRepository.findById(reviewId).orElseThrow(()-> new RecursoNoEncontradoExc("Review no encontrada"));
 
-        if(review.getUsuario().getId_usuario().equals(usuario.getId_usuario())){
+        if(review.getUsuario().getIdUsuario().equals(usuario.getIdUsuario())){
             throw new OperacionNoPermitidaExc("No puedes darle like a tu propia review");
         }
 
@@ -173,7 +173,7 @@ public class ReviewService {
         Usuario usuario = usuarioService.getUserByUsername(username);
         ComentarioReview comentarioReview = comentarioReviewRepository.findById(comentarioId).orElseThrow(()-> new RecursoNoEncontradoExc("Comentario no encontrado"));
 
-        if(!comentarioReview.getUsuario().getId_usuario().equals(usuario.getId_usuario())){
+        if(!comentarioReview.getUsuario().getIdUsuario().equals(usuario.getIdUsuario())){
             throw new OperacionNoPermitidaExc("No es posible eliminar comentarios de otros usuarios");
         }
 
