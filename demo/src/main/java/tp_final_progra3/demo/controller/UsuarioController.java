@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tp_final_progra3.demo.model.dto.request.RegisterRequestDTO;
 import tp_final_progra3.demo.model.dto.request.UpdateUsuarioRequest;
+import tp_final_progra3.demo.model.dto.response.NotificacionResponseDto;
 import tp_final_progra3.demo.model.dto.response.UsuarioResponseDTO;
 import tp_final_progra3.demo.service.UsuarioService;
 
@@ -86,6 +87,10 @@ public class UsuarioController {
     public ResponseEntity<List<UsuarioResponseDTO>> verBloqueados(@PathVariable Long userId){
 
         return ResponseEntity.ok(usuarioService.verUsuariosBloqueados(userId));
+    }
+    @GetMapping("/{id}/notificaciones")
+    public ResponseEntity<List<NotificacionResponseDto>> verNotificaciones(@PathVariable Long id){
+        return ResponseEntity.ok(usuarioService.verNotificaciones(id));
     }
 
 

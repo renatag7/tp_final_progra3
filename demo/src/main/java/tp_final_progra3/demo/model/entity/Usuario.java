@@ -93,4 +93,7 @@ public class Usuario {
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "usuario_roles", joinColumns = @JoinColumn(name = "usuario_id"), inverseJoinColumns = @JoinColumn(name = "rol_id"))
     private Set<RolEntity> roles = new HashSet<>();
+
+    @OneToMany(mappedBy = "usuario")
+    private List<Notificacion> notificaciones = new ArrayList<>();
 }
