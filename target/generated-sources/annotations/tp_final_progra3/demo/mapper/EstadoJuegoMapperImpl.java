@@ -11,7 +11,7 @@ import tp_final_progra3.demo.model.enums.Estado;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-06-13T14:28:46-0300",
+    date = "2026-06-17T17:14:10-0300",
     comments = "version: 1.6.3, compiler: javac, environment: Java 24.0.2 (Oracle Corporation)"
 )
 @Component
@@ -25,8 +25,6 @@ public class EstadoJuegoMapperImpl implements EstadoJuegoMapper {
 
         EstadoJuegoUsuario estadoJuegoUsuario = new EstadoJuegoUsuario();
 
-        estadoJuegoUsuario.setEstado( estadoJuegoRequestDTO.estado() );
-
         return estadoJuegoUsuario;
     }
 
@@ -36,26 +34,24 @@ public class EstadoJuegoMapperImpl implements EstadoJuegoMapper {
             return null;
         }
 
-        Long juego = null;
+        String tituloJuego = null;
         Estado estado = null;
         LocalDate fecha_actualizacion = null;
 
-        juego = estadoJuegoUsuarioJuegoId( estadoJuegoUsuario );
+        tituloJuego = estadoJuegoUsuarioJuegoTitulo( estadoJuegoUsuario );
         estado = estadoJuegoUsuario.getEstado();
         fecha_actualizacion = estadoJuegoUsuario.getFecha_actualizacion();
 
-        Long id = null;
-
-        EstadoJuegoResponseDTO estadoJuegoResponseDTO = new EstadoJuegoResponseDTO( id, juego, estado, fecha_actualizacion );
+        EstadoJuegoResponseDTO estadoJuegoResponseDTO = new EstadoJuegoResponseDTO( tituloJuego, estado, fecha_actualizacion );
 
         return estadoJuegoResponseDTO;
     }
 
-    private Long estadoJuegoUsuarioJuegoId(EstadoJuegoUsuario estadoJuegoUsuario) {
+    private String estadoJuegoUsuarioJuegoTitulo(EstadoJuegoUsuario estadoJuegoUsuario) {
         Juego juego = estadoJuegoUsuario.getJuego();
         if ( juego == null ) {
             return null;
         }
-        return juego.getId();
+        return juego.getTitulo();
     }
 }
