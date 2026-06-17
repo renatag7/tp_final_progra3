@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import tp_final_progra3.demo.exceptions.JuegoNoExisteExc;
 import tp_final_progra3.demo.exceptions.general.RecursoNoEncontradoExc;
 import tp_final_progra3.demo.mapper.JuegoMapper;
 import tp_final_progra3.demo.model.dto.api.ApiResponseDTO;

@@ -2,7 +2,6 @@ package tp_final_progra3.demo.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import tp_final_progra3.demo.exceptions.JuegoNoExisteExc;
 import tp_final_progra3.demo.exceptions.general.RecursoNoEncontradoExc;
 import tp_final_progra3.demo.mapper.EstadoJuegoMapper;
 import tp_final_progra3.demo.model.dto.request.EstadoJuegoRequestDTO;
@@ -13,7 +12,6 @@ import tp_final_progra3.demo.model.entity.Usuario;
 import tp_final_progra3.demo.model.enums.Estado;
 import tp_final_progra3.demo.repository.EstadoJuegoUsuarioRepository;
 import tp_final_progra3.demo.repository.JuegoRepository;
-import tp_final_progra3.demo.repository.UsuarioRepository;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -31,7 +29,7 @@ public class EstadoJuegoUsuarioService {
 
     public EstadoJuegoResponseDTO actualizarEstado (Long juegoId, EstadoJuegoRequestDTO estadoJuegoRequestDTO, String username){
         Usuario usuario = usuarioService.getUserByUsername(username);
-        Juego juego = juegoRepository.findById(juegoId). orElseThrow(()-> new JuegoNoExisteExc("Juego no encontrado"));
+        Juego juego = juegoRepository.findById(juegoId). orElseThrow(()-> new RecursoNoEncontradoExc("Juego no encontrado"));
 
         Optional<EstadoJuegoUsuario> existente = estadoJuegoUsuarioRepository.findByUserAndJuego(usuario, juego);
         EstadoJuegoUsuario estadoJuegoUsuario;
