@@ -6,15 +6,20 @@ import org.springframework.stereotype.Service;
 import tp_final_progra3.demo.exceptions.general.OperacionNoPermitidaExc;
 import tp_final_progra3.demo.exceptions.general.RecursoDuplicadoExc;
 import tp_final_progra3.demo.exceptions.general.RecursoNoEncontradoExc;
+import tp_final_progra3.demo.mapper.NotificacionMapper;
 import tp_final_progra3.demo.mapper.UsuarioMapper;
 import tp_final_progra3.demo.model.dto.request.RegisterRequestDTO;
 import tp_final_progra3.demo.model.dto.request.UpdateUsuarioRequest;
+import tp_final_progra3.demo.model.dto.response.NotificacionResponseDto;
+import tp_final_progra3.demo.model.entity.Notificacion;
 import tp_final_progra3.demo.model.entity.Usuario;
 import tp_final_progra3.demo.model.dto.response.UsuarioResponseDTO;
 import tp_final_progra3.demo.model.enums.Rol;
+import tp_final_progra3.demo.repository.NotificacionRepository;
 import tp_final_progra3.demo.repository.UsuarioRepository;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -22,6 +27,8 @@ import java.util.List;
 public class UsuarioService {
     private final UsuarioRepository usuarioRepo;
     private final UsuarioMapper usuarioMapper;
+    private final NotificacionRepository notificacionRepository;
+    private final NotificacionMapper notificacionMapper;
 
 
     public List<UsuarioResponseDTO> getAllUsers(){
@@ -96,6 +103,15 @@ public class UsuarioService {
         usuario.getSeguidos().add(seguido);
         usuarioRepo.save(usuario);
 
+        Notificacion notificacion = new Notificacion();
+
+        notificacion.setUsuario(seguido);
+        notificacion.setMensaje(usuario.getUsername() + " comenzo a seguirte");
+        notificacion.setFecha(LocalDateTime.now());
+        notificacion.setLeida(false);
+
+        notificacionRepository.save(notificacion);
+
         return usuarioMapper.toDTO(usuario);
     }
 
@@ -167,6 +183,13 @@ public class UsuarioService {
 
         return usuario.getUsuariosBloqueados().stream().map(usuarioMapper::toDTO).toList();
     }
+    public List<NotificacionResponseDto> verNotificaciones(Long idUsuario){
+
+        getUserById(idUsuario);
+
+        return notificacionRepository.findByUsuarioIdUsuario(idUsuario).stream().map(notificacionMapper::toDto).toList();
+    }
+
 
 
 }
