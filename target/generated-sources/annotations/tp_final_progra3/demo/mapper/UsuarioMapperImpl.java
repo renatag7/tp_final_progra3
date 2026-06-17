@@ -9,7 +9,7 @@ import tp_final_progra3.demo.model.entity.Usuario;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-06-17T18:59:43-0300",
+    date = "2026-06-17T20:05:01-0300",
     comments = "version: 1.6.3, compiler: javac, environment: Java 24.0.2 (Oracle Corporation)"
 )
 @Component
@@ -42,23 +42,26 @@ public class UsuarioMapperImpl implements UsuarioMapper {
             return null;
         }
 
+        Long id = null;
         String username = null;
         String nombre = null;
         String biografia = null;
         String pais = null;
+        Boolean perfilPublico = null;
+        LocalDate fechaRegistro = null;
 
+        id = usuario.getIdUsuario();
         username = usuario.getUsername();
         nombre = usuario.getNombre();
         biografia = usuario.getBiografia();
         pais = usuario.getPais();
+        perfilPublico = usuario.isPerfilPublico();
+        fechaRegistro = usuario.getFechaRegistro();
 
-        Long id = null;
-        Boolean perfil_publico = null;
-        LocalDate fecha_registro = null;
-        Integer cantSeguidos = null;
-        Integer cantSeguidores = null;
+        Integer cantSeguidos = usuario.getSeguidos() != null ? usuario.getSeguidos().size() : 0;
+        Integer cantSeguidores = usuario.getSeguidores() != null ? usuario.getSeguidores().size() : 0;
 
-        UsuarioResponseDTO usuarioResponseDTO = new UsuarioResponseDTO( id, username, nombre, biografia, pais, perfil_publico, fecha_registro, cantSeguidos, cantSeguidores );
+        UsuarioResponseDTO usuarioResponseDTO = new UsuarioResponseDTO( id, username, nombre, biografia, pais, perfilPublico, fechaRegistro, cantSeguidos, cantSeguidores );
 
         return usuarioResponseDTO;
     }

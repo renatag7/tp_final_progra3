@@ -8,8 +8,8 @@ public record UsuarioResponseDTO(
         String nombre,
         String biografia,
         String pais,
-        Boolean perfil_publico,
-        LocalDate fecha_registro,
+        Boolean perfilPublico,
+        LocalDate fechaRegistro,
         Integer cantSeguidos,
         Integer cantSeguidores
 ) {
