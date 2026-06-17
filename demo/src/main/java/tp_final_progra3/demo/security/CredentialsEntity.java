@@ -23,7 +23,7 @@ public class CredentialsEntity implements UserDetails {
     private String password;
 
     @OneToOne
-    @JoinColumn(name = "usuario_id", referencedColumnName = "id", unique = true)
+    @JoinColumn(name = "usuario_id", unique = true)
     private Usuario usuario;
 
     @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)

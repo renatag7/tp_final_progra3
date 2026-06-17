@@ -95,7 +95,7 @@ public class ReviewService {
             throw new RecursoNoEncontradoExc("El usuario no existe");
         }
 
-        return reviewRepository.findByUsuarioId(usuarioId).stream()
+        return reviewRepository.findById_Usuario(usuarioId).stream()
                 .map(reviewMapper::toDto)
                 .toList();
     }
