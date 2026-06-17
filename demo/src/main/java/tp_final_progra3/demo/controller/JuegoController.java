@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import tp_final_progra3.demo.model.dto.request.EstadoJuegoRequestDTO;
+import tp_final_progra3.demo.model.dto.response.CompraResponseDto;
 import tp_final_progra3.demo.model.dto.response.EstadoJuegoResponseDTO;
 import tp_final_progra3.demo.model.dto.response.JuegoResponseDTO;
 import tp_final_progra3.demo.model.dto.response.ReviewResponseDTO;
@@ -51,6 +52,11 @@ public class JuegoController {
     @PostMapping("/{juegoId}/estado")
     public ResponseEntity<EstadoJuegoResponseDTO> actualizarEstado(@PathVariable Long juegoId, @RequestBody EstadoJuegoRequestDTO estadoJuegoRequestDTO, Authentication authentication){
         return ResponseEntity.ok(estadoJuegoUsuarioService.actualizarEstado(juegoId, estadoJuegoRequestDTO, authentication.getName()));
+    }
+
+    @GetMapping("/api/{id}/comprar")
+    public ResponseEntity<CompraResponseDto> enlaceCompra(@PathVariable Long id){
+        return ResponseEntity.ok(juegoApiService.enlaceCompra(id));
     }
 
 }
