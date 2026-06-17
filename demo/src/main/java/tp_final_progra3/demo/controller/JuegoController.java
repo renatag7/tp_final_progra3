@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import tp_final_progra3.demo.exceptions.JuegoNoExisteExc;
 import tp_final_progra3.demo.model.dto.api.JuegoApiResponseDTO;
+import tp_final_progra3.demo.model.dto.response.CompraResponseDto;
 import tp_final_progra3.demo.model.dto.response.JuegoResponseDTO;
 import tp_final_progra3.demo.model.dto.response.ReviewResponseDTO;
 import tp_final_progra3.demo.model.dto.response.UsuarioResponseDTO;
@@ -46,6 +47,11 @@ public class JuegoController {
     public ResponseEntity<List<ReviewResponseDTO>> getReviewsByJuego(@PathVariable Long id){
 
         return ResponseEntity.ok(reviewService.getReviewsByJuego(id));
+    }
+
+    @GetMapping("/api/{id}/comprar")
+    public ResponseEntity<CompraResponseDto > enlaceCompra(@PathVariable Long id){
+        return ResponseEntity.ok(juegoApiService.enlaceCompra(id));
     }
 
 

@@ -9,6 +9,7 @@ import tp_final_progra3.demo.exceptions.general.RecursoNoEncontradoExc;
 import tp_final_progra3.demo.mapper.JuegoMapper;
 import tp_final_progra3.demo.model.dto.api.ApiResponseDTO;
 import tp_final_progra3.demo.model.dto.api.JuegoApiResponseDTO;
+import tp_final_progra3.demo.model.dto.response.CompraResponseDto;
 import tp_final_progra3.demo.model.dto.response.JuegoResponseDTO;
 import tp_final_progra3.demo.model.entity.Juego;
 import tp_final_progra3.demo.repository.JuegoRepository;
@@ -87,6 +88,13 @@ public class JuegoApiService {
     public Juego getJuegoEntityById(Long id){
 
         return juegoRepository.findById(id).orElseThrow(()-> new RecursoNoEncontradoExc("Juego no encontrado"));
+    }
+
+    public CompraResponseDto enlaceCompra(Long idJuego){
+
+        String url = "https://rawg.io/games/" + idJuego;
+
+        return new CompraResponseDto(url);
     }
 
 
