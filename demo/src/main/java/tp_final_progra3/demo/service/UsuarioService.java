@@ -57,8 +57,8 @@ public class UsuarioService {
         return this.usuarioMapper.toDTO(usuario);
     }
 
-    public UsuarioResponseDTO update(Long id, UpdateUsuarioRequest usuarioRequest){
-        Usuario usuario = getUserById(id);
+    public UsuarioResponseDTO updateByUsername(String username, UpdateUsuarioRequest usuarioRequest){
+        Usuario usuario = getUserByUsername(username);
 
         if(usuarioRequest.username() != null){
             usuario.setUsername(usuarioRequest.username());
@@ -80,8 +80,8 @@ public class UsuarioService {
         return usuarioMapper.toDTO(actualizado);
     }
 
-    public UsuarioResponseDTO follow(Long userId, Long seguidoId){
-        Usuario usuario = getUserById(userId);
+    public UsuarioResponseDTO follow(String username, Long seguidoId){
+        Usuario usuario = getUserByUsername(username);
         Usuario seguido = getUserById(seguidoId);
 
         if(usuario.equals(seguido)){
@@ -115,8 +115,8 @@ public class UsuarioService {
         return usuarioMapper.toDTO(usuario);
     }
 
-    public UsuarioResponseDTO unfollow(Long userId, Long seguidoId){
-        Usuario usuario = getUserById(userId);
+    public UsuarioResponseDTO unfollow(String username, Long seguidoId){
+        Usuario usuario = getUserByUsername(username);
         Usuario seguido = getUserById(seguidoId);
 
         if(!usuario.getSeguidos().contains(seguido)){
@@ -145,9 +145,9 @@ public class UsuarioService {
                 .toList();
     }
 
-    public UsuarioResponseDTO bloquearUsuario(Long idUsuario, Long idBloqueado){
+    public UsuarioResponseDTO bloquearUsuario(String username, Long idBloqueado){
 
-        Usuario usuario = getUserById(idUsuario);
+        Usuario usuario = getUserByUsername(username);
         Usuario bloqueado = getUserById(idBloqueado);
 
         if(usuario.getUsuariosBloqueados().contains(bloqueado)){
@@ -161,9 +161,9 @@ public class UsuarioService {
         return usuarioMapper.toDTO(usuario);
     }
 
-    public UsuarioResponseDTO desbloquearUsuario(Long idUsuario, Long idBloqueado){
+    public UsuarioResponseDTO desbloquearUsuario(String username, Long idBloqueado){
 
-        Usuario usuario = getUserById(idUsuario);
+        Usuario usuario = getUserByUsername(username);
         Usuario bloqueado = getUserById(idBloqueado);
 
         if(!usuario.getUsuariosBloqueados().contains(bloqueado)){
@@ -177,9 +177,9 @@ public class UsuarioService {
         return usuarioMapper.toDTO(usuario);
     }
 
-    public List<UsuarioResponseDTO> verUsuariosBloqueados(Long userId){
+    public List<UsuarioResponseDTO> verUsuariosBloqueados(String username){
 
-        Usuario usuario = getUserById(userId);
+        Usuario usuario = getUserByUsername(username);
 
         return usuario.getUsuariosBloqueados().stream().map(usuarioMapper::toDTO).toList();
     }

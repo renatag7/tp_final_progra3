@@ -5,21 +5,19 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
+@Table(name = "review_likes", uniqueConstraints = @UniqueConstraint(columnNames = {"usuario_id", "review_id"}))
 @Getter
 @Setter
-public class UsuarioFavorito {
+public class LikeReview {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private Integer posicion;
-
     @ManyToOne
-    @JoinColumn(name = "id_usuario")
+    @JoinColumn(name = "usuario_id")
     private Usuario usuario;
 
     @ManyToOne
-    @JoinColumn(name = "id_juego")
-    private Juego juego;
+    @JoinColumn(name = "review_id")
+    private Review review;
 }

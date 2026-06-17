@@ -8,9 +8,11 @@ import org.springframework.web.bind.annotation.*;
 import tp_final_progra3.demo.exceptions.JuegoNoExisteExc;
 import tp_final_progra3.demo.model.dto.api.JuegoApiResponseDTO;
 import tp_final_progra3.demo.model.dto.response.JuegoResponseDTO;
+import tp_final_progra3.demo.model.dto.response.ReviewResponseDTO;
 import tp_final_progra3.demo.model.dto.response.UsuarioResponseDTO;
 import tp_final_progra3.demo.model.entity.Juego;
 import tp_final_progra3.demo.service.JuegoApiService;
+import tp_final_progra3.demo.service.ReviewService;
 
 import java.util.List;
 
@@ -19,6 +21,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class JuegoController {
     private final JuegoApiService juegoApiService;
+    private final ReviewService reviewService;
 
     @GetMapping("/api/search") //ej /juegos/api/search?nombre=elden ring
     public ResponseEntity<List<JuegoResponseDTO>> searchApi(@RequestParam String nombre){
@@ -39,6 +42,11 @@ public class JuegoController {
         return ResponseEntity.ok(juegoApiService.filtrarJuegosGenero(genero));
     }
 
+    @GetMapping("/{id}/reviews")
+    public ResponseEntity<List<ReviewResponseDTO>> getReviewsByJuego(@PathVariable Long id){
+
+        return ResponseEntity.ok(reviewService.getReviewsByJuego(id));
+    }
 
 
 }

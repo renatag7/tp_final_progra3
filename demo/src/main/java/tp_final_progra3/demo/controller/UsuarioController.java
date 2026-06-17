@@ -4,20 +4,28 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import tp_final_progra3.demo.model.dto.request.RegisterRequestDTO;
 import tp_final_progra3.demo.model.dto.request.UpdateUsuarioRequest;
 import tp_final_progra3.demo.model.dto.response.NotificacionResponseDto;
+import tp_final_progra3.demo.model.dto.response.FavoritoResponseDTO;
+import tp_final_progra3.demo.model.dto.response.JuegoResponseDTO;
+import tp_final_progra3.demo.model.dto.response.ReviewResponseDTO;
 import tp_final_progra3.demo.model.dto.response.UsuarioResponseDTO;
+import tp_final_progra3.demo.service.ReviewService;
+import tp_final_progra3.demo.service.UsuarioFavoritoService;
 import tp_final_progra3.demo.service.UsuarioService;
 
 import java.util.List;
 
 @RestController
-@RequestMapping({"/api/usuarios"})
+@RequestMapping({"/usuarios"})
 @RequiredArgsConstructor
 public class UsuarioController {
     private final UsuarioService usuarioService;
+    private final ReviewService reviewService;
+    private final UsuarioFavoritoService usuarioFavoritoService;
 
 
     @GetMapping
@@ -41,23 +49,23 @@ public class UsuarioController {
         return ResponseEntity.status(HttpStatus.OK).body(usuarioResponseDTO);
     }
 
-    @PatchMapping("/{id}")
-    public ResponseEntity<UsuarioResponseDTO> update(@PathVariable Long id, @Valid @RequestBody UpdateUsuarioRequest usuarioRequest){
-        UsuarioResponseDTO usuarioResponseDTO = this.usuarioService.update(id, usuarioRequest);
+    @PatchMapping("/me")
+    public ResponseEntity<UsuarioResponseDTO> updateMiPerfil(Authentication authentication, @Valid @RequestBody UpdateUsuarioRequest usuarioRequest){
+        String username = authentication.getName();
 
-        return ResponseEntity.status(HttpStatus.OK).body(usuarioResponseDTO);
+        return ResponseEntity.status(HttpStatus.OK).body(usuarioService.updateByUsername(username, usuarioRequest));
     }
 
-    @PostMapping("/{usuarioId}/seguir/{seguidoId}")
-    public ResponseEntity<UsuarioResponseDTO> follow(@PathVariable Long usuarioId, @PathVariable Long seguidoId){
-
-        return ResponseEntity.ok(usuarioService.follow(usuarioId, seguidoId));
+    @PostMapping("/seguir/{seguidoId}")
+    public ResponseEntity<UsuarioResponseDTO> follow(@PathVariable Long seguidoId, Authentication authentication){
+        String username = authentication.getName();
+        return ResponseEntity.ok(usuarioService.follow(username, seguidoId));
     }
 
-    @DeleteMapping("/{usuarioId}/seguir/{seguidoId}")
-    public ResponseEntity<UsuarioResponseDTO> unfollow(@PathVariable Long usuarioId, @PathVariable Long seguidoId){
-
-        return ResponseEntity.ok(usuarioService.unfollow(usuarioId, seguidoId));
+    @DeleteMapping("/seguir/{seguidoId}")
+    public ResponseEntity<UsuarioResponseDTO> unfollow(@PathVariable Long seguidoId, Authentication authentication){
+        String username = authentication.getName();
+        return ResponseEntity.ok(usuarioService.unfollow(username, seguidoId));
     }
 
     @GetMapping("/{id}/seguidores")
@@ -72,28 +80,53 @@ public class UsuarioController {
         return ResponseEntity.ok(usuarioService.getAllFollowed(id));
     }
 
-    @PostMapping("/{userId}/bloquear/{bloqueadoId}") //POST /usuarios/1/bloquear/2
-    public ResponseEntity<UsuarioResponseDTO> bloquearUsuario(@PathVariable Long userId, @PathVariable Long bloqueadoId){
-
-        return ResponseEntity.ok(usuarioService.bloquearUsuario(userId, bloqueadoId));
+    @PostMapping("/bloquear/{bloqueadoId}") //POST /usuarios/1/bloquear/2
+    public ResponseEntity<UsuarioResponseDTO> bloquearUsuario(@PathVariable Long bloqueadoId, Authentication authentication){
+        String username = authentication.getName();
+        return ResponseEntity.ok(usuarioService.bloquearUsuario(username, bloqueadoId));
     }
 
-    @PostMapping("/{userId}/desbloquear/{bloqueadoId}") //POST /usuarios/1/bloquear/2
-    public ResponseEntity<UsuarioResponseDTO> desbloquearUsuario(@PathVariable Long userId, @PathVariable Long bloqueadoId){
-
-        return ResponseEntity.ok(usuarioService.desbloquearUsuario(userId, bloqueadoId));
+    @PostMapping("/desbloquear/{bloqueadoId}") //POST /usuarios/1/bloquear/2
+    public ResponseEntity<UsuarioResponseDTO> desbloquearUsuario(@PathVariable Long bloqueadoId, Authentication authentication){
+        String username = authentication.getName();
+        return ResponseEntity.ok(usuarioService.desbloquearUsuario(username, bloqueadoId));
     }
-    @GetMapping("/{userId}/bloqueados") // GET /usuarios/1/bloqueados
-    public ResponseEntity<List<UsuarioResponseDTO>> verBloqueados(@PathVariable Long userId){
-
-        return ResponseEntity.ok(usuarioService.verUsuariosBloqueados(userId));
+    @GetMapping("/me/bloqueados") // GET /usuarios/1/bloqueados
+    public ResponseEntity<List<UsuarioResponseDTO>> verBloqueados(Authentication authentication){
+        String username = authentication.getName();
+        return ResponseEntity.ok(usuarioService.verUsuariosBloqueados(username));
     }
     @GetMapping("/{id}/notificaciones")
     public ResponseEntity<List<NotificacionResponseDto>> verNotificaciones(@PathVariable Long id){
         return ResponseEntity.ok(usuarioService.verNotificaciones(id));
     }
 
+    @GetMapping("/{id}/reviews")
+    public ResponseEntity<List<ReviewResponseDTO>> getReviewsByUser(@PathVariable Long id){
+        return ResponseEntity.ok(reviewService.getReviewsByUsuario(id));
+    }
 
+    @GetMapping("/me")
+    public ResponseEntity<UsuarioResponseDTO> getMiPerfil(Authentication authentication){
+        String username = authentication.getName();
+        return ResponseEntity.ok(usuarioService.getByUsername(username));
+    }
 
+    @PostMapping("/me/favoritos/{juegoId}")
+    public ResponseEntity<List<FavoritoResponseDTO>> agregarFavorito(@PathVariable Long juegoId, @RequestParam Integer posicion, Authentication authentication){
+
+        return ResponseEntity.ok(usuarioFavoritoService.agregarFavorito(authentication.getName(), juegoId, posicion));
+    }
+
+    @GetMapping("/me/favoritos")
+    public ResponseEntity<List<FavoritoResponseDTO>> getFavoritos(Authentication authentication){
+        return ResponseEntity.ok(usuarioFavoritoService.getFavoritos(authentication.getName()));
+    }
+
+    @DeleteMapping("/me/favoritos/{juegoId}")
+    public ResponseEntity<Void> deleteFavorito(@PathVariable Long juegoId, Authentication authentication){
+        usuarioFavoritoService.eliminarFavorito(authentication.getName(), juegoId);
+        return ResponseEntity.ok().build();
+    }
 
 }

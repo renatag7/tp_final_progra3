@@ -13,7 +13,6 @@ import java.util.*;
 @Table(name = "juegos")
 public class Juego {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToMany(fetch = FetchType.LAZY)
@@ -56,4 +55,7 @@ public class Juego {
 
     @Column(nullable = false)
     private Double rating_general;
+
+    @Column(nullable = false)
+    private Boolean activo = true;
 }

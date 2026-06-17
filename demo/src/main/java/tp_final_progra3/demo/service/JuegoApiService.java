@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import tp_final_progra3.demo.exceptions.JuegoNoExisteExc;
+import tp_final_progra3.demo.exceptions.general.RecursoNoEncontradoExc;
 import tp_final_progra3.demo.mapper.JuegoMapper;
 import tp_final_progra3.demo.model.dto.api.ApiResponseDTO;
 import tp_final_progra3.demo.model.dto.api.JuegoApiResponseDTO;
@@ -36,6 +37,15 @@ public class JuegoApiService {
                 .toList();
     }
 
+    public List<JuegoResponseDTO> filtrarJuegosPorNombre(String nombre){
+
+        String url = "https://api.rawg.io/api/games?search=" + nombre + "&key=" + apiKey;
+
+        ApiResponseDTO apiResponseDTO = restTemplate.getForObject(url, ApiResponseDTO.class);
+
+        return apiResponseDTO.results().stream().map(juegoMapper::fromApi).map(juegoMapper::toDTO).toList();
+    }
+
     public JuegoResponseDTO getJuegoFromApi(String nombre){
         String url = "https://api.rawg.io/api/games?search=" + nombre + "&key=" + apiKey;
         ApiResponseDTO apiResponseDTO = restTemplate.getForObject(url, ApiResponseDTO.class);
@@ -54,6 +64,10 @@ public class JuegoApiService {
         JuegoApiResponseDTO juegoApiResponseDTO = restTemplate.getForObject(url, JuegoApiResponseDTO.class);
         Juego juego = juegoMapper.fromApi(juegoApiResponseDTO);
 
+        if (!juegoRepository.existsById(juego.getId())) {
+            juegoRepository.save(juego);
+        }
+
         return juegoMapper.toDTO(juego);
     }
 
@@ -69,4 +83,11 @@ public class JuegoApiService {
 
         return apiResponseDTO.results().stream().map(juegoMapper::fromApi).map(juegoMapper::toDTO).toList();
     }
+
+    public Juego getJuegoEntityById(Long id){
+
+        return juegoRepository.findById(id).orElseThrow(()-> new RecursoNoEncontradoExc("Juego no encontrado"));
+    }
+
+
 }
