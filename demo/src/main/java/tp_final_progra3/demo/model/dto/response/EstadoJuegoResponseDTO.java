@@ -7,6 +7,6 @@ import java.time.LocalDate;
 public record EstadoJuegoResponseDTO(
         String tituloJuego,
         Estado estado,
-        LocalDate fecha_actualizacion
+        LocalDate fechaActualizacion
 ) {
 }

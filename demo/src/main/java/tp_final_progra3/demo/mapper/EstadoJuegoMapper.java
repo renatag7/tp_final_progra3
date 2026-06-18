@@ -9,7 +9,6 @@ import tp_final_progra3.demo.model.entity.EstadoJuegoUsuario;
 @Mapper(componentModel = "spring" )
 public interface EstadoJuegoMapper {
 
-@Mapping(target = "estado", ignore = true)
 @Mapping(target = "usuario", ignore = true)
 @Mapping(target = "juego", ignore = true)
 @Mapping(target = "fechaActualizacion", ignore = true)

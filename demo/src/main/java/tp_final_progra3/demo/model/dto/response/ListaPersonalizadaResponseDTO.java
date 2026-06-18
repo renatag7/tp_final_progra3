@@ -7,7 +7,7 @@ public record ListaPersonalizadaResponseDTO(
         Long id_lista,
         String nombre,
         String descripcion,
-        LocalDate fecha_creacion,
+        LocalDate fechaCreacion,
         List<JuegoResponseDTO> juegos
 ) {
 }

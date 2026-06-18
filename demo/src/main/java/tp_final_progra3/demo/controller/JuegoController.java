@@ -38,18 +38,18 @@ public class JuegoController {
     }
 
 
-    @GetMapping("/api/filtrar/genero")// GET /juegos/api/genero?genero=action
+    @GetMapping("/api/genero")// GET /juegos/api/genero?genero=action
     public ResponseEntity<List<JuegoResponseDTO>> filtrarPorGenero (@RequestParam  String genero){
         return ResponseEntity.ok(juegoApiService.filtrarJuegosGenero(genero));
     }
 
-    @GetMapping("/{id}/reviews")
+    @GetMapping("/api/{id}/reviews")
     public ResponseEntity<List<ReviewResponseDTO>> getReviewsByJuego(@PathVariable Long id){
 
         return ResponseEntity.ok(reviewService.getReviewsByJuego(id));
     }
 
-    @PostMapping("/{juegoId}/estado")
+    @PostMapping("/api/{juegoId}/estado")
     public ResponseEntity<EstadoJuegoResponseDTO> actualizarEstado(@PathVariable Long juegoId, @RequestBody EstadoJuegoRequestDTO estadoJuegoRequestDTO, Authentication authentication){
         return ResponseEntity.ok(estadoJuegoUsuarioService.actualizarEstado(juegoId, estadoJuegoRequestDTO, authentication.getName()));
     }

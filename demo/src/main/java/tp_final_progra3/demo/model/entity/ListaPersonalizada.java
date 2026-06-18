@@ -33,7 +33,7 @@ public class ListaPersonalizada {
     private String descripcion;
 
     @Column(nullable = false)
-    private LocalDateTime fecha_creacion;
+    private LocalDateTime fechaCreacion;
 
     @Column(nullable = false)
     private boolean esPublica;

@@ -10,10 +10,7 @@ import tp_final_progra3.demo.model.dto.request.RegisterRequestDTO;
 import tp_final_progra3.demo.model.dto.request.UpdateUsuarioRequest;
 import tp_final_progra3.demo.model.dto.response.*;
 import tp_final_progra3.demo.model.enums.Estado;
-import tp_final_progra3.demo.service.EstadoJuegoUsuarioService;
-import tp_final_progra3.demo.service.ReviewService;
-import tp_final_progra3.demo.service.UsuarioFavoritoService;
-import tp_final_progra3.demo.service.UsuarioService;
+import tp_final_progra3.demo.service.*;
 
 import java.util.List;
 
@@ -25,6 +22,7 @@ public class UsuarioController {
     private final ReviewService reviewService;
     private final UsuarioFavoritoService usuarioFavoritoService;
     private final EstadoJuegoUsuarioService estadoJuegoUsuarioService;
+    private final ListaPersonalizadaService listaPersonalizadaService;
 
 
     @GetMapping
@@ -128,6 +126,13 @@ public class UsuarioController {
     public ResponseEntity<List<EstadoJuegoResponseDTO>> getMiHistorial(@RequestParam(required = false) Estado estado, Authentication authentication){
 
         return ResponseEntity.ok(estadoJuegoUsuarioService.getHistorialUsuario(authentication.getName(), estado));
+    }
+
+    @GetMapping("/me/listas")
+    public ResponseEntity<List<ListaPersonalizadaResponseDTO>> misListas(
+            Authentication authentication) {
+
+        return ResponseEntity.ok(listaPersonalizadaService.verMisListas(authentication.getName()));
     }
 
 }

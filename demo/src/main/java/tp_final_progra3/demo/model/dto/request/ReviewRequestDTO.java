@@ -5,11 +5,7 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-public record ReviewRequestDTO(@NotNull(
-        message = "El usuario es obligatorio"
-) Long usuario, @NotNull(
-        message = "El juego es obligatorio"
-) Long juego, @NotBlank(
+public record ReviewRequestDTO(@NotBlank(
         message = "El contenido es obligatorio"
 ) String contenido, @NotNull(
         message = "La puntuación es obligatoria"

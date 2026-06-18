@@ -17,7 +17,7 @@ import tp_final_progra3.demo.model.entity.Plataforma;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-06-17T22:23:21-0300",
+    date = "2026-06-18T19:26:12-0300",
     comments = "version: 1.6.3, compiler: javac, environment: Java 24.0.2 (Oracle Corporation)"
 )
 @Component
@@ -32,18 +32,18 @@ public class ListaPersonalizadaMapperImpl implements ListaPersonalizadaMapper {
         Long id_lista = null;
         String nombre = null;
         String descripcion = null;
-        LocalDate fecha_creacion = null;
+        LocalDate fechaCreacion = null;
         List<JuegoResponseDTO> juegos = null;
 
         id_lista = listaPersonalizada.getId_lista();
         nombre = listaPersonalizada.getNombre();
         descripcion = listaPersonalizada.getDescripcion();
-        if ( listaPersonalizada.getFecha_creacion() != null ) {
-            fecha_creacion = listaPersonalizada.getFecha_creacion().toLocalDate();
+        if ( listaPersonalizada.getFechaCreacion() != null ) {
+            fechaCreacion = listaPersonalizada.getFechaCreacion().toLocalDate();
         }
         juegos = juegoSetToJuegoResponseDTOList( listaPersonalizada.getJuegos() );
 
-        ListaPersonalizadaResponseDTO listaPersonalizadaResponseDTO = new ListaPersonalizadaResponseDTO( id_lista, nombre, descripcion, fecha_creacion, juegos );
+        ListaPersonalizadaResponseDTO listaPersonalizadaResponseDTO = new ListaPersonalizadaResponseDTO( id_lista, nombre, descripcion, fechaCreacion, juegos );
 
         return listaPersonalizadaResponseDTO;
     }
