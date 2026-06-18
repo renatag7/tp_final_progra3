@@ -21,10 +21,16 @@ public class UsuarioFavoritoService {
     private final UsuarioService usuarioService;
     private final JuegoRepository juegoRepository;
     private final JuegoMapper juegoMapper;
+    private final JuegoApiService juegoApiService;
 
     public List<FavoritoResponseDTO> agregarFavorito(String username, Long juegoId, Integer posicion){
         Usuario usuario = usuarioService.getUserByUsername(username);
-        Juego juego = juegoRepository.findById(juegoId).orElseThrow(()-> new RecursoNoEncontradoExc("Juego no encontrado"));
+        Juego juego = juegoRepository.findById(juegoId)
+                .orElseGet(() -> {
+                    juegoApiService.getJuegoById(juegoId);
+                    return juegoRepository.findById(juegoId)
+                            .orElseThrow(() -> new RecursoNoEncontradoExc("Juego no encontrado"));
+                });
 
         if(usuarioFavoritoRepository.findByUsuarioAndJuego(usuario, juego).isPresent()){
             throw new OperacionNoPermitidaExc("El juego ya se encuentra en favoritos");
@@ -49,7 +55,7 @@ public class UsuarioFavoritoService {
     public List<FavoritoResponseDTO> getFavoritos(String username){
         Usuario usuario = usuarioService.getUserByUsername(username);
 
-        return usuarioFavoritoRepository.findByUsuarioOrderByPosicionDesc(usuario).stream()
+        return usuarioFavoritoRepository.findByUsuarioOrderByPosicionAsc(usuario).stream()
                 .map(favorito -> new FavoritoResponseDTO(
                         favorito.getPosicion(),
                         favorito.getJuego().getTitulo()))

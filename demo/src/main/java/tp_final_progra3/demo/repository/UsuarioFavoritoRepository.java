@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @Repository
 public interface UsuarioFavoritoRepository extends JpaRepository<UsuarioFavorito, Long> {
-    List<UsuarioFavorito> findByUsuarioOrderByPosicionDesc(Usuario usuario);
+    List<UsuarioFavorito> findByUsuarioOrderByPosicionAsc(Usuario usuario);
     Optional<UsuarioFavorito> findByUsuarioAndJuego(Usuario usuario, Juego juego);
     Optional<UsuarioFavorito> findByUsuarioAndPosicion(Usuario usuario, Integer posicion);
     Long countByUsuario(Usuario usuario);
