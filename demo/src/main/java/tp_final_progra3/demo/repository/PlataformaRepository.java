@@ -1,4 +1,12 @@
 package tp_final_progra3.demo.repository;
 
-public interface PlataformaRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+import tp_final_progra3.demo.model.entity.Plataforma;
+
+import java.util.Optional;
+
+@Repository
+public interface PlataformaRepository extends JpaRepository<Plataforma, Long> {
+    Optional<Plataforma> findByNombre(String nombre);
 }

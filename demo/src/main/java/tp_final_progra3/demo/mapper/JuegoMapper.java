@@ -33,6 +33,7 @@ public interface JuegoMapper {
     @Mapping(target = "developer", expression = "java(juegoApiResponseDTO.developers() == null || juegoApiResponseDTO.developers().isEmpty() ? null : juegoApiResponseDTO.developers().iterator().next().name())")
     Juego fromApi(JuegoApiResponseDTO juegoApiResponseDTO);
 
+    @Mapping(target = "id", ignore = true)
     @Mapping(target = "nombre", source = "name")
     Plataforma toPlataforma(PlataformaApiDTO plataformaApiDTO);
 

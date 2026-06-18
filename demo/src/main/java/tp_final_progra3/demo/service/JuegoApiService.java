@@ -10,10 +10,16 @@ import tp_final_progra3.demo.model.dto.api.ApiResponseDTO;
 import tp_final_progra3.demo.model.dto.api.JuegoApiResponseDTO;
 import tp_final_progra3.demo.model.dto.response.CompraResponseDto;
 import tp_final_progra3.demo.model.dto.response.JuegoResponseDTO;
+import tp_final_progra3.demo.model.entity.Genero;
 import tp_final_progra3.demo.model.entity.Juego;
+import tp_final_progra3.demo.model.entity.Plataforma;
+import tp_final_progra3.demo.repository.GeneroRepository;
 import tp_final_progra3.demo.repository.JuegoRepository;
+import tp_final_progra3.demo.repository.PlataformaRepository;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -21,6 +27,8 @@ public class JuegoApiService {
     private final RestTemplate restTemplate;
     private final JuegoMapper juegoMapper;
     private final JuegoRepository juegoRepository;
+    private final PlataformaRepository plataformaRepository;
+    private final GeneroRepository generoRepository;
 
     @Value("${rawg.api.key}")
     private String apiKey;
@@ -63,6 +71,32 @@ public class JuegoApiService {
 
         JuegoApiResponseDTO juegoApiResponseDTO = restTemplate.getForObject(url, JuegoApiResponseDTO.class);
         Juego juego = juegoMapper.fromApi(juegoApiResponseDTO);
+
+        Set<Plataforma> plataformasFinales = new HashSet<>();
+
+        for (Plataforma p : juego.getPlataformas()) {
+
+            Plataforma existente = plataformaRepository
+                    .findByNombre(p.getNombre())
+                    .orElseGet(() -> plataformaRepository.save(p));
+
+            plataformasFinales.add(existente);
+        }
+
+        juego.setPlataformas(plataformasFinales);
+
+        Set<Genero> generosFinales = new HashSet<>();
+
+        for (Genero g : juego.getGeneros()) {
+
+            Genero existente = generoRepository
+                    .findByNombre(g.getNombre())
+                    .orElseGet(() -> generoRepository.save(g));
+
+            generosFinales.add(existente);
+        }
+
+        juego.setGeneros(generosFinales);
 
         if (!juegoRepository.existsById(juego.getId())) {
             juegoRepository.save(juego);

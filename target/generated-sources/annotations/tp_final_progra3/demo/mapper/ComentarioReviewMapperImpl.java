@@ -9,7 +9,7 @@ import tp_final_progra3.demo.model.entity.ComentarioReview;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-06-17T20:05:01-0300",
+    date = "2026-06-17T21:40:13-0300",
     comments = "version: 1.6.3, compiler: javac, environment: Java 24.0.2 (Oracle Corporation)"
 )
 @Component

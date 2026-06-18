@@ -44,13 +44,13 @@ public class Juego {
     @Column(nullable = false)
     private String titulo;
 
-    @Column(nullable = false)
+    @Column(columnDefinition = "TEXT")
     private String descripcion;
 
     @Column(nullable = false)
     private LocalDate fecha_lanzamiento;
 
-    @Column(nullable = false)
+    @Column(length = 500)
     private String developer;
 
     @Column(nullable = false)
