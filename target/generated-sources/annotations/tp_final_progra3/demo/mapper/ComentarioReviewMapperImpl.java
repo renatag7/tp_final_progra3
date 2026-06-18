@@ -6,10 +6,11 @@ import org.springframework.stereotype.Component;
 import tp_final_progra3.demo.model.dto.request.ComentarioReviewRequestDTO;
 import tp_final_progra3.demo.model.dto.response.ComentarioReviewResponseDTO;
 import tp_final_progra3.demo.model.entity.ComentarioReview;
+import tp_final_progra3.demo.model.entity.Usuario;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-06-18T19:26:12-0300",
+    date = "2026-06-18T20:09:40-0300",
     comments = "version: 1.6.3, compiler: javac, environment: Java 24.0.2 (Oracle Corporation)"
 )
 @Component
@@ -34,18 +35,26 @@ public class ComentarioReviewMapperImpl implements ComentarioReviewMapper {
             return null;
         }
 
+        String username = null;
         Long id = null;
         String contenido = null;
         LocalDate fechaPublicado = null;
 
+        username = comentarioReviewUsuarioUsername( comentarioReview );
         id = comentarioReview.getId();
         contenido = comentarioReview.getContenido();
         fechaPublicado = comentarioReview.getFechaPublicado();
 
-        String username = null;
-
         ComentarioReviewResponseDTO comentarioReviewResponseDTO = new ComentarioReviewResponseDTO( id, contenido, username, fechaPublicado );
 
         return comentarioReviewResponseDTO;
+    }
+
+    private String comentarioReviewUsuarioUsername(ComentarioReview comentarioReview) {
+        Usuario usuario = comentarioReview.getUsuario();
+        if ( usuario == null ) {
+            return null;
+        }
+        return usuario.getUsername();
     }
 }
