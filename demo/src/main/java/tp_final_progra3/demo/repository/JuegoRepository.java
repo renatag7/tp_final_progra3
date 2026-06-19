@@ -9,5 +9,6 @@ import java.util.Optional;
 @Repository
 public interface JuegoRepository extends JpaRepository<Juego, Long> {
    Optional<Juego> findById (Long id );
+   Optional<Juego> findByIdAndActivoTrue (Long id );
 
 }

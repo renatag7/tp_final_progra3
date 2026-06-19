@@ -120,7 +120,7 @@ public class JuegoApiService {
 
     public Juego getJuegoEntityById(Long id){
 
-        return juegoRepository.findById(id).orElseThrow(()-> new RecursoNoEncontradoExc("Juego no encontrado"));
+        return juegoRepository.findByIdAndActivoTrue(id).orElseThrow(()-> new RecursoNoEncontradoExc("Juego no encontrado"));
     }
 
     public CompraResponseDto enlaceCompra(Long idJuego){
