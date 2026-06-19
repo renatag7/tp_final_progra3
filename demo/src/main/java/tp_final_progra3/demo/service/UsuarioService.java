@@ -194,7 +194,7 @@ public class UsuarioService {
     }
 
     @Transactional
-    public void marcarNotificacionComoLeida(Long notificacionId, String username){
+    public NotificacionResponseDto marcarNotificacionComoLeida(Long notificacionId, String username){
         Usuario usuario = usuarioRepo.findByUsername(username).orElseThrow(() -> new RecursoNoEncontradoExc("Usuario no encontrado."));
 
         Notificacion notificacion = notificacionRepository.findById(notificacionId).orElseThrow(() -> new RecursoNoEncontradoExc("Notificación no encontrada"));
@@ -206,7 +206,7 @@ public class UsuarioService {
 
         notificacion.setLeida(true);
 
-        notificacionRepository.save(notificacion);
+        return notificacionMapper.toDto(notificacionRepository.save(notificacion));
     }
 
 }

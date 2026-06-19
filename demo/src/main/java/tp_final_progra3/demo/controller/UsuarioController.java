@@ -143,10 +143,10 @@ public class UsuarioController {
     }
 
     @PatchMapping("/me/notificaciones/{id}/leer")
-    public ResponseEntity<Void> marcarComoLeida(@PathVariable Long id, Authentication authentication) {
-        usuarioService.marcarNotificacionComoLeida(id, authentication.getName());
+    public ResponseEntity<NotificacionResponseDto> marcarComoLeida(@PathVariable Long id, Authentication authentication) {
+        NotificacionResponseDto notificacionResponseDto = usuarioService.marcarNotificacionComoLeida(id, authentication.getName());
 
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(notificacionResponseDto);
     }
 
 }
