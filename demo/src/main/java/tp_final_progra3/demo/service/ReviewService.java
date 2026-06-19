@@ -17,9 +17,11 @@ import tp_final_progra3.demo.model.dto.response.UsuarioResponseDTO;
 import tp_final_progra3.demo.model.entity.*;
 import tp_final_progra3.demo.repository.ComentarioReviewRepository;
 import tp_final_progra3.demo.repository.LikeReviewRepository;
+import tp_final_progra3.demo.repository.NotificacionRepository;
 import tp_final_progra3.demo.repository.ReviewRepository;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -33,6 +35,7 @@ public class ReviewService {
     private final UsuarioMapper usuarioMapper;
     private final ComentarioReviewRepository comentarioReviewRepository;
     private final ComentarioReviewMapper comentarioReviewMapper;
+    private final NotificacionRepository notificacionRepository;
 
     public ReviewResponseDTO createReview(String username, Long juegoId, ReviewRequestDTO reviewRequestDTO){
         Usuario usuario = usuarioService.getUserByUsername(username);
@@ -120,6 +123,15 @@ public class ReviewService {
 
         review.setCantidadLikes(review.getCantidadLikes() + 1);
         reviewRepository.save(review);
+
+        Notificacion notificacion = new Notificacion();
+
+        notificacion.setUsuario(review.getUsuario());
+        notificacion.setMensaje(usuario.getUsername() + " le dio like a tu reseña de " + review.getJuego().getTitulo());
+        notificacion.setFecha(LocalDateTime.now());
+        notificacion.setLeida(false);
+
+        notificacionRepository.save(notificacion);
     }
 
     @Transactional
@@ -157,6 +169,16 @@ public class ReviewService {
         comentarioReview.setReview(review);
 
         ComentarioReview guardado = comentarioReviewRepository.save(comentarioReview);
+
+        Notificacion notificacion = new Notificacion();
+
+        notificacion.setUsuario(review.getUsuario());
+        notificacion.setMensaje(usuario.getUsername() + " comentó tu reseña de " + review.getJuego().getTitulo());
+        notificacion.setFecha(LocalDateTime.now());
+        notificacion.setLeida(false);
+
+        notificacionRepository.save(notificacion);
+
         return comentarioReviewMapper.toDTO(guardado);
     }
 

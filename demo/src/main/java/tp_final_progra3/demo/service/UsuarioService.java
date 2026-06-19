@@ -3,6 +3,7 @@ package tp_final_progra3.demo.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import tp_final_progra3.demo.exceptions.general.OperacionNoPermitidaExc;
 import tp_final_progra3.demo.exceptions.general.RecursoDuplicadoExc;
 import tp_final_progra3.demo.exceptions.general.RecursoNoEncontradoExc;
@@ -106,7 +107,7 @@ public class UsuarioService {
         Notificacion notificacion = new Notificacion();
 
         notificacion.setUsuario(seguido);
-        notificacion.setMensaje(usuario.getUsername() + " comenzo a seguirte");
+        notificacion.setMensaje(usuario.getUsername() + " comenzó a seguirte");
         notificacion.setFecha(LocalDateTime.now());
         notificacion.setLeida(false);
 
@@ -183,13 +184,29 @@ public class UsuarioService {
 
         return usuario.getUsuariosBloqueados().stream().map(usuarioMapper::toDTO).toList();
     }
-    public List<NotificacionResponseDto> verNotificaciones(Long idUsuario){
 
-        getUserById(idUsuario);
+    public List<NotificacionResponseDto> verNotificaciones(String username){
+        Usuario usuario = usuarioRepo.findByUsername(username).orElseThrow(() -> new RecursoNoEncontradoExc("Usuario no encontrado."));;
 
-        return notificacionRepository.findByUsuarioIdUsuario(idUsuario).stream().map(notificacionMapper::toDto).toList();
+        return notificacionRepository.findByUsuarioIdUsuario(usuario.getIdUsuario()).stream()
+                .map(notificacionMapper::toDto)
+                .toList();
     }
 
+    @Transactional
+    public void marcarNotificacionComoLeida(Long notificacionId, String username){
+        Usuario usuario = usuarioRepo.findByUsername(username).orElseThrow(() -> new RecursoNoEncontradoExc("Usuario no encontrado."));
 
+        Notificacion notificacion = notificacionRepository.findById(notificacionId).orElseThrow(() -> new RecursoNoEncontradoExc("Notificación no encontrada"));
+
+
+        if(!notificacion.getUsuario().getIdUsuario().equals(usuario.getIdUsuario())){
+            throw new OperacionNoPermitidaExc("No puedes modificar esta notificación");
+        }
+
+        notificacion.setLeida(true);
+
+        notificacionRepository.save(notificacion);
+    }
 
 }

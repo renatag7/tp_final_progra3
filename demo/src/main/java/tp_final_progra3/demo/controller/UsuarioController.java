@@ -6,11 +6,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-import tp_final_progra3.demo.model.dto.request.RegisterRequestDTO;
 import tp_final_progra3.demo.model.dto.request.UpdateUsuarioRequest;
 import tp_final_progra3.demo.model.dto.response.*;
 import tp_final_progra3.demo.model.enums.Estado;
 import tp_final_progra3.demo.service.*;
+import tp_final_progra3.demo.model.dto.response.NotificacionResponseDto;
+import tp_final_progra3.demo.model.dto.response.UsuarioResponseDTO;
+import tp_final_progra3.demo.service.UsuarioService;
+
 
 import java.util.List;
 
@@ -93,6 +96,10 @@ public class UsuarioController {
         String username = authentication.getName();
         return ResponseEntity.ok(usuarioService.verUsuariosBloqueados(username));
     }
+    @GetMapping("/me/notificaciones")
+    public ResponseEntity<List<NotificacionResponseDto>> verNotificaciones(Authentication authentication){
+        return ResponseEntity.ok(usuarioService.verNotificaciones(authentication.getName()));
+    }
 
     @GetMapping("/{id}/reviews")
     public ResponseEntity<List<ReviewResponseDTO>> getReviewsByUser(@PathVariable Long id){
@@ -133,6 +140,13 @@ public class UsuarioController {
             Authentication authentication) {
 
         return ResponseEntity.ok(listaPersonalizadaService.verMisListas(authentication.getName()));
+    }
+
+    @PatchMapping("/me/notificaciones/{id}/leer")
+    public ResponseEntity<Void> marcarComoLeida(@PathVariable Long id, Authentication authentication) {
+        usuarioService.marcarNotificacionComoLeida(id, authentication.getName());
+
+        return ResponseEntity.noContent().build();
     }
 
 }
