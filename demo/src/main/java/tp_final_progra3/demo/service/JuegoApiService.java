@@ -19,6 +19,7 @@ import tp_final_progra3.demo.repository.PlataformaRepository;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -45,6 +46,7 @@ public class JuegoApiService {
                 .toList();
     }
 
+    /*
     public List<JuegoResponseDTO> filtrarJuegosPorNombre(String nombre){
 
         String url = "https://api.rawg.io/api/games?search=" + nombre + "&key=" + apiKey;
@@ -64,9 +66,17 @@ public class JuegoApiService {
         juegoRepository.save(juego);
 
         return juegoMapper.toDTO(juego);
-    }
+    }*/
 
     public JuegoResponseDTO getJuegoById(Long id){
+        Optional<Juego> juegoExistente = juegoRepository.findById(id);
+        if(juegoExistente.isPresent()){
+            if(!juegoExistente.get().getActivo()){
+                throw new RecursoNoEncontradoExc("Juego no encontrado");
+            }
+            return juegoMapper.toDTO(juegoExistente.get());
+        }
+
         String url = "https://api.rawg.io/api/games/" + id + "?key=" + apiKey;
 
         JuegoApiResponseDTO juegoApiResponseDTO = restTemplate.getForObject(url, JuegoApiResponseDTO.class);
@@ -129,6 +139,4 @@ public class JuegoApiService {
 
         return new CompraResponseDto(url);
     }
-
-
 }

@@ -1,8 +1,10 @@
 package tp_final_progra3.demo.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import tp_final_progra3.demo.model.dto.response.ComentarioReviewResponseDTO;
 import tp_final_progra3.demo.model.dto.response.JuegoResponseDTO;
 import tp_final_progra3.demo.model.dto.response.ReviewResponseDTO;
 import tp_final_progra3.demo.model.dto.response.UsuarioResponseDTO;
@@ -39,6 +41,12 @@ public class AdminController {
         return ResponseEntity.noContent().build();  // operacion exitosa, no devuelve nada
     }
 
+    @DeleteMapping("/comentarios/{id}")
+    public ResponseEntity<Void> eliminarComentario(@PathVariable Long id){
+        adminService.eliminarComentario(id);
+        return ResponseEntity.noContent().build();
+    }
+
     @PatchMapping("/juegos/{id}/deshabilitar")
     public ResponseEntity<JuegoResponseDTO> deshabilitarJuego(@PathVariable Long id){
         return ResponseEntity.ok(adminService.deshabilitarJuego(id));
@@ -64,5 +72,16 @@ public class AdminController {
         return ResponseEntity.ok(adminService.verTodasLasReviews());
     }
 
+    @GetMapping("/comentarios")
+    public ResponseEntity<List<ComentarioReviewResponseDTO>> verTodosLosComentarios(){
+        return ResponseEntity.ok(adminService.verTodosLosComentarios());
+    }
+
+    @GetMapping("/juegos/{id}")
+    public ResponseEntity<JuegoResponseDTO> getById(@PathVariable Long id){
+        JuegoResponseDTO juegoResponseDTO = adminService.getJuegoByIdAdmin(id);
+
+        return ResponseEntity.status(HttpStatus.OK).body(juegoResponseDTO);
+    }
 
 }

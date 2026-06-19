@@ -76,6 +76,7 @@ public class ReviewService {
         return reviewMapper.toDto(review);
     }
 
+    @Transactional
     public void deleteReview(Long reviewId, String username){
         Review review = reviewRepository.findById(reviewId).orElseThrow(() -> new RecursoNoEncontradoExc("Review no encontrada"));
 
@@ -87,6 +88,7 @@ public class ReviewService {
     }
 
     public List<ReviewResponseDTO> getReviewsByJuego(Long juegoId){
+        juegoService.getJuegoEntityById(juegoId);
 
         return reviewRepository.findByJuegoId(juegoId).stream()
                 .map(reviewMapper::toDto)
@@ -170,14 +172,17 @@ public class ReviewService {
 
         ComentarioReview guardado = comentarioReviewRepository.save(comentarioReview);
 
-        Notificacion notificacion = new Notificacion();
+        if(!review.getUsuario().getIdUsuario().equals(usuario.getIdUsuario())){
+            Notificacion notificacion = new Notificacion();
 
-        notificacion.setUsuario(review.getUsuario());
-        notificacion.setMensaje(usuario.getUsername() + " comentó tu reseña de " + review.getJuego().getTitulo());
-        notificacion.setFecha(LocalDateTime.now());
-        notificacion.setLeida(false);
+            notificacion.setUsuario(review.getUsuario());
+            notificacion.setMensaje(usuario.getUsername() + " comentó tu reseña de " + review.getJuego().getTitulo());
+            notificacion.setFecha(LocalDateTime.now());
+            notificacion.setLeida(false);
 
-        notificacionRepository.save(notificacion);
+            notificacionRepository.save(notificacion);
+        }
+
 
         return comentarioReviewMapper.toDTO(guardado);
     }

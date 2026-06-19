@@ -44,7 +44,7 @@ public class ListaPersonalizadaService {
         if(!listaPersonalizada.getUsuario().getIdUsuario().equals(usuario.getIdUsuario())){
             throw new OperacionNoPermitidaExc("No puedes modificar esta lista.");
         }
-        Juego juego = juegoRepository.findById(idJuego).orElseThrow(()-> new RecursoNoEncontradoExc("Juego no encontrado"));
+        Juego juego = juegoRepository.findByIdAndActivoTrue(idJuego).orElseThrow(()-> new RecursoNoEncontradoExc("Juego no encontrado"));
 
         listaPersonalizada.getJuegos().add(juego);
         ListaPersonalizada listaPersonalizadaGuardada = listaPersonalizadaRepository.save(listaPersonalizada);
@@ -60,7 +60,7 @@ public class ListaPersonalizadaService {
             throw new OperacionNoPermitidaExc("No puedes modificar esta lista.");
         }
 
-        Juego juego = juegoRepository.findById(idJuego).orElseThrow(()-> new RecursoNoEncontradoExc("Juego no encontrado"));
+        Juego juego = juegoRepository.findByIdAndActivoTrue(idJuego).orElseThrow(()-> new RecursoNoEncontradoExc("Juego no encontrado"));
 
         listaPersonalizada.getJuegos().remove(juego);
         ListaPersonalizada listaPersonalizadaGuardada = listaPersonalizadaRepository.save(listaPersonalizada);
@@ -79,9 +79,6 @@ public class ListaPersonalizadaService {
         List<ListaPersonalizada> listas = listaPersonalizadaRepository.findByUsuarioOrderByFechaCreacionDesc(usuario);
         return listas.stream().map(listaPersonalizadaMapper::ToDto).toList();
     }
-
-
-
 
 
 }

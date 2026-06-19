@@ -29,7 +29,7 @@ public class EstadoJuegoUsuarioService {
 
     public EstadoJuegoResponseDTO actualizarEstado (Long juegoId, EstadoJuegoRequestDTO estadoJuegoRequestDTO, String username){
         Usuario usuario = usuarioService.getUserByUsername(username);
-        Juego juego = juegoRepository.findById(juegoId). orElseThrow(()-> new RecursoNoEncontradoExc("Juego no encontrado"));
+        Juego juego = juegoRepository.findByIdAndActivoTrue(juegoId). orElseThrow(()-> new RecursoNoEncontradoExc("Juego no encontrado"));
 
         Optional<EstadoJuegoUsuario> existente = estadoJuegoUsuarioRepository.findByUsuarioAndJuego(usuario, juego);
         EstadoJuegoUsuario estadoJuegoUsuario;

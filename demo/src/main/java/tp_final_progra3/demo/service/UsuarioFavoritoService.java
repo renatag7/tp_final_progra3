@@ -25,10 +25,10 @@ public class UsuarioFavoritoService {
 
     public List<FavoritoResponseDTO> agregarFavorito(String username, Long juegoId, Integer posicion){
         Usuario usuario = usuarioService.getUserByUsername(username);
-        Juego juego = juegoRepository.findById(juegoId)
+        Juego juego = juegoRepository.findByIdAndActivoTrue(juegoId)
                 .orElseGet(() -> {
                     juegoApiService.getJuegoById(juegoId);
-                    return juegoRepository.findById(juegoId)
+                    return juegoRepository.findByIdAndActivoTrue(juegoId)
                             .orElseThrow(() -> new RecursoNoEncontradoExc("Juego no encontrado"));
                 });
 
@@ -64,7 +64,7 @@ public class UsuarioFavoritoService {
 
     public void eliminarFavorito(String username, Long juegoId){
         Usuario usuario = usuarioService.getUserByUsername(username);
-        Juego juego = juegoRepository.findById(juegoId).orElseThrow(()-> new RecursoNoEncontradoExc("Juego no encontrado"));
+        Juego juego = juegoRepository.findByIdAndActivoTrue(juegoId).orElseThrow(()-> new RecursoNoEncontradoExc("Juego no encontrado"));
 
         UsuarioFavorito favorito = usuarioFavoritoRepository.findByUsuarioAndJuego(usuario, juego).orElseThrow(()->new RecursoNoEncontradoExc("Favorito no encontrado"));
 
