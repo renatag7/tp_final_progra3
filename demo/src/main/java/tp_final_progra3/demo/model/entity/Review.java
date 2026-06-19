@@ -41,4 +41,7 @@ public class Review {
 
     @OneToMany(mappedBy = "review", cascade = CascadeType.ALL)
     private List<ComentarioReview> comentarios = new ArrayList<>();
+
+    @OneToMany(mappedBy = "review", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<LikeReview> likes = new ArrayList<>();
 }
