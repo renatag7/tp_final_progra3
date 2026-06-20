@@ -103,7 +103,7 @@ public class ReviewService {
         Usuario usuarioReview = usuarioService.getUserById(usuarioId);
 
         if(!usuarioService.puedeVerPerfil(actual, usuarioReview)){
-            throw new OperacionNoPermitidaExc("No puedes ver las reseñas de este usuario");
+            throw new OperacionNoPermitidaExc("No puedes ver las reseñas de este usuario porque su perfil es privado");
         }
 
         return reviewRepository.findByUsuario_IdUsuario(usuarioId).stream()

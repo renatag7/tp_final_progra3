@@ -213,7 +213,7 @@ public class UsuarioService {
         if(visitante.getIdUsuario().equals(propietario.getIdUsuario())){
             return true;
         }
-        if(!propietario.isPerfilPublico()){
+        if(propietario.isPerfilPublico()){
             return true;
         }
 
