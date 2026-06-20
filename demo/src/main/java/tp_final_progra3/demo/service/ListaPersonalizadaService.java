@@ -91,5 +91,26 @@ public class ListaPersonalizadaService {
         return listas.stream().map(listaPersonalizadaMapper::ToDto).toList();
     }
 
+    public ListaPersonalizadaResponseDTO getListaByIdUsuario(Long idLista, String username) {
+        Usuario usuarioActual = usuarioService.getUserByUsername(username);
+
+        ListaPersonalizada lista = listaPersonalizadaRepository.findById(idLista).orElseThrow(() -> new RecursoNoEncontradoExc("Lista no encontrada"));
+
+        if(!usuarioService.puedeVerPerfil(usuarioActual, lista.getUsuario())){
+            throw new OperacionNoPermitidaExc("No puedes ver la lista de este usuario porque su perfil es privado");
+        }
+
+        if(!lista.isEsPublica()){
+            throw new OperacionNoPermitidaExc("No puedes ver una lista privada");
+        }
+
+        return listaPersonalizadaMapper.ToDto(lista);
+    }
+
+    public ListaPersonalizadaResponseDTO getListaByIdAdmin(Long idLista) {
+        ListaPersonalizada lista = listaPersonalizadaRepository.findById(idLista).orElseThrow(() -> new RecursoNoEncontradoExc("Lista no encontrada"));
+
+        return listaPersonalizadaMapper.ToDto(lista);
+    }
 
 }

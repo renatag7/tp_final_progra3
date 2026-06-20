@@ -43,8 +43,8 @@ public class UsuarioController {
     }
 
     @GetMapping("/username/{username}")
-    public ResponseEntity<UsuarioResponseDTO> getByUsername(@PathVariable String username){
-        UsuarioResponseDTO usuarioResponseDTO = this.usuarioService.getByUsername(username);
+    public ResponseEntity<UsuarioResponseDTO> getByUsername(@PathVariable String username, Authentication authentication){
+        UsuarioResponseDTO usuarioResponseDTO = this.usuarioService.getByUsernamePublico(username, authentication.getName());
 
         return ResponseEntity.status(HttpStatus.OK).body(usuarioResponseDTO);
     }
@@ -148,5 +148,6 @@ public class UsuarioController {
 
         return ResponseEntity.ok(notificacionResponseDto);
     }
+
 
 }

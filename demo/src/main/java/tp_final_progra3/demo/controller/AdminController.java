@@ -4,11 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import tp_final_progra3.demo.model.dto.response.ComentarioReviewResponseDTO;
-import tp_final_progra3.demo.model.dto.response.JuegoResponseDTO;
-import tp_final_progra3.demo.model.dto.response.ReviewResponseDTO;
-import tp_final_progra3.demo.model.dto.response.UsuarioResponseDTO;
+import tp_final_progra3.demo.model.dto.response.*;
 import tp_final_progra3.demo.service.AdminService;
+import tp_final_progra3.demo.service.ListaPersonalizadaService;
 import tp_final_progra3.demo.service.UsuarioService;
 
 import java.util.List;
@@ -19,6 +17,7 @@ import java.util.List;
 public class AdminController {
     private final AdminService adminService;
     private final UsuarioService usuarioService;
+    private final ListaPersonalizadaService listaPersonalizadaService;
 
     @GetMapping("/usuarios/{id}")
     public ResponseEntity<UsuarioResponseDTO> getUsuarioById(@PathVariable Long id){
@@ -71,7 +70,7 @@ public class AdminController {
     }
 
     @GetMapping("/usuarios/buscar") // /buscar?username=renatag7
-    public ResponseEntity<List<UsuarioResponseDTO>> filtrarUsername ( @RequestParam String username ){
+    public ResponseEntity<List<UsuarioResponseDTO>> filtrarUsername (@RequestParam String username ){
         return ResponseEntity.ok(adminService.filtrarPorNombreUsuario(username));
     }
 
@@ -90,6 +89,12 @@ public class AdminController {
         JuegoResponseDTO juegoResponseDTO = adminService.getJuegoByIdAdmin(id);
 
         return ResponseEntity.status(HttpStatus.OK).body(juegoResponseDTO);
+    }
+
+    @GetMapping("/listas/{idLista}")
+    public ResponseEntity<ListaPersonalizadaResponseDTO> getListaAdmin(@PathVariable Long idLista){
+
+        return ResponseEntity.ok(listaPersonalizadaService.getListaByIdAdmin(idLista));
     }
 
 }

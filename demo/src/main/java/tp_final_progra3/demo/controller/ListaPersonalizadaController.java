@@ -38,5 +38,9 @@ public class ListaPersonalizadaController {
         return ResponseEntity.ok(listaPersonalizadaService.verListasDeOtroUsuario(idUsuario, authentication.getName()));
     }
 
+    @GetMapping("/{idLista}")
+    public ResponseEntity<ListaPersonalizadaResponseDTO> getListaById(@PathVariable Long idLista, Authentication authentication){
 
+        return ResponseEntity.ok(listaPersonalizadaService.getListaByIdUsuario(idLista, authentication.getName()));
+    }
 }

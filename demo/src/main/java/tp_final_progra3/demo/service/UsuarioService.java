@@ -1,15 +1,12 @@
 package tp_final_progra3.demo.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tp_final_progra3.demo.exceptions.general.OperacionNoPermitidaExc;
-import tp_final_progra3.demo.exceptions.general.RecursoDuplicadoExc;
 import tp_final_progra3.demo.exceptions.general.RecursoNoEncontradoExc;
 import tp_final_progra3.demo.mapper.NotificacionMapper;
 import tp_final_progra3.demo.mapper.UsuarioMapper;
-import tp_final_progra3.demo.model.dto.request.RegisterRequestDTO;
 import tp_final_progra3.demo.model.dto.request.UpdateUsuarioRequest;
 import tp_final_progra3.demo.model.dto.response.NotificacionResponseDto;
 import tp_final_progra3.demo.model.entity.Notificacion;
@@ -19,7 +16,6 @@ import tp_final_progra3.demo.model.enums.Rol;
 import tp_final_progra3.demo.repository.NotificacionRepository;
 import tp_final_progra3.demo.repository.UsuarioRepository;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -53,9 +49,20 @@ public class UsuarioService {
         return this.usuarioRepo.findByUsername(username).orElseThrow(() -> new RecursoNoEncontradoExc("Usuario no encontrado."));
     }
 
+    public UsuarioResponseDTO getByUsernamePublico(String usernamePerfil, String usernameActual){
+        Usuario usuarioPerfil = this.getUserByUsername(usernamePerfil);
+        Usuario usuarioActual = this.getUserByUsername(usernameActual);
+
+        if(!puedeVerPerfil(usuarioActual, usuarioPerfil)){
+            throw new OperacionNoPermitidaExc("No puede ver este perfil");
+        }
+
+        return this.usuarioMapper.toDTO(usuarioPerfil);
+    }
+
     public UsuarioResponseDTO getByUsername(String username){
-        Usuario usuario = this.getUserByUsername(username);
-        return this.usuarioMapper.toDTO(usuario);
+        Usuario usuario = getUserByUsername(username);
+        return usuarioMapper.toDTO(usuario);
     }
 
     public UsuarioResponseDTO updateByUsername(String username, UpdateUsuarioRequest usuarioRequest){
@@ -221,6 +228,11 @@ public class UsuarioService {
         if(visitante.getIdUsuario().equals(propietario.getIdUsuario())){
             return true;
         }
+
+        if(visitante.getUsuariosBloqueados().contains(propietario) || propietario.getUsuariosBloqueados().contains(visitante)){
+            return false;
+        }
+
         if(propietario.isPerfilPublico()){
             return true;
         }
