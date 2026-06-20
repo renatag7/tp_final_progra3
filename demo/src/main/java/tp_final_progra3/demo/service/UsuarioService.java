@@ -209,4 +209,15 @@ public class UsuarioService {
         return notificacionMapper.toDto(notificacionRepository.save(notificacion));
     }
 
+    public boolean puedeVerPerfil(Usuario visitante, Usuario propietario){
+        if(visitante.getIdUsuario().equals(propietario.getIdUsuario())){
+            return true;
+        }
+        if(!propietario.isPerfilPublico()){
+            return true;
+        }
+
+        return propietario.getSeguidores().contains(visitante);
+    }
+
 }

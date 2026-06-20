@@ -102,8 +102,8 @@ public class UsuarioController {
     }
 
     @GetMapping("/{id}/reviews")
-    public ResponseEntity<List<ReviewResponseDTO>> getReviewsByUser(@PathVariable Long id){
-        return ResponseEntity.ok(reviewService.getReviewsByUsuario(id));
+    public ResponseEntity<List<ReviewResponseDTO>> getReviewsByUser(@PathVariable Long id, Authentication authentication){
+        return ResponseEntity.ok(reviewService.getReviewsByUsuario(id, authentication.getName()));
     }
 
     @GetMapping("/me")

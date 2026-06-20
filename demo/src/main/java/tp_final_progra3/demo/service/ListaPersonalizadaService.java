@@ -75,6 +75,10 @@ public class ListaPersonalizadaService {
             throw new OperacionNoPermitidaExc("No puedes ver las listas de este usuario");
         }
 
+        if(!usuarioService.puedeVerPerfil(actual, duenioLista)){
+            throw new OperacionNoPermitidaExc("No puedes ver las listas de este usuario porque su perfil es privado");
+        }
+
         List <ListaPersonalizada> listas= listaPersonalizadaRepository.findByUsuario_IdUsuarioAndEsPublicaTrue(idUsuario);
 
         return listas.stream().map(listaPersonalizadaMapper::ToDto).toList();

@@ -98,9 +98,12 @@ public class ReviewService {
                 .toList();
     }
 
-    public List<ReviewResponseDTO> getReviewsByUsuario(Long usuarioId){
-        if(usuarioService.getUserById(usuarioId) == null){
-            throw new RecursoNoEncontradoExc("El usuario no existe");
+    public List<ReviewResponseDTO> getReviewsByUsuario(Long usuarioId, String username){
+        Usuario actual = usuarioService.getUserByUsername(username);
+        Usuario usuarioReview = usuarioService.getUserById(usuarioId);
+
+        if(!usuarioService.puedeVerPerfil(actual, usuarioReview)){
+            throw new OperacionNoPermitidaExc("No puedes ver las reseñas de este usuario");
         }
 
         return reviewRepository.findByUsuario_IdUsuario(usuarioId).stream()
@@ -209,6 +212,7 @@ public class ReviewService {
         return comentarioReviewRepository.findByReview(review).stream()
                 .filter(comentario -> {Usuario autor = comentario.getUsuario();
                     return !actual.getUsuariosBloqueados().contains(autor) && !autor.getUsuariosBloqueados().contains(actual);})
+                .filter(c -> usuarioService.puedeVerPerfil(actual, c.getUsuario()))
                 .map(comentarioReviewMapper::toDTO)
                 .toList();
     }
