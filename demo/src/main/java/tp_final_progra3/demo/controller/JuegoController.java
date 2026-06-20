@@ -44,9 +44,9 @@ public class JuegoController {
     }
 
     @GetMapping("/api/{id}/reviews")
-    public ResponseEntity<List<ReviewResponseDTO>> getReviewsByJuego(@PathVariable Long id){
+    public ResponseEntity<List<ReviewResponseDTO>> getReviewsByJuego(@PathVariable Long id, Authentication authentication){
 
-        return ResponseEntity.ok(reviewService.getReviewsByJuego(id));
+        return ResponseEntity.ok(reviewService.getReviewsByJuego(id, authentication.getName()));
     }
 
     @PostMapping("/api/{juegoId}/estado")

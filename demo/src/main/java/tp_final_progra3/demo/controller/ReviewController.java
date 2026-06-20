@@ -77,8 +77,8 @@ public class ReviewController {
     }
 
     @GetMapping("/reviews/{reviewId}/comentarios")
-    public ResponseEntity<List<ComentarioReviewResponseDTO>> getComentariosByReview(@PathVariable Long reviewId){
-        return ResponseEntity.ok(reviewService.getComentariosByReviews(reviewId));
+    public ResponseEntity<List<ComentarioReviewResponseDTO>> getComentariosByReview(@PathVariable Long reviewId, Authentication authentication){
+        return ResponseEntity.ok(reviewService.getComentariosByReviews(reviewId, authentication.getName()));
     }
 
     @DeleteMapping("/comentarios/{comentarioId}")

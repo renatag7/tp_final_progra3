@@ -34,8 +34,8 @@ public class ListaPersonalizadaController {
     }
 
     @GetMapping("/publica/usuario/{idUsuario}")
-    public ResponseEntity<List<ListaPersonalizadaResponseDTO>> verListaPublicadeOtroUsuario ( @PathVariable Long idUsuario){
-        return ResponseEntity.ok(listaPersonalizadaService.verListaDeOtroUsuario(idUsuario));
+    public ResponseEntity<List<ListaPersonalizadaResponseDTO>> verListaPublicadeOtroUsuario (@PathVariable Long idUsuario, Authentication authentication){
+        return ResponseEntity.ok(listaPersonalizadaService.verListasDeOtroUsuario(idUsuario, authentication.getName()));
     }
 
 

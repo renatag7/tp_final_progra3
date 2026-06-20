@@ -9,6 +9,7 @@ import tp_final_progra3.demo.model.dto.response.JuegoResponseDTO;
 import tp_final_progra3.demo.model.dto.response.ReviewResponseDTO;
 import tp_final_progra3.demo.model.dto.response.UsuarioResponseDTO;
 import tp_final_progra3.demo.service.AdminService;
+import tp_final_progra3.demo.service.UsuarioService;
 
 import java.util.List;
 
@@ -17,7 +18,14 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AdminController {
     private final AdminService adminService;
+    private final UsuarioService usuarioService;
 
+    @GetMapping("/usuarios/{id}")
+    public ResponseEntity<UsuarioResponseDTO> getUsuarioById(@PathVariable Long id){
+        UsuarioResponseDTO usuarioResponseDTO = this.usuarioService.getById(id);
+
+        return ResponseEntity.status(HttpStatus.OK).body(usuarioResponseDTO);
+    }
 
     @PatchMapping("/usuarios/{id}/bloquear")
     public ResponseEntity<UsuarioResponseDTO> bloquearUsuario(@PathVariable Long id){

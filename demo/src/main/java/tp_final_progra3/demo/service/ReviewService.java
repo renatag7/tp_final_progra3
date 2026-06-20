@@ -87,10 +87,13 @@ public class ReviewService {
         reviewRepository.delete(review);
     }
 
-    public List<ReviewResponseDTO> getReviewsByJuego(Long juegoId){
+    public List<ReviewResponseDTO> getReviewsByJuego(Long juegoId, String username){
         juegoService.getJuegoEntityById(juegoId);
+        Usuario actual = usuarioService.getUserByUsername(username);
 
         return reviewRepository.findByJuegoId(juegoId).stream()
+                .filter(review -> {Usuario autor = review.getUsuario();
+                return !actual.getUsuariosBloqueados().contains(autor) && !autor.getUsuariosBloqueados().contains(actual);})
                 .map(reviewMapper::toDto)
                 .toList();
     }
@@ -109,6 +112,12 @@ public class ReviewService {
     public void darLike(Long reviewId, String username){
         Usuario usuario = usuarioService.getUserByUsername(username);
         Review review = reviewRepository.findById(reviewId).orElseThrow(()-> new RecursoNoEncontradoExc("Review no encontrada"));
+
+        Usuario autorReview = review.getUsuario();
+
+        if(usuario.getUsuariosBloqueados().contains(autorReview) || autorReview.getUsuariosBloqueados().contains(usuario)) {
+            throw new OperacionNoPermitidaExc("No puedes interactuar con este usuario");
+        }
 
         if(review.getUsuario().getIdUsuario().equals(usuario.getIdUsuario())){
             throw new OperacionNoPermitidaExc("No puedes darle like a tu propia review");
@@ -164,6 +173,12 @@ public class ReviewService {
         Usuario usuario = usuarioService.getUserByUsername(username);
         Review review = reviewRepository.findById(reviewId).orElseThrow(()-> new RecursoNoEncontradoExc("Review no encontrada"));
 
+        Usuario autorReview = review.getUsuario();
+
+        if(usuario.getUsuariosBloqueados().contains(autorReview) || autorReview.getUsuariosBloqueados().contains(usuario)) {
+            throw new OperacionNoPermitidaExc("No puedes interactuar con este usuario");
+        }
+
         ComentarioReview comentarioReview = new ComentarioReview();
         comentarioReview.setContenido(requestDTO.contenido());
         comentarioReview.setFechaPublicado(LocalDate.now());
@@ -172,10 +187,10 @@ public class ReviewService {
 
         ComentarioReview guardado = comentarioReviewRepository.save(comentarioReview);
 
-        if(!review.getUsuario().getIdUsuario().equals(usuario.getIdUsuario())){
+        if(!autorReview.getIdUsuario().equals(usuario.getIdUsuario())){
             Notificacion notificacion = new Notificacion();
 
-            notificacion.setUsuario(review.getUsuario());
+            notificacion.setUsuario(autorReview);
             notificacion.setMensaje(usuario.getUsername() + " comentó tu reseña de " + review.getJuego().getTitulo());
             notificacion.setFecha(LocalDateTime.now());
             notificacion.setLeida(false);
@@ -187,10 +202,13 @@ public class ReviewService {
         return comentarioReviewMapper.toDTO(guardado);
     }
 
-    public List<ComentarioReviewResponseDTO> getComentariosByReviews(Long reviewId){
+    public List<ComentarioReviewResponseDTO> getComentariosByReviews(Long reviewId, String username){
         Review review = reviewRepository.findById(reviewId).orElseThrow(()-> new RecursoNoEncontradoExc("Review no encontrada"));
+        Usuario actual = usuarioService.getUserByUsername(username);
 
         return comentarioReviewRepository.findByReview(review).stream()
+                .filter(comentario -> {Usuario autor = comentario.getUsuario();
+                    return !actual.getUsuariosBloqueados().contains(autor) && !autor.getUsuariosBloqueados().contains(actual);})
                 .map(comentarioReviewMapper::toDTO)
                 .toList();
     }

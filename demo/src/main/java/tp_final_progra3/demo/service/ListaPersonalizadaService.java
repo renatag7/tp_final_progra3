@@ -68,8 +68,15 @@ public class ListaPersonalizadaService {
     }
 
 
-    public List<ListaPersonalizadaResponseDTO> verListaDeOtroUsuario(Long idUsuario){
+    public List<ListaPersonalizadaResponseDTO> verListasDeOtroUsuario(Long idUsuario, String username){
+        Usuario actual = usuarioService.getUserByUsername(username);
+        Usuario duenioLista = usuarioService.getUserById(idUsuario);
+        if(actual.getUsuariosBloqueados().contains(duenioLista) || duenioLista.getUsuariosBloqueados().contains(actual)) {
+            throw new OperacionNoPermitidaExc("No puedes ver las listas de este usuario");
+        }
+
         List <ListaPersonalizada> listas= listaPersonalizadaRepository.findByUsuario_IdUsuarioAndEsPublicaTrue(idUsuario);
+
         return listas.stream().map(listaPersonalizadaMapper::ToDto).toList();
     }
 
