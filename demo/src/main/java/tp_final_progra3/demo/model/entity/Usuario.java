@@ -2,6 +2,7 @@ package tp_final_progra3.demo.model.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.security.core.userdetails.UserDetails;
 import tp_final_progra3.demo.security.RolEntity;
 
 
