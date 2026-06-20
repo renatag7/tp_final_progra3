@@ -48,9 +48,8 @@ public class ReviewController {
     }
 
     @PostMapping("/reviews/{reviewId}/like")
-    public ResponseEntity<Void> darLike(@PathVariable Long reviewId, Authentication authentication){
-        reviewService.darLike(reviewId, authentication.getName());
-        return ResponseEntity.ok().build();
+    public ResponseEntity<ReviewResponseDTO> darLike(@PathVariable Long reviewId, Authentication authentication){
+        return ResponseEntity.ok(reviewService.darLike(reviewId, authentication.getName()));
     }
 
     @DeleteMapping("/reviews/{reviewId}/like")

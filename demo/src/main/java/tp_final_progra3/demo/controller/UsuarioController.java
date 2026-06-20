@@ -81,15 +81,15 @@ public class UsuarioController {
     }
 
     @PostMapping("/bloquear/{bloqueadoId}")
-    public ResponseEntity<UsuarioResponseDTO> bloquearUsuario(@PathVariable Long bloqueadoId, Authentication authentication){
-        String username = authentication.getName();
-        return ResponseEntity.ok(usuarioService.bloquearUsuario(username, bloqueadoId));
+    public ResponseEntity<Void> bloquearUsuario(@PathVariable Long bloqueadoId, Authentication authentication){
+        usuarioService.bloquearUsuario(authentication.getName(), bloqueadoId);
+        return ResponseEntity.noContent().build();
     }
 
-    @PostMapping("/desbloquear/{bloqueadoId}") //POST /usuarios/1/bloquear/2
-    public ResponseEntity<UsuarioResponseDTO> desbloquearUsuario(@PathVariable Long bloqueadoId, Authentication authentication){
-        String username = authentication.getName();
-        return ResponseEntity.ok(usuarioService.desbloquearUsuario(username, bloqueadoId));
+    @PostMapping("/desbloquear/{bloqueadoId}")
+    public ResponseEntity<Void> desbloquearUsuario(@PathVariable Long bloqueadoId, Authentication authentication){
+        usuarioService.desbloquearUsuario(authentication.getName(), bloqueadoId);
+        return ResponseEntity.noContent().build();
     }
     @GetMapping("/me/bloqueados") // GET /usuarios/1/bloqueados
     public ResponseEntity<List<UsuarioResponseDTO>> verBloqueados(Authentication authentication){

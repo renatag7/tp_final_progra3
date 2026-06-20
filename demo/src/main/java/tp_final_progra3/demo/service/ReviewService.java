@@ -112,7 +112,7 @@ public class ReviewService {
     }
 
     @Transactional
-    public void darLike(Long reviewId, String username){
+    public ReviewResponseDTO darLike(Long reviewId, String username){
         Usuario usuario = usuarioService.getUserByUsername(username);
         Review review = reviewRepository.findById(reviewId).orElseThrow(()-> new RecursoNoEncontradoExc("Review no encontrada"));
 
@@ -136,16 +136,17 @@ public class ReviewService {
         likeReviewRepository.save(like);
 
         review.setCantidadLikes(review.getCantidadLikes() + 1);
-        reviewRepository.save(review);
+        Review guardada = reviewRepository.save(review);
 
         Notificacion notificacion = new Notificacion();
 
-        notificacion.setUsuario(review.getUsuario());
+        notificacion.setUsuario(autorReview);
         notificacion.setMensaje(usuario.getUsername() + " le dio like a tu reseña de " + review.getJuego().getTitulo());
         notificacion.setFecha(LocalDateTime.now());
         notificacion.setLeida(false);
 
         notificacionRepository.save(notificacion);
+        return reviewMapper.toDto(guardada);
     }
 
     @Transactional

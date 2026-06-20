@@ -146,10 +146,14 @@ public class UsuarioService {
                 .toList();
     }
 
-    public UsuarioResponseDTO bloquearUsuario(String username, Long idBloqueado){
+    public void bloquearUsuario(String username, Long idBloqueado){
 
         Usuario usuario = getUserByUsername(username);
         Usuario bloqueado = getUserById(idBloqueado);
+
+        if(usuario.getIdUsuario().equals(bloqueado.getIdUsuario())){
+            throw new OperacionNoPermitidaExc("No puedes bloquearte a ti mismo");
+        }
 
         if(usuario.getUsuariosBloqueados().contains(bloqueado)){
             throw new RuntimeException("El usuario ya está bloqueado");
@@ -157,12 +161,18 @@ public class UsuarioService {
 
         usuario.getUsuariosBloqueados().add(bloqueado);
 
-        usuarioRepo.save(usuario);
+        usuario.getSeguidos().remove(bloqueado);
+        usuario.getSeguidores().remove(bloqueado);
 
-        return usuarioMapper.toDTO(usuario);
+        bloqueado.getSeguidos().remove(usuario);
+        bloqueado.getSeguidores().remove(usuario);
+
+        usuarioRepo.save(usuario);
+        usuarioRepo.save(bloqueado);
+
     }
 
-    public UsuarioResponseDTO desbloquearUsuario(String username, Long idBloqueado){
+    public void desbloquearUsuario(String username, Long idBloqueado){
 
         Usuario usuario = getUserByUsername(username);
         Usuario bloqueado = getUserById(idBloqueado);
@@ -172,10 +182,8 @@ public class UsuarioService {
         }
 
         usuario.getUsuariosBloqueados().remove(bloqueado);
-
         usuarioRepo.save(usuario);
 
-        return usuarioMapper.toDTO(usuario);
     }
 
     public List<UsuarioResponseDTO> verUsuariosBloqueados(String username){
