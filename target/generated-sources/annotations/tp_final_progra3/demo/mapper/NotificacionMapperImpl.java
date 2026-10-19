@@ -7,7 +7,7 @@ import tp_final_progra3.demo.model.entity.Notificacion;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-06-19T19:12:44-0300",
+    date = "2026-10-19T16:33:22-0300",
     comments = "version: 1.6.3, compiler: javac, environment: Java 24.0.2 (Oracle Corporation)"
 )
 @Component

@@ -46,28 +46,6 @@ public class JuegoApiService {
                 .toList();
     }
 
-    /*
-    public List<JuegoResponseDTO> filtrarJuegosPorNombre(String nombre){
-
-        String url = "https://api.rawg.io/api/games?search=" + nombre + "&key=" + apiKey;
-
-        ApiResponseDTO apiResponseDTO = restTemplate.getForObject(url, ApiResponseDTO.class);
-
-        return apiResponseDTO.results().stream().map(juegoMapper::fromApi).map(juegoMapper::toDTO).toList();
-    }
-
-    public JuegoResponseDTO getJuegoFromApi(String nombre){
-        String url = "https://api.rawg.io/api/games?search=" + nombre + "&key=" + apiKey;
-        ApiResponseDTO apiResponseDTO = restTemplate.getForObject(url, ApiResponseDTO.class);
-
-        JuegoApiResponseDTO juegoApiResponseDTO = apiResponseDTO.results().getFirst();
-        Juego juego = juegoMapper.fromApi(juegoApiResponseDTO);
-
-        juegoRepository.save(juego);
-
-        return juegoMapper.toDTO(juego);
-    }*/
-
     public JuegoResponseDTO getJuegoById(Long id){
         Optional<Juego> juegoExistente = juegoRepository.findById(id);
         if(juegoExistente.isPresent()){
