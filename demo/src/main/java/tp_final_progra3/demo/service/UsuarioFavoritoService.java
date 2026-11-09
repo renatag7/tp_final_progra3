@@ -17,11 +17,11 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class UsuarioFavoritoService {
+    private final JuegoApiService juegoApiService;
     private final UsuarioFavoritoRepository usuarioFavoritoRepository;
     private final UsuarioService usuarioService;
     private final JuegoRepository juegoRepository;
-    private final JuegoMapper juegoMapper;
-    private final JuegoApiService juegoApiService;
+
 
     public List<FavoritoResponseDTO> agregarFavorito(String username, Long juegoId, Integer posicion){
         Usuario usuario = usuarioService.getUserByUsername(username);

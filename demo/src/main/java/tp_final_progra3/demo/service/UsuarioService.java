@@ -101,11 +101,11 @@ public class UsuarioService {
         }
 
         if(usuario.getUsuariosBloqueados().contains(seguido)){
-            throw new RuntimeException("No puedes seguir a un usuario que bloqueaste.");
+            throw new OperacionNoPermitidaExc("No puedes seguir a un usuario que bloqueaste.");
         }
 
         if(seguido.getUsuariosBloqueados().contains(usuario)){
-            throw new RuntimeException("este usuario te ha bloqueado.");
+            throw new OperacionNoPermitidaExc("Este usuario te ha bloqueado.");
         }
 
         usuario.getSeguidos().add(seguido);

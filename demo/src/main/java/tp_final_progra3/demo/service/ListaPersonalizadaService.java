@@ -71,6 +71,7 @@ public class ListaPersonalizadaService {
     public List<ListaPersonalizadaResponseDTO> verListasDeOtroUsuario(Long idUsuario, String username){
         Usuario actual = usuarioService.getUserByUsername(username);
         Usuario duenioLista = usuarioService.getUserById(idUsuario);
+
         if(actual.getUsuariosBloqueados().contains(duenioLista) || duenioLista.getUsuariosBloqueados().contains(actual)) {
             throw new OperacionNoPermitidaExc("No puedes ver las listas de este usuario");
         }
